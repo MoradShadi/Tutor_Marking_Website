@@ -112,6 +112,7 @@
       border: 2px solid #404191;
     }
 
+    .submit,
     .btn{
       width: 100%;
       background: #404191;
@@ -167,18 +168,19 @@
 
           <div class="signup">Sign Up</div>
           <div class="login">Log In</div>
-
-          <div class="signup-form">
-            <input type="text" placeholder="Your Email Address" class="input"><br />
-            <input type="text" placeholder="Choose a Username" class="input"><br />
-            <input type="password" placeholder="Choose a Password" class="input"><br />
-            <label for="cars" class="rolelabel">I am a:</label><br><br>
-            <select id="role" name="role" class="select">
-              <option value="student">Student</option>
-              <option value="marker">Marker</option>
-            </select>
-            <div class="btn">Create account</div>
-          </div>
+          <form method="post" action="connect.php">
+            <div class="signup-form">
+              <input type="text" placeholder="Your Email Address" class="input" name="email"><br />
+              <input type="text" placeholder="Choose a Username" class="input" name="username"><br />
+              <input type="password" placeholder="Choose a Password" class="input" name="password"><br />
+              <label for="role" class="rolelabel">I am a:</label><br><br>
+              <select id="role" name="role" class="select">
+                <option value="student">Student</option>
+                <option value="marker">Marker</option>
+              </select>
+              <input type="submit" name="submit" class="submit" value="Create account">
+            </div>
+          </form>
 
           <div class="login-form">
             <input type="text" placeholder="Email or Username" class="input"><br />
