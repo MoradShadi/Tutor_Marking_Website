@@ -6,144 +6,144 @@
   <link rel='stylesheet' href='https://code.getmdl.io/1.3.0/material.indigo-pink.min.css'>
   <link rel='stylesheet' href='styles/style.css'>
   <style>
-    body {
-      font-family: Arial;
-      color: white;
-      line-height: 10px;
-    }
+  body {
+    font-family: Arial;
+    color: white;
+    line-height: 10px;
+  }
 
-    .split {
-      height: 100%;
-      width: 50%;
-      position: fixed;
-      z-index: 1;
-      top: 0;
-      overflow-x: hidden;
-      padding-top: 20px;
-    }
+  .split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
 
-    .left {
-      left: 0;
-      background-image: url(https://preview.redd.it/t8e060j1i8751.jpg?auto=webp&s=a3944f8817f9e597203a95f3e563f909e025033e);
-      background-position: center center;
-      background-size: cover;
-    }
+  .left {
+    left: 0;
+    background-image: url(https://preview.redd.it/t8e060j1i8751.jpg?auto=webp&s=a3944f8817f9e597203a95f3e563f909e025033e);
+    background-position: center center;
+    background-size: cover;
+  }
 
-    .right {
-      right: 0;
-      background-image: url(http://handitin.ga/wp-content/uploads/2020/09/test.jpg);
-      background-position: bottom right;
-      background-repeat: no-repeat;
-      background-size: contain;
-    }
+  .right {
+    right: 0;
+    background-image: url(http://handitin.ga/wp-content/uploads/2020/09/test.jpg);
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
 
-    .centered {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-    }
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
 
-    .centered img {
-      width: 150px;
-      border-radius: 50%;
-    }
+  .centered img {
+    width: 150px;
+    border-radius: 50%;
+  }
 
-    .centered h2 {
-      font-family: "Arial Black", Gadget, sans-serif;
-      text-shadow: 6px 6px 18px #000000;
-    }
+  .centered h2 {
+    font-family: "Arial Black", Gadget, sans-serif;
+    text-shadow: 6px 6px 18px #000000;
+  }
 
-    *{
-      margin: 0;
-      padding: 0;
-    }
+  *{
+    margin: 0;
+    padding: 0;
+  }
 
-    .container{
-      width: 450px;
-      margin: 30px auto;
-      border-style: solid;
-      border-color: black;
-    }
+  .container{
+    width: 450px;
+    margin: 30px auto;
+    border-style: solid;
+    border-color: black;
+  }
 
-    .signup,
-    .login{
-      width: 50%;
-      background: #fff;
-      float: left;
-      height: 60px;
-      line-height: 60px;
-      text-align: center;
-      cursor: pointer;
-      text-transform: uppercase;
-      color: black;
-    }
+  .signup,
+  .login{
+    width: 50%;
+    background: #fff;
+    float: left;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    color: black;
+  }
 
-    .signup-form,
-    .login-form{
-      background: #fff;
-      padding: 40px;
-      clear: both;
-      width: 100%;
-      box-sizing: border-box;
-      height: 470px;
-    }
+  .signup-form,
+  .login-form{
+    background: #fff;
+    padding: 40px;
+    clear: both;
+    width: 100%;
+    box-sizing: border-box;
+    height: 470px;
+  }
 
-    .select,
-    .input{
-      width: 100%;
-      padding: 20px;
-      box-sizing: border-box;
-      margin-bottom: 25px;
-      border: 2px solid #e9eaea;
-      color: #3e3e40;
-      font-size: 14px;
-      outline: none;
-      transform: all 0.5s ease;
-    }
+  .select,
+  .input{
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-bottom: 25px;
+    border: 2px solid #e9eaea;
+    color: #3e3e40;
+    font-size: 14px;
+    outline: none;
+    transform: all 0.5s ease;
+  }
 
-    .rolelabel{
-      color: black;
-      font-size: 15px;
-    }
+  .rolelabel{
+    color: black;
+    font-size: 15px;
+  }
 
-    .input:focus{
-      border: 2px solid #404191;
-    }
+  .input:focus{
+    border: 2px solid #404191;
+  }
 
-    .submit,
-    .btn{
-      width: 100%;
-      background: #404191;
-      height: 60px;
-      text-align: center;
-      line-height: 60px;
-      text-transform: uppercase;
-      color: #fff;
-      font-weight: bold;
-      letter-spacing: 1px;
-      cursor: pointer;
-      margin-bottom: 30px;
-    }
+  .submit,
+  .btn{
+    width: 100%;
+    background: #404191;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-bottom: 30px;
+  }
 
-    span a{
-      text-decoration: none;
-      color: #000;
-    }
+  span a{
+    text-decoration: none;
+    color: #000;
+  }
 
-    ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-      color: #3e3e40;
-    }
-    ::-moz-placeholder { /* Firefox 19+ */
-      color: #3e3e40;
-    }
-    :-ms-input-placeholder { /* IE 10+ */
-      color: #3e3e40;
-    }
-    :-moz-placeholder { /* Firefox 18- */
-      color: #3e3e40;
-    }
+  ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #3e3e40;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: #3e3e40;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: #3e3e40;
+  }
+  :-moz-placeholder { /* Firefox 18- */
+    color: #3e3e40;
+  }
   </style>
   <script defer src='https://code.getmdl.io/1.3.0/material.min.js'></script>
 
@@ -152,6 +152,31 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 </head>
 <body>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+  https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-analytics.js"></script>
+
+  <script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyBBkFkeWNjzZkDePYrpzruJfaX3xfrC-pM",
+    authDomain: "fit2101-39981.firebaseapp.com",
+    databaseURL: "https://fit2101-39981.firebaseio.com",
+    projectId: "fit2101-39981",
+    storageBucket: "fit2101-39981.appspot.com",
+    messagingSenderId: "129241193378",
+    appId: "1:129241193378:web:083e6a8c6401664204f0fb",
+    measurementId: "G-MPSCGG6ELN"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  </script>
+  <script src="login.js"></script>
 
   <div class="split left">
     <div class="centered">
@@ -168,19 +193,17 @@
 
           <div class="signup">Sign Up</div>
           <div class="login">Log In</div>
-          <form method="post">
             <div class="signup-form">
-              <input type="text" placeholder="Your Email Address" class="input" name="email"><br />
-              <input type="text" placeholder="Choose a Username" class="input" name="username"><br />
-              <input type="password" placeholder="Choose a Password" class="input" name="password"><br />
+              <input type="text" placeholder="Your Email Address" class="input" name="email" id="email"><br />
+              <input type="text" placeholder="Choose a Username" class="input" name="username" id="username"><br />
+              <input type="password" placeholder="Choose a Password" class="input" name="password" id="password"><br />
               <label for="role" class="rolelabel">I am a:</label><br><br>
               <select id="role" name="role" class="select">
                 <option value="student">Student</option>
                 <option value="marker">Marker</option>
               </select>
-              <input type="submit" name="submit" class="submit" value="Create account">
+              <input type="submit" name="submit" class="submit" value="Create account" onclick="writeData()">
             </div>
-          </form>
 
           <div class="login-form">
             <input type="text" placeholder="Email or Username" class="input"><br />
@@ -196,32 +219,32 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <script>
+  $(".login-form").hide();
+  $(".login").css("background", "none");
+  $(".signup").css("background", "#404191");
+  $(".signup").css("color", "#fff");
+
+  $(".login").click(function(){
+    $(".signup-form").hide();
+    $(".login-form").show();
+    $(".signup").css("background", "none");
+    $(".login").css("background", "#404191");
+    $(".signup").css("color", "#000");
+    $(".login").css("color", "#fff");
+  });
+
+  $(".signup").click(function(){
+    $(".signup-form").show();
     $(".login-form").hide();
     $(".login").css("background", "none");
     $(".signup").css("background", "#404191");
     $(".signup").css("color", "#fff");
+    $(".login").css("color", "#000");
+  });
 
-    $(".login").click(function(){
-      $(".signup-form").hide();
-      $(".login-form").show();
-      $(".signup").css("background", "none");
-      $(".login").css("background", "#404191");
-      $(".signup").css("color", "#000");
-      $(".login").css("color", "#fff");
-    });
-
-    $(".signup").click(function(){
-      $(".signup-form").show();
-      $(".login-form").hide();
-      $(".login").css("background", "none");
-      $(".signup").css("background", "#404191");
-      $(".signup").css("color", "#fff");
-      $(".login").css("color", "#000");
-    });
-
-    $(".btn").click(function(){
-      $(".input").val("");
-    });
+  $(".btn").click(function(){
+    $(".input").val("");
+  });
   </script>
 </body>
 </html>
