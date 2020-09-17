@@ -202,7 +202,7 @@
                 <option value="student">Student</option>
                 <option value="marker">Marker</option>
               </select>
-              <input type="submit" name="submit" class="submit" value="Create account" onclick="writeData()">
+              <button type="submit" name="submit" class="submit" value="Create account" onclick="writeData()" id="submit">Create account</button>
             </div>
 
           <div class="login-form">
@@ -215,6 +215,10 @@
         </div>
       </div>
     </div>
+  </div>
+  <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -246,5 +250,17 @@
     $(".input").val("");
   });
   </script>
+  <script>
+  (function() {
+    'use strict';
+    var snackbarContainer = document.querySelector('#demo-toast-example');
+    var showToastButton = document.querySelector('#submit');
+    showToastButton.addEventListener('click', function() {
+      'use strict';
+      var data = {message: 'New user has been registered!\n Please login to proceed.'};
+      snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    });
+  }());
+</script>
 </body>
 </html>
