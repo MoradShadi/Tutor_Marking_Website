@@ -17,7 +17,6 @@ function writeData(){
       var dataBasePass=childData.password;
       if (dataBaseUser==user) {
         userAlreadyExists = true;
-        console.log("yes")
       }
       else if (dataBaseEmail ==email){
         emailAlreadyExists = true;
