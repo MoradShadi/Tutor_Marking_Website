@@ -1,3 +1,6 @@
+// This page is used to declare all the classes and methods that can be used
+// across all files in the project.
+
 // Class for a generic person
 class Person
 {

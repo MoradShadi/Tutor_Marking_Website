@@ -1,6 +1,14 @@
 "use strict"
+// This js file is used for the login page for the user to log in
+// to their account and begin their activity.
 const USER_INFO = "USER INFO";
 
+/**
+* This method is used to simulate the registration process for the user.
+* It also checks if the provided username and email already exists in the database
+* before allowing the user to proceed with the registration (because they need to
+* be unique).
+*/
 function writeData(){
 
   let emailAlreadyExists = false;
@@ -52,7 +60,11 @@ function writeData(){
 
 }
 
-
+/**
+* This method is used to simulate the login process for the user.
+* It checks if the username/email and password provided in the login field
+* matches the ones in the database.
+*/
 function login(){
   let success = false;
   let user = document.getElementById("userlogin").value;
@@ -83,6 +95,11 @@ function login(){
   }, 1000)
 }
 
+/**
+* This method is used to save the user info (which is basically the
+* basic information that the user has provided during registration) in
+* the browser's local storage so that they can be accessed later on.
+*/
 function storeUserInfo(user)
 {
   if(typeof (Storage) !== 'undefined')

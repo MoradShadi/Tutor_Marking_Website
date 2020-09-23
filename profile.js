@@ -1,6 +1,12 @@
 "use strict"
+// This js file is used for the profile page that the user can access to
+// view their information and change their password.
 const USER_INFO = "USER INFO";
 
+/**
+* This method displays the current user's info and displays them
+* on the page.
+*/
 function displayUserInfo()
 {
   let user = retrieveUserInfo();
@@ -15,6 +21,12 @@ function displayUserInfo()
   document.getElementById("info").innerHTML = output;
 }
 
+/**
+* This method allows the user to change their password if they wish to
+* do so. It requires the user to enter their old password as input and
+* only allows for the password change to complete if the old password
+* matches the one in the database.
+*/
 function changePass(){
   let user = retrieveUserInfo();
   let username = user.username;
@@ -60,15 +72,18 @@ function changePass(){
 
 }
 
+/**
+* This method is used to obtain the user info (which is basically the
+* basic information that the user has provided during registration) that has
+* been previously saved in the browser's local storage in the login page).
+*/
 function retrieveUserInfo()
 {
-
 	if(typeof (Storage) !== 'undefined')
 	{
 		if(localStorage.getItem(USER_INFO) != undefined)
 		{
 			let data = JSON.parse(localStorage.getItem(USER_INFO));
-
 			return data;
 		}
 	}
