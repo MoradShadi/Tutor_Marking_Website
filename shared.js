@@ -1,3 +1,4 @@
+// Class for a generic person
 class Person
 {
   constructor(firstName, lastName, email)
@@ -22,3 +23,73 @@ class Person
     this._email = dataObject._email;
   }
 }
+
+// Class for a student
+class Student extends Person
+{
+  constructor(firstName, lastName, email)
+  {
+    super(firstName, lastName, email);
+    this._hasAuthority = false;
+  }
+}
+
+// CLass for a marker
+class Marker extends Person
+{
+  constructor(firstName, lastName, email)
+  {
+    super(firstName, lastName, email);
+    this._hasAuthority = true;
+  }
+}
+
+// Class for a project
+class Project
+{
+  constructor(projectName, taskList)
+  {
+    this._projectName = projectName;
+    this._taskList = taskList;
+  }
+}
+
+// Class for a task which is part of the project
+class Task
+{
+  constructor(taskName)
+  {
+    this._taskName = taskName;
+    this._comments = [];
+    this._contributions = [];
+  }
+
+  // Getter and setter of tasks
+  get taskName(){ return this._taskName; }
+  set taskName(newTaskName){ this._taskName = newTaskName; }
+
+  get comments(){ return this._comments; }
+  get contributions(){ return this._contributions; }
+
+  // Adds a contribution of a specified student to the task
+  addContribution(student, timeSpent)
+  {
+    let newContribution = {
+      student: student,
+      timeSpent: timeSpent
+    };
+    this._contributions.push(newContribution);
+  }
+}
+
+// Class to group a collection of tasks that are part of a project
+class TaskList
+{
+  constructor()
+  {
+    this._tasks = [];
+  }
+}
+
+let test = new Task("Cleaning the toilet")
+test.addContribution("Jack", "15")
