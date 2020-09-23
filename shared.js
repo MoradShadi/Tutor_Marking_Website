@@ -148,7 +148,3 @@ class Marks()
     this._comment = comment;
   }
 }
-
-
-let test = new Task("Cleaning the toilet")
-test.addContribution("Jack", "15")
