@@ -44,16 +44,21 @@ class Marker extends Person
   }
 }
 
-// Class for a team consisting of numerous students
-class Team
+// Class for a group consisting of numerous students
+class Group
 {
-  constructor(teamID, teamName)
+  constructor(groupID, groupName)
   {
-    this._teamID = teamID;
-    this._teamName = teamName;
+    this._groupID = groupID;
+    this._groupName = groupName;
     this._members = [];
   }
 
+  // Getter and setters
+  get groupName() { return this._groupName; }
+  set groupName(newgroupName) { this._groupName = newgroupName; }
+
+  // Adds a new member to the group
   addMember(student)
   {
     this._members.push(student);
@@ -67,9 +72,16 @@ class Project
   {
     this._projectName = projectName;
     this._taskList = taskList;
-    this._teamList = [];
+    this._groupList = [];
     this._gradingScheme = [];
   }
+
+  // Adds a new group that is working on the project
+  addgroup(group)
+  {
+    this.groupList.push(group);
+  }
+
 }
 
 // Class for a task which is part of the project
@@ -117,7 +129,26 @@ class TaskList
   {
     this._tasks = [];
   }
+
+  // Adds a task to the list of tasks
+  addTasks(newTask)
+  {
+    this._tasks.push(newTask);
+  }
 }
+
+// Class to represent the marks that can be assigned to a student, along with
+// any additional comments
+class Marks()
+{
+  constructor(student, marks, comment)
+  {
+    this._student = student;
+    this._marks = marks;
+    this._comment = comment;
+  }
+}
+
 
 let test = new Task("Cleaning the toilet")
 test.addContribution("Jack", "15")
