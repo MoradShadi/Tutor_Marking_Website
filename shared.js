@@ -44,6 +44,22 @@ class Marker extends Person
   }
 }
 
+// Class for a team consisting of numerous students
+class Team
+{
+  constructor(teamID, teamName)
+  {
+    this._teamID = teamID;
+    this._teamName = teamName;
+    this._members = [];
+  }
+
+  addMember(student)
+  {
+    this._members.push(student);
+  }
+}
+
 // Class for a project
 class Project
 {
@@ -51,6 +67,8 @@ class Project
   {
     this._projectName = projectName;
     this._taskList = taskList;
+    this._teamList = [];
+    this._gradingScheme = [];
   }
 }
 
@@ -70,6 +88,16 @@ class Task
 
   get comments(){ return this._comments; }
   get contributions(){ return this._contributions; }
+
+  // Adds a comment to the task
+  addComment(student, comment)
+  {
+    let newComment = {
+      student: student,
+      comment: comment
+    };
+    this._comments.push(newComment);
+  }
 
   // Adds a contribution of a specified student to the task
   addContribution(student, timeSpent)
