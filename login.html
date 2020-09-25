@@ -153,31 +153,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 </head>
 <body>
-  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <!-- The core Firebase JS SDK -->
   <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase.js"></script>
-
-  <!-- TODO: Add SDKs for Firebase products that you want to use
-  https://firebase.google.com/docs/web/setup#available-libraries -->
   <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-analytics.js"></script>
-
-  <script>
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  var firebaseConfig = {
-    apiKey: "AIzaSyBBkFkeWNjzZkDePYrpzruJfaX3xfrC-pM",
-    authDomain: "fit2101-39981.firebaseapp.com",
-    databaseURL: "https://fit2101-39981.firebaseio.com",
-    projectId: "fit2101-39981",
-    storageBucket: "fit2101-39981.appspot.com",
-    messagingSenderId: "129241193378",
-    appId: "1:129241193378:web:083e6a8c6401664204f0fb",
-    measurementId: "G-MPSCGG6ELN"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-  </script>
-  <script src="login.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
   <div class="split left">
     <div class="centered">
@@ -198,12 +177,8 @@
               <input type="text" placeholder="Your Email Address" class="input" name="email" id="email"><br />
               <input type="text" placeholder="Choose a Username" class="input" name="username" id="username"><br />
               <input type="password" placeholder="Choose a Password" class="input" name="password" id="password"><br />
-              <label for="role" class="rolelabel">I am a:</label><br><br>
-              <select id="role" name="role" class="select">
-                <option value="student">Student</option>
-                <option value="marker">Marker</option>
-              </select>
-              <button type="submit" name="submit" class="submit" value="Create account" onclick="writeData()" id="submit">Create account</button>
+              <input type="password" placeholder="Confirm Password" class="input" name="cfmpassword" id="cfmpassword"><br />
+              <button type="submit" name="submit" class="submit" value="Create account" onclick="register()" id="submit">Create account</button>
             </div>
 
           <div class="login-form">
@@ -221,35 +196,6 @@
     <div class="mdl-snackbar__text"></div>
     <button class="mdl-snackbar__action" type="button"></button>
   </div>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <script>
-  $(".login-form").hide();
-  $(".login").css("background", "none");
-  $(".signup").css("background", "#404191");
-  $(".signup").css("color", "#fff");
-
-  $(".login").click(function(){
-    $(".signup-form").hide();
-    $(".login-form").show();
-    $(".signup").css("background", "none");
-    $(".login").css("background", "#404191");
-    $(".signup").css("color", "#000");
-    $(".login").css("color", "#fff");
-  });
-
-  $(".signup").click(function(){
-    $(".signup-form").show();
-    $(".login-form").hide();
-    $(".login").css("background", "none");
-    $(".signup").css("background", "#404191");
-    $(".signup").css("color", "#fff");
-    $(".login").css("color", "#000");
-  });
-
-  $(".btn").click(function(){
-    $(".input").val("");
-  });
-  </script>
+  <script src="login.js"></script>
 </body>
 </html>

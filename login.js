@@ -3,13 +3,35 @@
 // to their account and begin their activity.
 const USER_INFO = "USER INFO";
 
+// The web app's Firebase configuration
+var firebaseConfig = {
+  apiKey: "AIzaSyBBkFkeWNjzZkDePYrpzruJfaX3xfrC-pM",
+  authDomain: "fit2101-39981.firebaseapp.com",
+  databaseURL: "https://fit2101-39981.firebaseio.com",
+  projectId: "fit2101-39981",
+  storageBucket: "fit2101-39981.appspot.com",
+  messagingSenderId: "129241193378",
+  appId: "1:129241193378:web:083e6a8c6401664204f0fb",
+  measurementId: "G-MPSCGG6ELN"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+
 /**
 * This method is used to simulate the registration process for the user.
 * It also checks if the provided username and email already exists in the database
 * before allowing the user to proceed with the registration (because they need to
 * be unique).
 */
-function writeData(){
+function register(){
+
+  if (document.getElementById("password").value != document.getElementById("cfmpassword").value){
+    var snackbarContainer = document.querySelector('#demo-toast-example');
+    var data = {message: 'Passwords given do not match. Please try again.'};
+    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    return;
+  }
 
   let emailAlreadyExists = false;
   let userAlreadyExists = false;
@@ -22,7 +44,6 @@ function writeData(){
       var childData = childSnapshot.val();
       var dataBaseUser=childData.username;
       var dataBaseEmail=childData.email;
-      var dataBasePass=childData.password;
       if (dataBaseUser==user) {
         userAlreadyExists = true;
       }
@@ -47,11 +68,12 @@ function writeData(){
         email: document.getElementById("email").value,
         username: document.getElementById("username").value,
         password: document.getElementById("password").value,
-        role: document.getElementById("role").value
+        role: "student"
       })
       document.getElementById("email").value = "";
       document.getElementById("username").value = "";
       document.getElementById("password").value = "";
+      document.getElementById("cfmpassword").value = "";
       var snackbarContainer = document.querySelector('#demo-toast-example');
       var data = {message: 'New user has been registered!\n Please login to proceed.'};
       snackbarContainer.MaterialSnackbar.showSnackbar(data);
@@ -112,3 +134,33 @@ function storeUserInfo(user)
 		alert ('local storage is no supported in current browser')
 	}
 }
+
+/**
+* JQuery code for the multi-tab login/register page
+*/
+$(".login-form").hide();
+$(".login").css("background", "none");
+$(".signup").css("background", "#404191");
+$(".signup").css("color", "#fff");
+
+$(".login").click(function(){
+  $(".signup-form").hide();
+  $(".login-form").show();
+  $(".signup").css("background", "none");
+  $(".login").css("background", "#404191");
+  $(".signup").css("color", "#000");
+  $(".login").css("color", "#fff");
+});
+
+$(".signup").click(function(){
+  $(".signup-form").show();
+  $(".login-form").hide();
+  $(".login").css("background", "none");
+  $(".signup").css("background", "#404191");
+  $(".signup").css("color", "#fff");
+  $(".login").css("color", "#000");
+});
+
+$(".btn").click(function(){
+  $(".input").val("");
+});
