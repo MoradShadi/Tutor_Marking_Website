@@ -28,6 +28,7 @@ let db = firebase.firestore();
 */
 function register(){
 
+  // Checks if the password + password confirmation is the same
   if (document.getElementById("password").value != document.getElementById("cfmpassword").value){
     var snackbarContainer = document.querySelector('#demo-toast-example');
     var data = {message: 'Passwords given do not match. Please try again.'};
@@ -38,14 +39,17 @@ function register(){
   let user = document.getElementById("username").value;
   let email = document.getElementById("email").value;
 
+  // Firestore query to get all entries in the database that have the provided username
   db.collection("users").where("username", "==", user)
       .get()
       .then(function(querySnapshot) {
+        // If it is empty, it means noone has that username
         if (querySnapshot.empty){
-
+          // Firestore query to get all entries in the database that have the provided email
           db.collection("users").where("email", "==", email)
             .get()
             .then(function(querySnapshot) {
+              // If it is empty, it means noone has that email, so we can register this user
               if (querySnapshot.empty){
                 db.collection("users").add({
                     email: email,
@@ -61,6 +65,7 @@ function register(){
                 var data = {message: 'New user has been registered!\n Please login to proceed.'};
                 snackbarContainer.MaterialSnackbar.showSnackbar(data);
               }
+              // If it is not empty, it means that email already exists
               else {
                 var snackbarContainer = document.querySelector('#demo-toast-example');
                 var data = {message: 'Email already exists!! Please try again.'};
@@ -68,6 +73,7 @@ function register(){
               }
             })
         }
+        // If it is not empty, it means that username already exists
         else{
           var snackbarContainer = document.querySelector('#demo-toast-example');
           var data = {message: 'Username already exists!! Please try again.'};
@@ -89,14 +95,18 @@ function login(){
   let user = document.getElementById("userlogin").value;
   let password = document.getElementById("passlogin").value;
 
+  // Firestore query to get all entries in the database that have the provided username and password
   db.collection("users").where("username", "==", user).where("password", "==", password)
   .get()
   .then(function(querySnapshot) {
+    // If it is empty, it means that the user does not exist, or the password does not match the username
     if (!querySnapshot.empty){
       success = true;
+      // Gets the user logging in's information and saves it in local storage
       querySnapshot.forEach(function (doc) {
         storeUserInfo(doc.data());
       });
+      // Navigate to home page
       window.location.href = 'home.html'
     }
     else {
