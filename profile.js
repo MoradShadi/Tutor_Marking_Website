@@ -3,8 +3,24 @@
 // view their information and change their password.
 const USER_INFO = "USER INFO";
 
+// The web app's Firebase configuration
+var firebaseConfig = {
+  apiKey: "AIzaSyBBkFkeWNjzZkDePYrpzruJfaX3xfrC-pM",
+  authDomain: "fit2101-39981.firebaseapp.com",
+  databaseURL: "https://fit2101-39981.firebaseio.com",
+  projectId: "fit2101-39981",
+  storageBucket: "fit2101-39981.appspot.com",
+  messagingSenderId: "129241193378",
+  appId: "1:129241193378:web:083e6a8c6401664204f0fb",
+  measurementId: "G-MPSCGG6ELN"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+let db = firebase.firestore();
+
 /**
-* This method displays the current user's info and displays them
+* This method gets the current user's info and displays them
 * on the page.
 */
 function displayUserInfo()
@@ -31,45 +47,27 @@ function changePass(){
   let user = retrieveUserInfo();
   let username = user.username;
   let change = false;
-  let ref = firebase.database().ref("User");
 
-  ref.on("value", function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-      var childData = childSnapshot.val();
-      var dataBaseUser=childData.username;
-      var dataBasePass=childData.password;
-      if (dataBaseUser==username) {
-        if (document.getElementById("oldpass").value == dataBasePass){
-          change = true;
-        }
-      }
-    });
-  });
-
-  setTimeout(function(){
-    if (change){
-      var db = firebase.database();
-      db.ref('User')
-        .orderByChild('username')
-        .equalTo(username)
-        .once('value')
-        .then(function(snapshot) {
-          snapshot.forEach(function(childSnapshot) {
-            childSnapshot.ref.child('password').set(document.getElementById("newpass").value);
-          });
+  // Firestore query to get all entries in the database that have the provided username
+  db.collection("users").where("username", "==", username)
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          // Check if password in database is the same as the old password provided
+          if(doc.data()["password"] == document.getElementById("oldpass").value){
+            // Change the password if it is
+            db.collection("users").doc(doc.id).update({ password: document.getElementById("newpass").value });
+            var snackbarContainer = document.querySelector('#demo-toast-example');
+            var data = {message: 'Password has been changed!'};
+            snackbarContainer.MaterialSnackbar.showSnackbar(data);
+          }
+          else{
+            var snackbarContainer = document.querySelector('#demo-toast-example');
+            var data = {message: 'Incorrect old password! Please try again!'};
+            snackbarContainer.MaterialSnackbar.showSnackbar(data);
+          }
         });
-
-      var snackbarContainer = document.querySelector('#demo-toast-example');
-      var data = {message: 'Password has been changed!'};
-      snackbarContainer.MaterialSnackbar.showSnackbar(data);
-    }
-    else{
-      var snackbarContainer = document.querySelector('#demo-toast-example');
-      var data = {message: 'Incorrect old password! Please try again!'};
-      snackbarContainer.MaterialSnackbar.showSnackbar(data);
-    }
-  }, 1000)
-
+      })
 }
 
 /**

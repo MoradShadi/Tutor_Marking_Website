@@ -18,7 +18,6 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 let db = firebase.firestore();
-// firebase.analytics();
 
 /**
 * This method is used to simulate the registration process for the user.
