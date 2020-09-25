@@ -14,9 +14,11 @@ var firebaseConfig = {
   appId: "1:129241193378:web:083e6a8c6401664204f0fb",
   measurementId: "G-MPSCGG6ELN"
 };
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-firebase.analytics();
+let db = firebase.firestore();
+// firebase.analytics();
 
 /**
 * This method is used to simulate the registration process for the user.
@@ -33,53 +35,48 @@ function register(){
     return;
   }
 
-  let emailAlreadyExists = false;
-  let userAlreadyExists = false;
   let user = document.getElementById("username").value;
   let email = document.getElementById("email").value;
-  let ref = firebase.database().ref("User");
 
-  ref.on("value", function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-      var childData = childSnapshot.val();
-      var dataBaseUser=childData.username;
-      var dataBaseEmail=childData.email;
-      if (dataBaseUser==user) {
-        userAlreadyExists = true;
-      }
-      else if (dataBaseEmail ==email){
-        emailAlreadyExists = true;
-      }
-    });
-  });
-  setTimeout(function(){
-    if (emailAlreadyExists){
-      var snackbarContainer = document.querySelector('#demo-toast-example');
-      var data = {message: 'Email already exists!! Please try again.'};
-      snackbarContainer.MaterialSnackbar.showSnackbar(data);
-    }
-    else if (userAlreadyExists){
-      var snackbarContainer = document.querySelector('#demo-toast-example');
-      var data = {message: 'Username already exists!! Please try again.'};
-      snackbarContainer.MaterialSnackbar.showSnackbar(data);
-    }
-    else{
-      firebase.database().ref("User").push({
-        email: document.getElementById("email").value,
-        username: document.getElementById("username").value,
-        password: document.getElementById("password").value,
-        role: "student"
+  db.collection("users").where("username", "==", user)
+      .get()
+      .then(function(querySnapshot) {
+        if (querySnapshot.empty){
+
+          db.collection("users").where("email", "==", email)
+            .get()
+            .then(function(querySnapshot) {
+              if (querySnapshot.empty){
+                db.collection("users").add({
+                    email: email,
+                    password: document.getElementById("password").value,
+                    role: "student",
+                    username: user
+                })
+                document.getElementById("email").value = "";
+                document.getElementById("username").value = "";
+                document.getElementById("password").value = "";
+                document.getElementById("cfmpassword").value = "";
+                var snackbarContainer = document.querySelector('#demo-toast-example');
+                var data = {message: 'New user has been registered!\n Please login to proceed.'};
+                snackbarContainer.MaterialSnackbar.showSnackbar(data);
+              }
+              else {
+                var snackbarContainer = document.querySelector('#demo-toast-example');
+                var data = {message: 'Email already exists!! Please try again.'};
+                snackbarContainer.MaterialSnackbar.showSnackbar(data);
+              }
+            })
+        }
+        else{
+          var snackbarContainer = document.querySelector('#demo-toast-example');
+          var data = {message: 'Username already exists!! Please try again.'};
+          snackbarContainer.MaterialSnackbar.showSnackbar(data);
+        }
       })
-      document.getElementById("email").value = "";
-      document.getElementById("username").value = "";
-      document.getElementById("password").value = "";
-      document.getElementById("cfmpassword").value = "";
-      var snackbarContainer = document.querySelector('#demo-toast-example');
-      var data = {message: 'New user has been registered!\n Please login to proceed.'};
-      snackbarContainer.MaterialSnackbar.showSnackbar(data);
-    }
-  }, 1000);
-
+      .catch(function(error) {
+          console.log("Error getting documents: ", error);
+      });
 }
 
 /**
@@ -91,30 +88,23 @@ function login(){
   let success = false;
   let user = document.getElementById("userlogin").value;
   let password = document.getElementById("passlogin").value;
-  let ref = firebase.database().ref("User");
 
-  ref.on("value", function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-      var childData = childSnapshot.val();
-      var dataBaseUser=childData.username;
-      var dataBaseEmail=childData.email;
-      var dataBasePass=childData.password;
-      if (dataBaseUser==user || dataBaseEmail==user && dataBasePass == password) {
-        success = true;
-        storeUserInfo(childData);
-      }
-    });
-  });
-  setTimeout(function(){
-    if (success){
+  db.collection("users").where("username", "==", user).where("password", "==", password)
+  .get()
+  .then(function(querySnapshot) {
+    if (!querySnapshot.empty){
+      success = true;
+      querySnapshot.forEach(function (doc) {
+        storeUserInfo(doc.data());
+      });
       window.location.href = 'home.html'
     }
-    else{
+    else {
       var snackbarContainer = document.querySelector('#demo-toast-example');
       var data = {message: 'Incorrect login information!! Please try again.'};
       snackbarContainer.MaterialSnackbar.showSnackbar(data);
     }
-  }, 1000)
+  })
 }
 
 /**
