@@ -79,7 +79,7 @@ function printProjects(){
         output += "<b>Progress:</b> <br>"
         output += "</div>"
         output += "<div class=\"mdl-card__actions mdl-card--border\">"
-        output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"projectIndex(this.id);\">"
+        output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'project.html\'; projectIndex(this.id);\">"
         output += "Get Started"
         output += "</a>"
         output += "</div>"
