@@ -41,6 +41,8 @@
     margin-top: 70px;
   }
   .project-text {
+    margin-left: 10px;
+    margin-top: 10px;
     font-size: 32px;
     color: white;
     font-family: 'Raleway',sans-serif;
@@ -48,14 +50,17 @@
     letter-spacing: -1px;
     line-height: 1
   }
+  .mdl-layout__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .page-content {
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0, 0.55);
     border: 1px solid #f1f1f1;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -30%);
+    top: 5%;
     z-index: 2;
     width: 80%;
     padding: 20px;
@@ -94,9 +99,9 @@
       <main class="mdl-layout__content">
 
         <div class="page-content">
-          <div class = "container">
-              <div class="project-text"><u><b>Projects</b></u></div>
-          </div>
+          <!-- <div class = "container"> -->
+          <div class="project-text"><u><b>Projects</b></u></div>
+          <!-- </div> -->
 
           <div class = "container">
             <!--Sample card for project 1-->
@@ -145,6 +150,7 @@
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </main>
