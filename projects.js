@@ -1,5 +1,6 @@
 "use strict"
 const USER_INFO = "USER INFO";
+const PROJECT_INDEX = "PROJECT INDEX";
 
 // The web app's Firebase configuration
 var firebaseConfig = {
@@ -80,7 +81,7 @@ function printProjects(){
         output += "<b>Progress:</b> <br>"
         output += "</div>"
         output += "<div class=\"mdl-card__actions mdl-card--border\">"
-        output += "<a class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\">"
+        output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"projectIndex(this.id);\">"
         output += "Get Started"
         output += "</a>"
         output += "</div>"
@@ -96,3 +97,15 @@ function printProjects(){
 }
 
 printProjects();
+
+function projectIndex(clicked){
+  if(typeof(Storage)!=="undefined")
+  {
+    let indexJSON = JSON.stringify(clicked);
+    localStorage.setItem(PROJECT_INDEX, indexJSON);
+  }
+  else
+  {
+    alert("Sorry, your browser does not support web storage...");
+  }
+}
