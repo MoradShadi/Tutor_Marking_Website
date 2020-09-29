@@ -31,8 +31,6 @@ function initBackgroundImage(){
   }
 }
 
-initBackgroundImage();
-
 /**
 * This method is used to obtain the user info (which is basically the
 * basic information that the user has provided during registration) that has
