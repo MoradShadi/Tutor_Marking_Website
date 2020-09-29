@@ -56,12 +56,45 @@ function retrieveUserInfo()
 
 function printProjects(){
   let user = retrieveUserInfo();
-  
-  db.collection("users").where("username", "==", user.username)
-  .get()
-  .then(function(querySnapshot) {
-    querySnapshot.forEach(function (doc) {
-      console.log(doc.data())
-    });
-  })
+  let units = user.units.split(", ");
+  let output = "";
+
+  for (let i = 0; i < units.length; i++){
+    db.collection("units").where("code", "==", units[i])
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        // units = doc.data().units()
+        console.log(doc.data())
+        output += "<div class = \"container\">"
+        output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
+        output += "<div class=\"mdl-card__title\">"
+        output += "<h2 class=\"mdl-card__title-text\">" + "Group project " + (i+1) + "</h2>"
+        output += "</div>"
+        output += "<div class=\"mdl-card__supporting-text\">"
+        output += "<b>Unit name:</b> <br>"
+        output += doc.data().name + "<br>"
+        output += "</div>"
+        output += "<div class=\"mdl-card__actions mdl-card--border\">"
+        output += "<b>Description:</b> " + doc.data().description + "<br><br>"
+        output += "<b>Unit code:</b> " + doc.data().code + "<br>"
+        output += "<b>Group member:</b> <br>"
+        output += "<b>Progress:</b> <br>"
+        output += "</div>"
+        output += "<div class=\"mdl-card__actions mdl-card--border\">"
+        output += "<a class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\">"
+        output += "Get Started"
+        output += "</a>"
+        output += "</div>"
+        output += "</div>"
+        output += "</div>"
+        if(i == units.length - 1){
+          document.getElementById("projectArea").innerHTML = output;
+          initBackgroundImage();
+        }
+      });
+    })
+  }
 }
+
+printProjects();
