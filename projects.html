@@ -14,9 +14,8 @@
     background: url("https://i.pinimg.com/originals/db/40/29/db40298be238e42530eaa9655e425096.jpg");
     background-size: cover;
     z-index: -1; /* Keep the background behind the content */
-    height: 20%; width: 20%; /* Using Glen Maddern's trick /via @mente */
+    height: 20%; width: 20%;
 
-    /* don't forget to use the prefixes you need */
     transform: scale(5);
     transform-origin: top left;
     filter: blur(0.5px);
@@ -128,6 +127,7 @@
           'https://lms.monash.edu/theme/monash/pix/myoverview/layered-draping-purple-micro-banner.jpg',
           'https://lms.monash.edu/theme/monash/pix/myoverview/fibroblasts-under-the-microscope-green-micro-banner.jpg'];
 
+          // Randomly applies a background image from the ones given
           for (i = 0; i<document.getElementsByClassName('mdl-card__title').length; i++){
             document.getElementsByClassName('mdl-card__title')[i].style.backgroundImage = 'url(' + images[Math.floor(Math.random() * images.length)] + ')';
             document.getElementsByClassName('mdl-card__title')[i].style.backgroundPosition = "center cover"
