@@ -63,12 +63,10 @@ function printProjects(){
     .get()
     .then(function(querySnapshot) {
       querySnapshot.forEach(function (doc) {
-        // units = doc.data().units()
-        console.log(doc.data())
         output += "<div class = \"container\">"
         output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
         output += "<div class=\"mdl-card__title\">"
-        output += "<h2 class=\"mdl-card__title-text\">" + "Group project " + (i+1) + "</h2>"
+        output += "<h2 class=\"mdl-card__title-text\">" + "Group project " + (i+1) + ": " + doc.data().project + "</h2>"
         output += "</div>"
         output += "<div class=\"mdl-card__supporting-text\">"
         output += "<b>Unit name:</b> <br>"
