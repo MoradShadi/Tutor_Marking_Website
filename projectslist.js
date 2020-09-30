@@ -55,26 +55,26 @@ function retrieveUserInfo()
 
 function printProjects(){
   let user = retrieveUserInfo();
-  let units = user.units.split(", ");
+  let projects = user.projects.split(", ");
   let output = "";
 
-  for (let i = 0; i < units.length; i++){
-    db.collection("units").where("code", "==", units[i])
+  for (let i = 0; i < projects.length; i++){
+    db.collection("projects").where("projectid", "==", projects[i])
     .get()
     .then(function(querySnapshot) {
       querySnapshot.forEach(function (doc) {
         output += "<div class = \"container\">"
         output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
         output += "<div class=\"mdl-card__title\">"
-        output += "<h2 class=\"mdl-card__title-text\">" + "Group project " + (i+1) + ": " + doc.data().project + "</h2>"
+        output += "<h2 class=\"mdl-card__title-text\">" + "Group project " + (i+1) + ": " + doc.data().projname + "</h2>"
         output += "</div>"
         output += "<div class=\"mdl-card__supporting-text\">"
-        output += "<b>Unit name:</b> <br>"
-        output += doc.data().name + "<br>"
+        output += "<b>Unit name:</b> " + doc.data().unitname + "<br><br>"
+        output += "<b>Unit description:</b> " + doc.data().unitdesc + "<br><br>"
+        output += "<b>Unit code:</b> " + doc.data().unitcode + "<br>"
         output += "</div>"
         output += "<div class=\"mdl-card__actions mdl-card--border\">"
-        output += "<b>Description:</b> " + doc.data().description + "<br><br>"
-        output += "<b>Unit code:</b> " + doc.data().code + "<br>"
+        output += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
         output += "<b>Group member:</b> <br>"
         output += "<b>Progress:</b> <br>"
         output += "</div>"
@@ -85,7 +85,7 @@ function printProjects(){
         output += "</div>"
         output += "</div>"
         output += "</div>"
-        if(i == units.length - 1){
+        if(i == projects.length - 1){
           document.getElementById("projectArea").innerHTML = output;
           initBackgroundImage();
         }
