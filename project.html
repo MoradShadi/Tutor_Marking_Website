@@ -65,6 +65,12 @@
     width: 80%;
     padding: 20px;
   }
+  .mainproject {
+    clear: both;
+  }
+  .mdl-data-table th {
+    width: 100%
+  }
   </style>
   <body>
 
@@ -103,12 +109,45 @@
       <main class="mdl-layout__content">
 
         <div class="page-content">
-          <div id="temp" class="project-text"></div><br><br>
+
+          <div id="temp" class="project-text">Project</div><br><br>
+
           <div>
             <img src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/Work_time_re_hdyv.svg" width="500" style="float: left;" />
             <div id="projectinfo"></div>
-            This is some text
           </div>
+
+          <div class="mainproject">
+            <br><br>
+            <table class="mdl-data-table mdl-js-data-table">
+              <thead>
+                <tr>
+                  <th class="mdl-data-table__cell--non-numeric">Name</th>
+                  <th>Age</th>
+                  <th>ID Number</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric">Don Aubrey</td>
+                  <td>25</td>
+                  <td>49021</td>
+                </tr>
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric">Sophia Carson</td>
+                  <td>32</td>
+                  <td>10258</td>
+                </tr>
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric">Steve Moreno</td>
+                  <td>29</td>
+                  <td>12359</td>
+                </tr>
+              </tbody>
+            </table>
+          </table>
+          </div>
+
         </div>
       </main>
     </div>
