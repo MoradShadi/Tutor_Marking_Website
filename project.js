@@ -42,9 +42,9 @@ function retrieveProjectIndex()
 function test(){
   let output = retrieveProjectIndex();
   let user = retrieveUserInfo();
-  let units = user.units.split(", ");
-  console.log(units[output]);
-  document.getElementById("temp").innerHTML = units[output];
+  let projects = user.projects.split(", ");
+  console.log(projects[output]);
+  document.getElementById("temp").innerHTML = projects[output];
 }
 
 test();
