@@ -133,6 +133,7 @@ function printTable(){
 function printTask()
 {
   let stringOutput = ""
+  stringOutput += '<table id="task-table" class="mdl-data-table mdl-js-data-table">'
   stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th>'
   stringOutput += '</tr></thead><tbody>'
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
@@ -147,7 +148,7 @@ function printTask()
           stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
           stringOutput += doc.data().tasksdesc[i]
 
-          if(i == doc.data().contributions.length - 1){
+          if(i == doc.data().tasks.length - 1){
             stringOutput += "</tbody>"
             stringOutput += "</table>"
             document.getElementById("tasktablecontent").innerHTML += stringOutput;
@@ -215,7 +216,7 @@ let projects = user.projects.split(", ");
 let currentproject = projects[output];
 displayProjInfo();
 printTable();
-
+printTask()
 // TODO: add code for entering the contribution into the database by adding a new entry into the
 // firestore "groups" collection under the "contributions" tab (based on the user's group)
 
