@@ -102,3 +102,43 @@ dialog.querySelector('.submit').addEventListener('click', function() {
   snackbarContainer.MaterialSnackbar.showSnackbar(data);
   dialog.close();
 });
+
+function printTable(){
+  let user = retrieveUserInfo();
+  let output = "";
+  output += "<tbody>"
+  output += "<table class=\"mdl-data-table mdl-js-data-table\">"
+  output += "<thead>"
+  output += "<tr>"
+  output += "<th>No.</th>"
+  output += "<th class=\"mdl-data-table__cell--non-numeric\">Task Name</th>"
+  output += "<th class=\"mdl-data-table__cell--non-numeric\">Member</th>"
+  output += "<th>Hours contributed</th>"
+  output += "<th class=\"mdl-data-table__cell--non-numeric\">Remarks</th>"
+  output += "</tr>"
+  output += "</thead>"
+
+  db.collection("groups").where("members", "array-contains", user.username)
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      for (let i = 0; i < doc.data().contributions.length; i++ ){
+        output += "<tr>"
+        output += "<td>" + (i+1) + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].taskname + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].member + "</td>"
+        output += "<td>" + doc.data().contributions[i].hours + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].remarks + "</td>"
+        output += "</tr>"
+        if(i == doc.data().contributions.length - 1){
+          output += "</tbody>"
+          output += "</table>"
+          console.log(doc.data().contributions[0]);
+          document.getElementById("tablecontent").innerHTML = output;
+        }
+      }
+    });
+  })
+}
+
+printTable();
