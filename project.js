@@ -39,6 +39,11 @@ function retrieveUserInfo()
   }
 }
 
+/**
+* This method is used to obtain the index of the project that has
+* been previously clicked by the user (and saved in local storage)
+* in the projectslist page.
+*/
 function retrieveProjectIndex()
 {
   if(typeof (Storage) !== 'undefined')
@@ -55,13 +60,18 @@ function retrieveProjectIndex()
   }
 }
 
+/**
+* This method is used to display the project info at the top of the
+* page. It searches the firestore database for the project with the same id
+* and retrieves the information from there.
+*/
 function displayProjInfo(){
   let output = retrieveProjectIndex();
-  let user = retrieveUserInfo();
+  // Splits the string into an array with the separation being the comma
   let projects = user.projects.split(", ");
   let ret = "";
 
-  db.collection("projects").where("projectid", "==", projects[output])
+  db.collection("projects").where("projectid", "==", currentproject)
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
@@ -75,8 +85,53 @@ function displayProjInfo(){
   })
 }
 
-displayProjInfo();
+/**
+* This method is used to display the table for the contributions that
+* has been inputted by the group into their project. It searches the
+* group database to find the current user's group, then prints out the
+* contributions that are recorded in it.
+*/
+function printTable(){
+  let output = "";
+  output += "<tbody>"
+  output += "<table class=\"mdl-data-table mdl-js-data-table\">"
+  output += "<thead>"
+  output += "<tr>"
+  output += "<th>No.</th>"
+  output += "<th class=\"mdl-data-table__cell--non-numeric\">Task Name</th>"
+  output += "<th class=\"mdl-data-table__cell--non-numeric\">Member</th>"
+  output += "<th>Hours contributed</th>"
+  output += "<th class=\"mdl-data-table__cell--non-numeric\">Remarks</th>"
+  output += "</tr>"
+  output += "</thead>"
 
+  // Searches the database based on the username to find the group
+  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      for (let i = 0; i < doc.data().contributions.length; i++ ){
+        output += "<tr>"
+        output += "<td>" + (i+1) + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].taskname + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].member + "</td>"
+        output += "<td>" + doc.data().contributions[i].hours + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].remarks + "</td>"
+        output += "</tr>"
+
+        // Display once we reach the end of the loop.
+        if(i == doc.data().contributions.length - 1){
+          output += "</tbody>"
+          output += "</table>"
+          console.log(doc.data().contributions[0]);
+          document.getElementById("tablecontent").innerHTML = output;
+        }
+      }
+    });
+  })
+}
+
+// This block of code is used for the "ADD TASK" button
 var dialog = document.querySelector('dialog');
 var showModalButton = document.querySelector('.add-task');
 if (! dialog.showModal) {
@@ -95,42 +150,13 @@ dialog.querySelector('.submit').addEventListener('click', function() {
   dialog.close();
 });
 
-function printTable(){
-  let user = retrieveUserInfo();
-  let output = "";
-  output += "<tbody>"
-  output += "<table class=\"mdl-data-table mdl-js-data-table\">"
-  output += "<thead>"
-  output += "<tr>"
-  output += "<th>No.</th>"
-  output += "<th class=\"mdl-data-table__cell--non-numeric\">Task Name</th>"
-  output += "<th class=\"mdl-data-table__cell--non-numeric\">Member</th>"
-  output += "<th>Hours contributed</th>"
-  output += "<th class=\"mdl-data-table__cell--non-numeric\">Remarks</th>"
-  output += "</tr>"
-  output += "</thead>"
-
-  db.collection("groups").where("members", "array-contains", user.username)
-  .get()
-  .then(function(querySnapshot) {
-    querySnapshot.forEach(function (doc) {
-      for (let i = 0; i < doc.data().contributions.length; i++ ){
-        output += "<tr>"
-        output += "<td>" + (i+1) + "</td>"
-        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].taskname + "</td>"
-        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].member + "</td>"
-        output += "<td>" + doc.data().contributions[i].hours + "</td>"
-        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].remarks + "</td>"
-        output += "</tr>"
-        if(i == doc.data().contributions.length - 1){
-          output += "</tbody>"
-          output += "</table>"
-          console.log(doc.data().contributions[0]);
-          document.getElementById("tablecontent").innerHTML = output;
-        }
-      }
-    });
-  })
-}
-
+let user = retrieveUserInfo();
+let output = retrieveProjectIndex();
+// Splits the string into an array with the separation being the comma
+let projects = user.projects.split(", ");
+let currentproject = projects[output];
+displayProjInfo();
 printTable();
+
+// TODO: add code for entering the contribution into the database by adding a new entry into the
+// firestore "groups" collection under the "contributions" tab (based on the user's group)
