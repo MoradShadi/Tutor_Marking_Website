@@ -50,6 +50,16 @@
     letter-spacing: -1px;
     line-height: 1
   }
+  .body-text {
+    margin-left: 10px;
+    margin-top: 10px;
+    font-size: 24px;
+    color: black;
+    font-family: 'Raleway',sans-serif;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1
+  }
   .mdl-layout__content {
     display: flex;
     justify-content: center;
@@ -65,11 +75,15 @@
     width: 80%;
     padding: 20px;
   }
-  .mainproject {
+  .projecttable {
     clear: both;
   }
   .mdl-data-table {
     width: 100%
+  }
+
+  #task-table {
+    width: 700px;
   }
   </style>
   <body>
@@ -89,9 +103,9 @@
           <!-- Navigation. We hide it in small screens. -->
           <nav class="mdl-navigation mdl-layout--large-screen-only">
             <a class="mdl-navigation__link" href="home.html">Home</a>
-            <a class="mdl-navigation__link" href="">Groups</a>
+            <a class="mdl-navigation__link" href="groups.html">Groups</a>
             <a class="mdl-navigation__link" href="projectslist.html">Projects</a>
-            <a class="mdl-navigation__link" href="">Marks</a>
+            <a class="mdl-navigation__link" href="marks.html">Marks</a>
             <a class="mdl-navigation__link" href="profile.html">Profile</a>
           </nav>
         </div>
@@ -100,9 +114,9 @@
         <span class="mdl-layout-title">Hand it in</span>
         <nav class="mdl-navigation">
           <a class="mdl-navigation__link" href="home.html">Home</a>
-          <a class="mdl-navigation__link" href="">Groups</a>
+          <a class="mdl-navigation__link" href="groups.html">Groups</a>
           <a class="mdl-navigation__link" href="projectslist.html">Projects</a>
-          <a class="mdl-navigation__link" href="">Marks</a>
+          <a class="mdl-navigation__link" href="marks.html">Marks</a>
           <a class="mdl-navigation__link" href="profile.html">Profile</a>
         </nav>
       </div>
@@ -117,8 +131,37 @@
             <div id="projectinfo"></div>
           </div>
 
-          <div class="mainproject">
+          <div class="projecttable">
             <br><br>
+            <div id="temp" class="body-text"><u>Tasks</u></div><br><br>
+            <table id="task-table" class="mdl-data-table mdl-js-data-table">
+              <thead>
+                <tr>
+                  <th style="width: 15%">No.</th>
+                  <th class="mdl-data-table__cell--non-numeric">Task Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td class="mdl-data-table__cell--non-numeric">Creating table</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td class="mdl-data-table__cell--non-numeric">Write report</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td class="mdl-data-table__cell--non-numeric">Coding</td>
+                </tr>
+              </tbody>
+            </table>
+          </table>
+          </div>
+
+          <div class="projecttable">
+            <br><br>
+            <div id="temp" class="body-text"><u>Contributions</u></div><br><br>
             <table class="mdl-data-table mdl-js-data-table">
               <thead>
                 <tr>
@@ -154,6 +197,10 @@
               </tbody>
             </table>
           </table>
+          </div>
+
+          <div><br><br>
+            Enter your task:
           </div>
 
         </div>
