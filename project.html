@@ -127,7 +127,7 @@
 
         <div class="page-content">
 
-          <div id="temp" class="project-text">Project</div><br><br>
+          <div id="temp" class="project-text">Project</div><br>
 
           <div>
             <img src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/Work_time_re_hdyv.svg" width="500" style="float: left;" />
@@ -166,43 +166,33 @@
           </table>
         </div><br><br>
 
-        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add-task">Add task</button>
+        <button type="button" class="mdl-button mdl-js-button mdl-button--raised add-task">Add task</button>
         <dialog class="mdl-dialog">
           <h5 class="mdl-dialog__title">Adding a new task</h5>
           <div class="mdl-dialog__content">
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				<input class="mdl-textfield__input" type="text" id="j-source" pattern="[A-Z,a-z,0-9, ]*">
-				<label class="mdl-textfield__label" for="j-source">Journey Source</label>
-				<span class="mdl-textfield__error">Letters, numbers and spaces only</span>
-			</div>
-			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				<input class="mdl-textfield__input" type="text" id="j-destination" pattern="[A-Z,a-z,0-9, ]*">
-				<label class="mdl-textfield__label" for="j-destination">Journey Destination</label>
-				<span class="mdl-textfield__error">Letters, numbers and spaces only</span>
-			</div>
-    </div>
+              <input class="mdl-textfield__input" type="text" id="j-source" pattern="[A-Z,a-z,0-9, ]*">
+              <label class="mdl-textfield__label" for="j-source">Task Name</label>
+              <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input class="mdl-textfield__input" type="text" id="j-destination" pattern="[A-Z,a-z,0-9, ]*">
+              <label class="mdl-textfield__label" for="j-destination">Take Description</label>
+              <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
+            </div>
+          </div>
           <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
-            <button type="button" class="mdl-button">Submit</button>
+            <button type="button" class="mdl-button submit">Submit</button>
             <button type="button" class="mdl-button close">Cancel</button>
           </div>
         </dialog>
         <script>
-        var dialog = document.querySelector('dialog');
-        var showModalButton = document.querySelector('.add-task');
-        if (! dialog.showModal) {
-          dialogPolyfill.registerDialog(dialog);
-        }
-        showModalButton.addEventListener('click', function() {
-          dialog.showModal();
-        });
-        dialog.querySelector('.close').addEventListener('click', function() {
-          dialog.close();
-        });
+
         </script>
 
         <div class="projecttable">
           <br><br>
-          <div id="temp" class="body-text"><u>Contributions</u></div><br><br>
+          <div id="temp" class="body-text"><u>Contributions</u></div><br>
           <table class="mdl-data-table mdl-js-data-table">
             <thead>
               <tr>
@@ -241,11 +231,15 @@
       </div>
 
       <div><br><br>
-        Enter your task:
+        Enter your task and contribution here:
       </div>
 
     </div>
   </main>
+</div>
+<div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+  <div class="mdl-snackbar__text"></div>
+  <button class="mdl-snackbar__action" type="button"></button>
 </div>
 </body>
 <script src="project.js"></script>

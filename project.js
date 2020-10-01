@@ -84,3 +84,21 @@ function displayProjInfo(){
 }
 // test();
 displayProjInfo();
+
+var dialog = document.querySelector('dialog');
+var showModalButton = document.querySelector('.add-task');
+if (! dialog.showModal) {
+  dialogPolyfill.registerDialog(dialog);
+}
+showModalButton.addEventListener('click', function() {
+  dialog.showModal();
+});
+dialog.querySelector('.close').addEventListener('click', function() {
+  dialog.close();
+});
+dialog.querySelector('.submit').addEventListener('click', function() {
+  var snackbarContainer = document.querySelector('#demo-toast-example');
+  var data = {message: 'Task has been added.'};
+  snackbarContainer.MaterialSnackbar.showSnackbar(data);
+  dialog.close();
+});
