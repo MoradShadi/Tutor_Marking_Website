@@ -130,12 +130,19 @@ function printTable(){
   })
 }
 
+/**
+This method loads the that has been recorded in the firestore.
+The method will receive tasks from the firestore
+and prints them in a table form in the project page
+*/
 function printTask()
 {
+  //building the table
   let stringOutput = ""
   stringOutput += '<table id="task-table" class="mdl-data-table mdl-js-data-table">'
   stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th>'
   stringOutput += '</tr></thead><tbody>'
+  //searches the database based on the username to find the group
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
   .get()
   .then(function(querySnapshot) {
@@ -148,6 +155,7 @@ function printTask()
           stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
           stringOutput += doc.data().tasksdesc[i]
 
+          //displays information once we reach the end of the loop
           if(i == doc.data().tasks.length - 1){
             stringOutput += "</tbody>"
             stringOutput += "</table>"
@@ -159,9 +167,16 @@ function printTask()
 
 }
 
+/*
+This method is called when a new tasks is added. This method will
+store the newly added tasks into the firestore when the submit
+button is clicked.
+**/
 function addTask(){
+  //getting information from the dialog box
   let taskName = document.getElementById('j-source').value
   let taskDescription = document.getElementById('j-destination').value
+  //searching based on username for groups
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
   .get()
   .then(function(querySnapshot) {
