@@ -131,8 +131,24 @@ function printTable(){
   })
 }
 
+function addTask(){
+  let taskName = document.getElementById('j-source').value
+  let taskDescription = document.getElementById('j-destination').value
+  // db.collection("groups").where("tasks").add({
+  //   taskname: taskName,
+  //   Description: taskDescription
+  // })
+  let stringOutput = ""
+  stringOutput += '<tr><td>1</td><td class="mdl-data-table__cell--non-numeric">'
+  stringOutput += taskName
+  stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
+  stringOutput += taskDescription
+  stringOutput += '</td></tr>'
+  return stringOutput
+}
+
 // This block of code is used for the "ADD TASK" button
-var dialog = document.querySelector('dialog');
+var dialog = document.getElementById('dialogTask');
 var showModalButton = document.querySelector('.add-task');
 if (! dialog.showModal) {
   dialogPolyfill.registerDialog(dialog);
@@ -145,6 +161,7 @@ dialog.querySelector('.close').addEventListener('click', function() {
 });
 dialog.querySelector('.submit').addEventListener('click', function() {
   var snackbarContainer = document.querySelector('#demo-toast-example');
+  document.getElementById("task-table").innerHTML += addTask()
   var data = {message: 'Task has been added.'};
   snackbarContainer.MaterialSnackbar.showSnackbar(data);
   dialog.close();

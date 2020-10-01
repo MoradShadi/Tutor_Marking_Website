@@ -167,7 +167,7 @@
         </div><br><br>
 
         <button type="button" class="mdl-button mdl-js-button mdl-button--raised add-task">Add task</button>
-        <dialog class="mdl-dialog">
+        <dialog class="mdl-dialog" id = "dialogTask">
           <h5 class="mdl-dialog__title">Adding a new task</h5>
           <div class="mdl-dialog__content">
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -177,7 +177,7 @@
             </div>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
               <input class="mdl-textfield__input" type="text" id="j-destination" pattern="[A-Z,a-z,0-9, ]*">
-              <label class="mdl-textfield__label" for="j-destination">Take Description</label>
+              <label class="mdl-textfield__label" for="j-destination">Task Description</label>
               <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
             </div>
           </div>
@@ -187,9 +187,11 @@
           </div>
         </dialog>
         <script>
-        
-        </script>
 
+        </script>
+        <div class="dialogTask">
+          <div id="taskDialogID"></div>
+        </div>
         <div class="projecttable">
           <br><br>
           <div id="temp" class="body-text"><u>Contributions</u></div><br>
