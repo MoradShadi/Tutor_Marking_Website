@@ -85,6 +85,9 @@
   #task-table {
     width: 700px;
   }
+  .mdl-dialog__title {
+    font-size: 30px;
+  }
   </style>
   <body>
 
@@ -139,73 +142,111 @@
                 <tr>
                   <th style="width: 15%">No.</th>
                   <th class="mdl-data-table__cell--non-numeric">Task Name</th>
+                  <th class="mdl-data-table__cell--non-numeric">Description</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>1</td>
                   <td class="mdl-data-table__cell--non-numeric">Creating table</td>
+                  <td class="mdl-data-table__cell--non-numeric">Table for 2</td>
                 </tr>
                 <tr>
                   <td>2</td>
                   <td class="mdl-data-table__cell--non-numeric">Write report</td>
+                  <td class="mdl-data-table__cell--non-numeric">Report</td>
                 </tr>
                 <tr>
                   <td>3</td>
                   <td class="mdl-data-table__cell--non-numeric">Coding</td>
+                  <td class="mdl-data-table__cell--non-numeric">Hell</td>
                 </tr>
               </tbody>
             </table>
           </table>
-          </div>
+        </div><br><br>
 
-          <div class="projecttable">
-            <br><br>
-            <div id="temp" class="body-text"><u>Contributions</u></div><br><br>
-            <table class="mdl-data-table mdl-js-data-table">
-              <thead>
-                <tr>
-                  <th>No.</th>
-                  <th class="mdl-data-table__cell--non-numeric">Task Name</th>
-                  <th class="mdl-data-table__cell--non-numeric">Member</th>
-                  <th>Hours contributed</th>
-                  <th class="mdl-data-table__cell--non-numeric">Remarks</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td class="mdl-data-table__cell--non-numeric">Creating table</td>
-                  <td class="mdl-data-table__cell--non-numeric">Ez loong</td>
-                  <td>25334</td>
-                  <td class="mdl-data-table__cell--non-numeric">Ez task gg no re</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td class="mdl-data-table__cell--non-numeric">Write report</td>
-                  <td class="mdl-data-table__cell--non-numeric">God god</td>
-                  <td>22343</td>
-                  <td class="mdl-data-table__cell--non-numeric">Ez clap</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td class="mdl-data-table__cell--non-numeric">Coding</td>
-                  <td class="mdl-data-table__cell--non-numeric">Lord Morad</td>
-                  <td>21324</td>
-                  <td class="mdl-data-table__cell--non-numeric">Ez hd pls give more challenging tasks</td>
-                </tr>
-              </tbody>
-            </table>
-          </table>
-          </div>
-
-          <div><br><br>
-            Enter your task:
-          </div>
-
-        </div>
-      </main>
+        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add-task">Add task</button>
+        <dialog class="mdl-dialog">
+          <h5 class="mdl-dialog__title">Adding a new task</h5>
+          <div class="mdl-dialog__content">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+				<input class="mdl-textfield__input" type="text" id="j-source" pattern="[A-Z,a-z,0-9, ]*">
+				<label class="mdl-textfield__label" for="j-source">Journey Source</label>
+				<span class="mdl-textfield__error">Letters, numbers and spaces only</span>
+			</div>
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+				<input class="mdl-textfield__input" type="text" id="j-destination" pattern="[A-Z,a-z,0-9, ]*">
+				<label class="mdl-textfield__label" for="j-destination">Journey Destination</label>
+				<span class="mdl-textfield__error">Letters, numbers and spaces only</span>
+			</div>
     </div>
-  </body>
-  <script src="project.js"></script>
-  </html>
+          <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
+            <button type="button" class="mdl-button">Submit</button>
+            <button type="button" class="mdl-button close">Cancel</button>
+          </div>
+        </dialog>
+        <script>
+        var dialog = document.querySelector('dialog');
+        var showModalButton = document.querySelector('.add-task');
+        if (! dialog.showModal) {
+          dialogPolyfill.registerDialog(dialog);
+        }
+        showModalButton.addEventListener('click', function() {
+          dialog.showModal();
+        });
+        dialog.querySelector('.close').addEventListener('click', function() {
+          dialog.close();
+        });
+        </script>
+
+        <div class="projecttable">
+          <br><br>
+          <div id="temp" class="body-text"><u>Contributions</u></div><br><br>
+          <table class="mdl-data-table mdl-js-data-table">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th class="mdl-data-table__cell--non-numeric">Task Name</th>
+                <th class="mdl-data-table__cell--non-numeric">Member</th>
+                <th>Hours contributed</th>
+                <th class="mdl-data-table__cell--non-numeric">Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td class="mdl-data-table__cell--non-numeric">Creating table</td>
+                <td class="mdl-data-table__cell--non-numeric">Ez loong</td>
+                <td>25334</td>
+                <td class="mdl-data-table__cell--non-numeric">Ez task gg no re</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td class="mdl-data-table__cell--non-numeric">Write report</td>
+                <td class="mdl-data-table__cell--non-numeric">God god</td>
+                <td>22343</td>
+                <td class="mdl-data-table__cell--non-numeric">Ez clap</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="mdl-data-table__cell--non-numeric">Coding</td>
+                <td class="mdl-data-table__cell--non-numeric">Lord Morad</td>
+                <td>21324</td>
+                <td class="mdl-data-table__cell--non-numeric">Ez hd pls give more challenging tasks</td>
+              </tr>
+            </tbody>
+          </table>
+        </table>
+      </div>
+
+      <div><br><br>
+        Enter your task:
+      </div>
+
+    </div>
+  </main>
+</div>
+</body>
+<script src="project.js"></script>
+</html>
