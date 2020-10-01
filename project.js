@@ -55,14 +55,6 @@ function retrieveProjectIndex()
   }
 }
 
-function test(){
-  let output = retrieveProjectIndex();
-  let user = retrieveUserInfo();
-  let projects = user.projects.split(", ");
-  console.log(projects[output]);
-  document.getElementById("temp").innerHTML = projects[output];
-}
-
 function displayProjInfo(){
   let output = retrieveProjectIndex();
   let user = retrieveUserInfo();
@@ -82,7 +74,7 @@ function displayProjInfo(){
     });
   })
 }
-// test();
+
 displayProjInfo();
 
 var dialog = document.querySelector('dialog');
