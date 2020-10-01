@@ -123,7 +123,6 @@ function printTable(){
         if(i == doc.data().contributions.length - 1){
           output += "</tbody>"
           output += "</table>"
-          console.log(doc.data().contributions[0]);
           document.getElementById("tablecontent").innerHTML = output;
         }
       }
@@ -131,20 +130,60 @@ function printTable(){
   })
 }
 
+function printTask()
+{
+  let stringOutput = ""
+  stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th>'
+  stringOutput += '</tr></thead><tbody>'
+  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      let tempName = [];
+      let tempDesc = [];
+      for (let i = 0; i < doc.data().tasks.length; i++){
+          stringOutput += '<tr><td>' + (i+1) + '</td><td class="mdl-data-table__cell--non-numeric">'
+          stringOutput += doc.data().tasks[i]
+          stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
+          stringOutput += doc.data().tasksdesc[i]
+
+          if(i == doc.data().contributions.length - 1){
+            stringOutput += "</tbody>"
+            stringOutput += "</table>"
+            document.getElementById("tasktablecontent").innerHTML += stringOutput;
+          }
+      }
+    });
+  })
+
+}
+
 function addTask(){
   let taskName = document.getElementById('j-source').value
   let taskDescription = document.getElementById('j-destination').value
-  // db.collection("groups").where("tasks").add({
-  //   taskname: taskName,
-  //   Description: taskDescription
-  // })
-  let stringOutput = ""
-  stringOutput += '<tr><td>1</td><td class="mdl-data-table__cell--non-numeric">'
-  stringOutput += taskName
-  stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
-  stringOutput += taskDescription
-  stringOutput += '</td></tr>'
-  return stringOutput
+  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      let tempName = [];
+      let tempDesc = [];
+      for (let i = 0; i < doc.data().tasks.length; i++){
+        tempName.push(doc.data().tasks[i]);
+      }
+      tempName.push(taskName);
+      db.collection("groups").doc(doc.id).update({
+        tasks: tempName
+      });
+
+      for (let i = 0; i < doc.data().tasksdesc.length; i++){
+        tempDesc.push(doc.data().tasksdesc[i]);
+      }
+      tempDesc.push(taskDescription);
+      db.collection("groups").doc(doc.id).update({
+        tasksdesc: tempDesc
+      });
+    });
+  })
 }
 
 // This block of code is used for the "ADD TASK" button
