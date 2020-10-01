@@ -150,13 +150,18 @@ dialog.querySelector('.submit').addEventListener('click', function() {
   dialog.close();
 });
 
+// Function calls
 let user = retrieveUserInfo();
 let output = retrieveProjectIndex();
 // Splits the string into an array with the separation being the comma
 let projects = user.projects.split(", ");
+// currentproject is the id of the current project
 let currentproject = projects[output];
 displayProjInfo();
 printTable();
 
 // TODO: add code for entering the contribution into the database by adding a new entry into the
 // firestore "groups" collection under the "contributions" tab (based on the user's group)
+
+// TODO: Implement the task adding (the dialog) by getting data from the dialog and adding it into the
+// firestore database under the tasks field in the groups document

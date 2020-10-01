@@ -18,6 +18,10 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 let db = firebase.firestore();
 
+/**
+* This method is used to generate a random background image out of the ones
+* provided for the cards in the page.
+*/
 function initBackgroundImage(){
   var images = ['https://lms.monash.edu/theme/monash/pix/myoverview/brush-strokes-abstract-pink-blue-micro-banner.jpg',
   'https://lms.monash.edu/theme/monash/pix/myoverview/geo-abstract-brown-micro-banner.jpg',
@@ -53,6 +57,13 @@ function retrieveUserInfo()
   }
 }
 
+/**
+* This method is used to print the list of projects that are assigned to the user
+* by the marker. The projects' information are saved under the projects collection
+* in firestore. (It is assumed that the projects will be created by the marker and will
+* be implemented later on). The list of projects that a user is in can be seen in the
+* users collection under the projects field.
+*/
 function printProjects(){
   let user = retrieveUserInfo();
   let projects = user.projects.split(", ");
@@ -85,6 +96,8 @@ function printProjects(){
         output += "</div>"
         output += "</div>"
         output += "</div>"
+
+        // Display once we reach the end of the loop.
         if(i == projects.length - 1){
           document.getElementById("projectArea").innerHTML = output;
           initBackgroundImage();
@@ -93,8 +106,6 @@ function printProjects(){
     })
   }
 }
-
-printProjects();
 
 function projectIndex(clicked){
   if(typeof(Storage)!=="undefined")
@@ -107,3 +118,5 @@ function projectIndex(clicked){
     alert("Sorry, your browser does not support web storage...");
   }
 }
+
+printProjects();
