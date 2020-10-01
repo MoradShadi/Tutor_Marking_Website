@@ -55,7 +55,9 @@ function register(){
                     password: document.getElementById("password").value,
                     role: "student",
                     username: user,
-                    projects: ""
+                    projects: "",
+                    units: "",
+                    projgroup: {}
                 })
                 document.getElementById("email").value = "";
                 document.getElementById("username").value = "";
