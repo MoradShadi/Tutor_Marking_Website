@@ -68,9 +68,11 @@ function printGroups(){
   let user = retrieveUserInfo();
   let groups = Object.values(user.projgroup)
   let totalGroups = ""
+
   for (let i = 0; i < groups.length; i++){
     totalGroups += groups[i]
   }
+  
   groups = totalGroups.split(", ")
   let output = "";
 
