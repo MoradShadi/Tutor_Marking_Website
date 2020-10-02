@@ -86,51 +86,6 @@ function displayProjInfo(){
 }
 
 /**
-* This method is used to display the table for the contributions that
-* has been inputted by the group into their project. It searches the
-* group database to find the current user's group, then prints out the
-* contributions that are recorded in it.
-*/
-function printTable(){
-  let output = "";
-  output += "<tbody>"
-  output += "<table class=\"mdl-data-table mdl-js-data-table\">"
-  output += "<thead>"
-  output += "<tr>"
-  output += "<th>No.</th>"
-  output += "<th class=\"mdl-data-table__cell--non-numeric\">Task Name</th>"
-  output += "<th class=\"mdl-data-table__cell--non-numeric\">Member</th>"
-  output += "<th>Hours contributed</th>"
-  output += "<th class=\"mdl-data-table__cell--non-numeric\">Remarks</th>"
-  output += "</tr>"
-  output += "</thead>"
-
-  // Searches the database based on the username to find the group
-  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
-  .get()
-  .then(function(querySnapshot) {
-    querySnapshot.forEach(function (doc) {
-      for (let i = 0; i < doc.data().contributions.length; i++ ){
-        output += "<tr>"
-        output += "<td>" + (i+1) + "</td>"
-        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].taskname + "</td>"
-        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].members + "</td>"
-        output += "<td>" + doc.data().contributions[i].hours + "</td>"
-        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].remarks + "</td>"
-        output += "</tr>"
-
-        // Display once we reach the end of the loop.
-        if(i == doc.data().contributions.length - 1){
-          output += "</tbody>"
-          output += "</table>"
-          document.getElementById("tablecontent").innerHTML = output;
-        }
-      }
-    });
-  })
-}
-
-/**
 This method loads the tasks that has been recorded in the firestore.
 The method will receive tasks from the firestore
 and prints them in a table form in the project page
@@ -156,8 +111,7 @@ function printTask()
         stringOutput += doc.data().tasksdesc[i]
         stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
         stringOutput += "<button type = \"button\" class=\"mdl-button mdl-js-button mdl-button--raised\" onclick=\"deleteTask(" + i + ")\"> Delete </button>"
-        // stringOutput += '<button type="button" class="mdl-button mdl-js-button mdl-button--raised" onclick = "deleteTask(" + i + ")">Delete</button>'
-
+        
         //displays information once we reach the end of the loop
         if(i == doc.data().tasks.length - 1){
           stringOutput += "</tbody>"
@@ -274,6 +228,51 @@ function displayTask()
   })
 }
 
+/**
+* This method is used to display the table for the contributions that
+* has been inputted by the group into their project. It searches the
+* group database to find the current user's group, then prints out the
+* contributions that are recorded in it.
+*/
+function printContribution(){
+  let output = "";
+  output += "<tbody>"
+  output += "<table class=\"mdl-data-table mdl-js-data-table\">"
+  output += "<thead>"
+  output += "<tr>"
+  output += "<th>No.</th>"
+  output += "<th class=\"mdl-data-table__cell--non-numeric\">Task Name</th>"
+  output += "<th class=\"mdl-data-table__cell--non-numeric\">Member</th>"
+  output += "<th>Hours contributed</th>"
+  output += "<th class=\"mdl-data-table__cell--non-numeric\">Remarks</th>"
+  output += "</tr>"
+  output += "</thead>"
+
+  // Searches the database based on the username to find the group
+  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      for (let i = 0; i < doc.data().contributions.length; i++ ){
+        output += "<tr>"
+        output += "<td>" + (i+1) + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].taskname + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].members + "</td>"
+        output += "<td>" + doc.data().contributions[i].hours + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].remarks + "</td>"
+        output += "</tr>"
+
+        // Display once we reach the end of the loop.
+        if(i == doc.data().contributions.length - 1){
+          output += "</tbody>"
+          output += "</table>"
+          document.getElementById("tablecontent").innerHTML = output;
+        }
+      }
+    });
+  })
+}
+
 /*
 this method takes in the fields of values typed/selected by the user and updates it
 in the database.
@@ -339,7 +338,7 @@ let projects = user.projects.split(", ");
 // currentproject is the id of the current project
 let currentproject = projects[output];
 displayProjInfo();
-printTable();
+printContribution();
 printTask();
 displayTask();
 // TODO: add code for entering the contribution into the database by adding a new entry into the
