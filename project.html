@@ -87,6 +87,22 @@
   .mdl-dialog__title {
     font-size: 30px;
   }
+  .form {
+    display: block;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  form
+  {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    width: 100%;
+  }
   </style>
   <body>
 
@@ -136,121 +152,104 @@
           <div class="projecttable">
             <br><br>
             <div id="temp" class="body-text"><u>Tasks</u></div><br><br>
-            <div id="tasktablecontent"></div>
-            <!-- <table id="task-table" class="mdl-data-table mdl-js-data-table">
-              <thead>
-                <tr>
-                  <th style="width: 15%">No.</th>
-                  <th class="mdl-data-table__cell--non-numeric">Task Name</th>
-                  <th class="mdl-data-table__cell--non-numeric">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td class="mdl-data-table__cell--non-numeric">Creating table</td>
-                  <td class="mdl-data-table__cell--non-numeric">Table for 2</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td class="mdl-data-table__cell--non-numeric">Write report</td>
-                  <td class="mdl-data-table__cell--non-numeric">Report</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td class="mdl-data-table__cell--non-numeric">Coding</td>
-                  <td class="mdl-data-table__cell--non-numeric">Hell</td>
-                </tr>
-              </tbody>
-            </table> -->
-          <!-- </table> -->
-        </div><br><br>
-
-        <button type="button" class="mdl-button mdl-js-button mdl-button--raised add-task">Add task</button>
-        <dialog class="mdl-dialog" id = "dialogTask">
-          <h5 class="mdl-dialog__title">Adding a new task</h5>
-          <div class="mdl-dialog__content">
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-              <input class="mdl-textfield__input" type="text" id="j-source" pattern="[A-Z,a-z,0-9, ]*">
-              <label class="mdl-textfield__label" for="j-source">Task Name</label>
-              <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
-            </div>
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-              <input class="mdl-textfield__input" type="text" id="j-destination" pattern="[A-Z,a-z,0-9, ]*">
-              <label class="mdl-textfield__label" for="j-destination">Task Description</label>
-              <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
-            </div>
+            <div id="tasktablecontent"></div><br><br>
           </div>
-          <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
-            <button type="button" class="mdl-button submit">Submit</button>
-            <button type="button" class="mdl-button close">Cancel</button>
-          </div>
-        </dialog>
 
-        <div class="dialogTask">
-          <div id="taskDialogID"></div>
-        </div>
-
-        <div class="projecttable">
-          <br><br>
-          <div id="temp" class="body-text"><u>Contributions</u></div><br>
-          <div id="tablecontent"></div>
-        </div>
-
-        <div><br><br>
-          Enter your task and contribution here: (Work on this)
-        </div>
-        <div class="tab-pane" id="routeInfoTab">
-
-    <div id="addContributionsForm">
-        <div class="demo-card-wide mdl-card mdl-shadow--2dp">
-            <div class="mdl-card__title">
-                <h2 style="background-color:black;text-align:center;color:white;width:100%">Add Contribution Form</h2>
-            </div>
-            <div class="mdl-card__supporting-text">
-                <div style="float:left;color:black">
-                    <form action="#">
-                        <br>
-                        <h3>Task Name:</h3>
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                          <input class="mdl-textfield__input" type="text" id="j-taskName" pattern="[A-Z,a-z,0-9, ]*">
-                          <label class="mdl-textfield__label" for="j-source">Task Name</label>
-                          <span class="mdl-textfield__error">Letters, numbers and spaces only</span>                        </div>
-                        <br>
-                        <h3>Member:</h3>
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                          <input class="mdl-textfield__input" type="text" id="j-member" pattern="[A-Z,a-z,0-9, ]*">
-                          <label class="mdl-textfield__label" for="j-source">Member</label>
-                          <span class="mdl-textfield__error">Letters, numbers and spaces only</span>                        </div>
-                        <br>
-                        <h3>Hours Contributed:</h3>
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                          <input class="mdl-textfield__input" type="text" id="j-hours" pattern="[A-Z,a-z,0-9, ]*">
-                          <label class="mdl-textfield__label" for="j-source">Hours Contributed</label>
-                          <span class="mdl-textfield__error">Letters, numbers and spaces only</span>                        </div>
-                        <br>
-                        <h3>Remarks:</h3>
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                          <input class="mdl-textfield__input" type="text" id="j-remarks" pattern="[A-Z,a-z,0-9, ]*">
-                          <label class="mdl-textfield__label" for="j-source">Remarks</label>
-                          <span class="mdl-textfield__error">Letters, numbers and spaces only</span>                        </div>
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised add-task">Add task</button>
+            <dialog class="mdl-dialog" id = "dialogTask">
+              <h5 class="mdl-dialog__title">Adding a new task</h5>
+              <div class="mdl-dialog__content">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input class="mdl-textfield__input" type="text" id="j-source" pattern="[A-Z,a-z,0-9, ]*">
+                  <label class="mdl-textfield__label" for="j-source">Task Name</label>
+                  <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
                 </div>
-            </div>
-            </form>
-            <!-- button to submit -->
-            <button style="margin:auto;width:auto;height:auto;display:block;background:limegreen" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="submit();enrolRoutes()">Submit</button>
-            <br>
-            <div style="float:right;margin-right:200px" id='outputArea'></div>
-        </div>
-    </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input class="mdl-textfield__input" type="text" id="j-destination" pattern="[A-Z,a-z,0-9, ]*">
+                  <label class="mdl-textfield__label" for="j-destination">Task Description</label>
+                  <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
+                </div>
+              </div>
+              <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
+                <button type="button" class="mdl-button submit">Submit</button>
+                <button type="button" class="mdl-button close">Cancel</button>
+              </div>
+            </dialog>
 
+            <div class="dialogTask">
+              <div id="taskDialogID"></div>
+            </div>
+
+            <div class="projecttable">
+              <br><br>
+              <div id="temp" class="body-text"><u>Contributions</u></div><br>
+              <div id="tablecontent"></div>
+            </div><br><br>
+
+
+            <div id="addContributionsForm">
+              <div class="form">
+              <div class="demo-card-wide mdl-card mdl-shadow--2dp" style="width:100%;">
+                <div class="mdl-card__title">
+                  <h2 style="text-align:center;color:black;width:100%"><b>Add Contributions</b></h2>
+                </div>
+
+                <div>
+                  <img src="https://i2.wp.com/css-tricks.com/wp-content/uploads/2018/04/react-svg-component-library-7.png?ssl=1" width="500" height="300"/>
+                </div>
+
+                <div class="mdl-card__supporting-text">
+                  <div style="color:black">
+                    <!-- <div class="formtask"> -->
+                    <form action="#">
+                      <br>
+                      <h4>Task Name:</h4>
+                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
+                        <input class="mdl-textfield__input" type="text" id="j-taskName" pattern="[A-Z,a-z,0-9, ]*">
+                        <label class="mdl-textfield__label" for="j-source">Task Name</label>
+                        <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
+                      </div>
+                      <br>
+                      <h4>Member:</h4>
+                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
+                        <input class="mdl-textfield__input" type="text" id="j-member" pattern="[A-Z,a-z,0-9, ]*">
+                        <label class="mdl-textfield__label" for="j-source">Member</label>
+                        <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
+                      </div>
+                      <br>
+                      <h4>Hours Contributed:</h4>
+                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
+                        <input class="mdl-textfield__input" type="text" id="j-hours" pattern="[A-Z,a-z,0-9, ]*">
+                        <label class="mdl-textfield__label" for="j-source">Hours Contributed</label>
+                        <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
+                      </div>
+                      <br>
+                      <h4>Remarks:</h4>
+                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
+                        <input class="mdl-textfield__input" type="text" id="j-remarks" pattern="[A-Z,a-z,0-9, ]*">
+                        <label class="mdl-textfield__label" for="j-source">Remarks</label>
+                        <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div><br>
+
+                <!-- button to submit -->
+                <button style="margin:auto;width:200px;height:auto;display:block;" class="mdl-button mdl-js-button mdl-button--raised" onclick="submit();enrolRoutes()">Submit</button>
+                <br>
+                <div style="float:right;margin-right:200px" id='outputArea'></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </main>
       </div>
-    </main>
-  </div>
-  <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
-    <div class="mdl-snackbar__text"></div>
-    <button class="mdl-snackbar__action" type="button"></button>
-  </div>
-</body>
-<script src="project.js"></script>
-</html>
+      <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+      </div>
+    </body>
+    <script src="project.js"></script>
+    </html>
