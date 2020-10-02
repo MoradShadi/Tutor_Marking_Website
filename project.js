@@ -273,24 +273,26 @@ function displayTask()
   })
 }
 
+/*
+this method takes in the fields of values typed/selected by the user and updates it
+in the database.
+**/
 function addContributions()
 {
   let taskName = taskInput
   let hoursTaken = document.getElementById('j-hours').value;
   let remarks = document.getElementById('j-remarks').value;
-
+  //searches the database based on the username to find the group
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
   .get()
   .then(function(querySnapshot) {
 
     querySnapshot.forEach(function (doc) {
       let tempContri = []
-
+      //looping to build the array which holds the values of contributions
       for (let i = 0; i < doc.data().contributions.length; i++){
         tempContri.push(doc.data().contributions[i])
       }
-
-      console.log(tempContri)
       let value = {
         hours: hoursTaken,
         members: user.username,
@@ -298,20 +300,16 @@ function addContributions()
         taskname: taskName
       }
       tempContri.push(value)
+      //updating the contributions field with the tempcontri array
       db.collection("groups").doc(doc.id).update({
         contributions: tempContri
       })
+      //refreshing page
       .then(() =>  window.location.reload())
     });
   })
 }
 
-function memberSnackbar()
-{
-  var snackbarContainer = document.querySelector('#member-toast-example');
-  var data = {message: 'Invalid member.'};
-  snackbarContainer.MaterialSnackbar.showSnackbar(data);
-}
 // This block of code is used for the "ADD TASK" button
 var dialog = document.getElementById('dialogTask');
 var showModalButton = document.querySelector('.add-task');
