@@ -150,17 +150,17 @@ function printTask()
       let tempName = [];
       let tempDesc = [];
       for (let i = 0; i < doc.data().tasks.length; i++){
-          stringOutput += '<tr><td>' + (i+1) + '</td><td class="mdl-data-table__cell--non-numeric">'
-          stringOutput += doc.data().tasks[i]
-          stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
-          stringOutput += doc.data().tasksdesc[i]
+        stringOutput += '<tr><td>' + (i+1) + '</td><td class="mdl-data-table__cell--non-numeric">'
+        stringOutput += doc.data().tasks[i]
+        stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
+        stringOutput += doc.data().tasksdesc[i]
 
-          //displays information once we reach the end of the loop
-          if(i == doc.data().tasks.length - 1){
-            stringOutput += "</tbody>"
-            stringOutput += "</table>"
-            document.getElementById("tasktablecontent").innerHTML += stringOutput;
-          }
+        //displays information once we reach the end of the loop
+        if(i == doc.data().tasks.length - 1){
+          stringOutput += "</tbody>"
+          stringOutput += "</table>"
+          document.getElementById("tasktablecontent").innerHTML += stringOutput;
+        }
       }
     });
   })
@@ -241,8 +241,8 @@ function addContributions()
 
       for (let i = 0; i < doc.data().contributions.length; i++){
         tempContri.push(doc.data().contributions[i])
-        // window.location.reload(true)
       }
+
       console.log(tempContri)
       let value = {
         hours: hoursTaken,
@@ -253,16 +253,12 @@ function addContributions()
       tempContri.push(value)
       db.collection("groups").doc(doc.id).update({
         contributions: tempContri
-      });
-      });
+      })
+      .then(() =>  window.location.reload())
     });
+  })
 }
 
-// function resetPage()
-// {
-//   setTimeout(1000)
-//   window.location.reload(true)
-// }
 function memberSnackbar()
 {
   var snackbarContainer = document.querySelector('#member-toast-example');
