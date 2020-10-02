@@ -205,16 +205,7 @@
                       <br>
                       <h4>Task Name:</h4>
                       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
-                        <input class="mdl-textfield__input" type="text" id="j-taskName" pattern="[A-Z,a-z,0-9, ]*">
-                        <label class="mdl-textfield__label" for="j-source">Task Name</label>
-                        <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
-                      </div>
-                      <br>
-                      <h4>Member:</h4>
-                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
-                        <input class="mdl-textfield__input" type="text" id="j-member" pattern="[A-Z,a-z,0-9, ]*">
-                        <label class="mdl-textfield__label" for="j-source">Member</label>
-                        <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
+                        <select class="mdl-textfield__input" id="task" for="task" onchange="selectTask(this)"></select>
                       </div>
                       <br>
                       <h4>Hours Contributed:</h4>

@@ -1,7 +1,7 @@
 "use strict"
 const USER_INFO = "USER INFO";
 const PROJECT_INDEX = "PROJECT INDEX";
-
+let taskInput = ""
 // The web app's Firebase configuration
 var firebaseConfig = {
   apiKey: "AIzaSyBBkFkeWNjzZkDePYrpzruJfaX3xfrC-pM",
@@ -206,10 +206,29 @@ function addTask(){
 
 }
 
+function selectTask(selected)
+{
+  taskInput = selected[selected.selectedIndex].text
+}
+
+function displayTask()
+{
+  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      let tasksDropDowninnerHTML = "<option value='Select' hidden>Select</option>";
+      for (let i = 0; i < doc.data().tasks.length; i++){
+        tasksDropDowninnerHTML += "<option value=" + i + ">" + doc.data().tasks[i] + "</option>";
+      }
+      document.getElementById('task').innerHTML = tasksDropDowninnerHTML
+    });
+  })
+}
+
 function addContributions()
 {
-  let taskName = document.getElementById('j-taskName').value;
-  let member = document.getElementById('j-member').value;
+  let taskName = taskInput
   let hoursTaken = document.getElementById('j-hours').value;
   let remarks = document.getElementById('j-remarks').value;
 
@@ -227,7 +246,7 @@ function addContributions()
       console.log(tempContri)
       let value = {
         hours: hoursTaken,
-        members: member,
+        members: user.username,
         remarks: remarks,
         taskname: taskName
       }
@@ -280,6 +299,7 @@ let currentproject = projects[output];
 displayProjInfo();
 printTable();
 printTask();
+displayTask();
 // TODO: add code for entering the contribution into the database by adding a new entry into the
 // firestore "groups" collection under the "contributions" tab (based on the user's group)
 
