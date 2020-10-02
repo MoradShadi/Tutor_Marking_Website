@@ -151,22 +151,27 @@
 
           <div class="projecttable">
             <br><br>
-            <div id="temp" class="body-text"><u>Tasks</u></div><br><br>
+            <div id="temp" class="body-text"><u>Team members</u></div><br><br>
             <div id="tasktablecontent"></div><br><br>
           </div>
 
             <button type="button" class="mdl-button mdl-js-button mdl-button--raised add-task">Add task</button>
             <dialog class="mdl-dialog" id = "dialogTask">
-              <h5 class="mdl-dialog__title">Adding a new task</h5>
+              <h5 class="mdl-dialog__title">Adding a new mem</h5>
               <div class="mdl-dialog__content">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                   <input class="mdl-textfield__input" type="text" id="j-source" pattern="[A-Z,a-z,0-9, ]*">
-                  <label class="mdl-textfield__label" for="j-source">Task Name</label>
+                  <label class="mdl-textfield__label" for="j-source">ID</label>
+                  <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input class="mdl-textfield__input" type="text" id="j-source" pattern="[A-Z,a-z,0-9, ]*">
+                  <label class="mdl-textfield__label" for="j-source">Name</label>
                   <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                   <input class="mdl-textfield__input" type="text" id="j-destination" pattern="[A-Z,a-z,0-9, ]*">
-                  <label class="mdl-textfield__label" for="j-destination">Task Description</label>
+                  <label class="mdl-textfield__label" for="j-destination">Email</label>
                   <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
                 </div>
               </div>
@@ -244,5 +249,5 @@
         <button class="mdl-snackbar__action" type="button"></button>
       </div>
     </body>
-    <script src="project.js"></script>
+    <script src="group.js"></script>
     </html>
