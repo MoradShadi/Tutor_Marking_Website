@@ -141,7 +141,7 @@ function printTask()
   let stringOutput = ""
   stringOutput += '<table id="task-table" class="mdl-data-table mdl-js-data-table">'
   stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th>'
-  stringOutput += '</tr></thead><tbody>'
+  stringOutput += '<th class="mdl-data-table__cell--non-numeric">Task Name</th></tr></thead><tbody>'
   //searches the database based on the username to find the group
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
   .get()
@@ -154,6 +154,9 @@ function printTask()
         stringOutput += doc.data().tasks[i]
         stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
         stringOutput += doc.data().tasksdesc[i]
+        stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
+        stringOutput += "<button type = \"button\" class=\"mdl-button mdl-js-button mdl-button--raised\" onclick=\"deleteTask(" + i + ")\"> Delete </button>"
+        // stringOutput += '<button type="button" class="mdl-button mdl-js-button mdl-button--raised" onclick = "deleteTask(" + i + ")">Delete</button>'
 
         //displays information once we reach the end of the loop
         if(i == doc.data().tasks.length - 1){
@@ -167,6 +170,33 @@ function printTask()
 
 }
 
+function deleteTask(index)
+{
+  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+  .get()
+  .then(function(querySnapshot) {
+
+    querySnapshot.forEach(function (doc) {
+      let tempTask = []
+      let tempDesc =[]
+      for (let i = 0; i < doc.data().tasks.length; i++){
+        tempTask.push(doc.data().tasks[i])
+      }
+      for (let i = 0; i < doc.data().tasksdesc.length; i++){
+        tempDesc.push(doc.data().tasksdesc[i])
+      }
+      tempTask.splice(index,1)
+      tempDesc.splice(index,1)
+      db.collection("groups").doc(doc.id).update({
+        tasks: tempTask
+      })
+      db.collection("groups").doc(doc.id).update({
+        tasksdesc: tempDesc
+      })
+      .then(() =>  window.location.reload())
+    });
+  })
+}
 /*
 This method is called when a new tasks is added. This method will
 store the newly added tasks into the firestore when the submit
