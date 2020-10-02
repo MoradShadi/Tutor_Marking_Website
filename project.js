@@ -170,8 +170,12 @@ function printTask()
 
 }
 
+/**
+function for deleting each row in the table of tasks
+*/
 function deleteTask(index)
 {
+  //searches the database based on the username to find the group
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
   .get()
   .then(function(querySnapshot) {
@@ -179,20 +183,24 @@ function deleteTask(index)
     querySnapshot.forEach(function (doc) {
       let tempTask = []
       let tempDesc =[]
+      //building the array to push into the database
       for (let i = 0; i < doc.data().tasks.length; i++){
         tempTask.push(doc.data().tasks[i])
       }
       for (let i = 0; i < doc.data().tasksdesc.length; i++){
         tempDesc.push(doc.data().tasksdesc[i])
       }
+      //splicing to remove the index which was deleted
       tempTask.splice(index,1)
       tempDesc.splice(index,1)
+      //updating the database
       db.collection("groups").doc(doc.id).update({
         tasks: tempTask
       })
       db.collection("groups").doc(doc.id).update({
         tasksdesc: tempDesc
       })
+      //refreshing page
       .then(() =>  window.location.reload())
     });
   })
