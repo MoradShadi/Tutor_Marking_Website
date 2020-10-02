@@ -141,7 +141,7 @@ function printTask()
   let stringOutput = ""
   stringOutput += '<table id="task-table" class="mdl-data-table mdl-js-data-table">'
   stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th>'
-  stringOutput += '</tr></thead><tbody>'
+  stringOutput += '<th class="mdl-data-table__cell--non-numeric">Task Name</th></tr></thead><tbody>'
   //searches the database based on the username to find the group
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
   .get()
@@ -154,6 +154,9 @@ function printTask()
         stringOutput += doc.data().tasks[i]
         stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
         stringOutput += doc.data().tasksdesc[i]
+        stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
+        stringOutput += "<button type = \"button\" class=\"mdl-button mdl-js-button mdl-button--raised\" onclick=\"deleteTask(" + i + ")\"> Delete </button>"
+        // stringOutput += '<button type="button" class="mdl-button mdl-js-button mdl-button--raised" onclick = "deleteTask(" + i + ")">Delete</button>'
 
         //displays information once we reach the end of the loop
         if(i == doc.data().tasks.length - 1){
@@ -167,6 +170,41 @@ function printTask()
 
 }
 
+/**
+function for deleting each row in the table of tasks
+*/
+function deleteTask(index)
+{
+  //searches the database based on the username to find the group
+  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+  .get()
+  .then(function(querySnapshot) {
+
+    querySnapshot.forEach(function (doc) {
+      let tempTask = []
+      let tempDesc =[]
+      //building the array to push into the database
+      for (let i = 0; i < doc.data().tasks.length; i++){
+        tempTask.push(doc.data().tasks[i])
+      }
+      for (let i = 0; i < doc.data().tasksdesc.length; i++){
+        tempDesc.push(doc.data().tasksdesc[i])
+      }
+      //splicing to remove the index which was deleted
+      tempTask.splice(index,1)
+      tempDesc.splice(index,1)
+      //updating the database
+      db.collection("groups").doc(doc.id).update({
+        tasks: tempTask
+      })
+      db.collection("groups").doc(doc.id).update({
+        tasksdesc: tempDesc
+      })
+      //refreshing page
+      .then(() =>  window.location.reload())
+    });
+  })
+}
 /*
 This method is called when a new tasks is added. This method will
 store the newly added tasks into the firestore when the submit
@@ -197,8 +235,9 @@ function addTask(){
       tempDesc.push(taskDescription);
       db.collection("groups").doc(doc.id).update({
         tasksdesc: tempDesc
-      });
-
+      })
+      //refreshing page
+      .then(() =>  window.location.reload())
     });
   })
   document.getElementById('j-source').value = ''
@@ -206,17 +245,26 @@ function addTask(){
 
 }
 
+/*
+This method is used for recording the input task selected by users
+**/
 function selectTask(selected)
 {
   taskInput = selected[selected.selectedIndex].text
 }
 
+/*
+This method is used for displaying the drop down list of the available tasks
+to the user in the form of contribution
+**/
 function displayTask()
 {
+  //searches the database based on the username to find the group
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
+      //building the selection option
       let tasksDropDowninnerHTML = "<option value='Select' hidden>Select</option>";
       for (let i = 0; i < doc.data().tasks.length; i++){
         tasksDropDowninnerHTML += "<option value=" + i + ">" + doc.data().tasks[i] + "</option>";
@@ -226,24 +274,26 @@ function displayTask()
   })
 }
 
+/*
+this method takes in the fields of values typed/selected by the user and updates it
+in the database.
+**/
 function addContributions()
 {
   let taskName = taskInput
   let hoursTaken = document.getElementById('j-hours').value;
   let remarks = document.getElementById('j-remarks').value;
-
+  //searches the database based on the username to find the group
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
   .get()
   .then(function(querySnapshot) {
 
     querySnapshot.forEach(function (doc) {
       let tempContri = []
-
+      //looping to build the array which holds the values of contributions
       for (let i = 0; i < doc.data().contributions.length; i++){
         tempContri.push(doc.data().contributions[i])
       }
-
-      console.log(tempContri)
       let value = {
         hours: hoursTaken,
         members: user.username,
@@ -251,20 +301,16 @@ function addContributions()
         taskname: taskName
       }
       tempContri.push(value)
+      //updating the contributions field with the tempcontri array
       db.collection("groups").doc(doc.id).update({
         contributions: tempContri
       })
+      //refreshing page
       .then(() =>  window.location.reload())
     });
   })
 }
 
-function memberSnackbar()
-{
-  var snackbarContainer = document.querySelector('#member-toast-example');
-  var data = {message: 'Invalid member.'};
-  snackbarContainer.MaterialSnackbar.showSnackbar(data);
-}
 // This block of code is used for the "ADD TASK" button
 var dialog = document.getElementById('dialogTask');
 var showModalButton = document.querySelector('.add-task');
