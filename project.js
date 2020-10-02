@@ -198,10 +198,58 @@ function addTask(){
       db.collection("groups").doc(doc.id).update({
         tasksdesc: tempDesc
       });
+
     });
   })
+  document.getElementById('j-source').value = ''
+  document.getElementById('j-destination').value = ''
+
 }
 
+function addContributions()
+{
+  let taskName = document.getElementById('j-taskName').value;
+  let member = document.getElementById('j-member').value;
+  let hoursTaken = document.getElementById('j-hours').value;
+  let remarks = document.getElementById('j-remarks').value;
+
+  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+  .get()
+  .then(function(querySnapshot) {
+
+    querySnapshot.forEach(function (doc) {
+      let tempContri = []
+
+      for (let i = 0; i < doc.data().contributions.length; i++){
+        tempContri.push(doc.data().contributions[i])
+        // window.location.reload(true)
+      }
+      console.log(tempContri)
+      let value = {
+        hours: hoursTaken,
+        members: member,
+        remarks: remarks,
+        taskname: taskName
+      }
+      tempContri.push(value)
+      db.collection("groups").doc(doc.id).update({
+        contributions: tempContri
+      });
+      });
+    });
+}
+
+// function resetPage()
+// {
+//   setTimeout(1000)
+//   window.location.reload(true)
+// }
+function memberSnackbar()
+{
+  var snackbarContainer = document.querySelector('#member-toast-example');
+  var data = {message: 'Invalid member.'};
+  snackbarContainer.MaterialSnackbar.showSnackbar(data);
+}
 // This block of code is used for the "ADD TASK" button
 var dialog = document.getElementById('dialogTask');
 var showModalButton = document.querySelector('.add-task');
