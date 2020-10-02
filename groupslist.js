@@ -66,11 +66,12 @@ function retrieveUserInfo()
 */
 function printGroups(){
   let user = retrieveUserInfo();
-  let groups = user.groups.split(", ");
+  let groups = Object.values(user.projgroup)
+  console.log(groups)
   let output = "";
 
   for (let i = 0; i < groups.length; i++){
-    db.collection("groups").where("groups", "==", groups[i])
+    db.collection("groups").where("groupid", "==", groups[i])
     .get()
     .then(function(querySnapshot) {
       querySnapshot.forEach(function (doc) {
@@ -81,8 +82,6 @@ function printGroups(){
         output += "</div>"
         output += "<div class=\"mdl-card__supporting-text\">"
         output += "<b>Group ID:</b> " + doc.data().groupid + "<br><br>"
-        output += "</div>"
-        output += "<b>Group member:</b> <br>"
         output += "</div>"
         output += "<div class=\"mdl-card__actions mdl-card--border\">"
         output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'project.html\'; projectIndex(this.id);\">"
@@ -106,7 +105,7 @@ function groupIndex(clicked){
   if(typeof(Storage)!=="undefined")
   {
     let indexJSON = JSON.stringify(clicked);
-    localStorage.setItem(PROJECT_INDEX, indexJSON);
+    localStorage.setItem(GROUP_INDEX, indexJSON);
   }
   else
   {
