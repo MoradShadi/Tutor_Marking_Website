@@ -64,30 +64,25 @@ function retrieveUserInfo()
 * be implemented later on). The list of projects that a user is in can be seen in the
 * users collection under the projects field.
 */
-function printProjects(){
+function printGroups(){
   let user = retrieveUserInfo();
-  let projects = user.projects.split(", ");
+  let groups = user.groups.split(", ");
   let output = "";
 
-  for (let i = 0; i < projects.length; i++){
-    db.collection("projects").where("projectid", "==", projects[i])
+  for (let i = 0; i < groups.length; i++){
+    db.collection("groups").where("groups", "==", groups[i])
     .get()
     .then(function(querySnapshot) {
       querySnapshot.forEach(function (doc) {
         output += "<div class = \"container\">"
         output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
         output += "<div class=\"mdl-card__title\">"
-        output += "<h2 class=\"mdl-card__title-text\">" + "Group project " + (i+1) + ": " + doc.data().projname + "</h2>"
+        output += "<h2 class=\"mdl-card__title-text\">" + "Group " + (i+1) + "</h2>"
         output += "</div>"
         output += "<div class=\"mdl-card__supporting-text\">"
-        output += "<b>Unit name:</b> " + doc.data().unitname + "<br><br>"
-        output += "<b>Unit description:</b> " + doc.data().unitdesc + "<br><br>"
-        output += "<b>Unit code:</b> " + doc.data().unitcode + "<br>"
+        output += "<b>Group ID:</b> " + doc.data().groupid + "<br><br>"
         output += "</div>"
-        output += "<div class=\"mdl-card__actions mdl-card--border\">"
-        output += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
         output += "<b>Group member:</b> <br>"
-        output += "<b>Progress:</b> <br>"
         output += "</div>"
         output += "<div class=\"mdl-card__actions mdl-card--border\">"
         output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'project.html\'; projectIndex(this.id);\">"
@@ -98,8 +93,8 @@ function printProjects(){
         output += "</div>"
 
         // Display once we reach the end of the loop.
-        if(i == projects.length - 1){
-          document.getElementById("projectArea").innerHTML = output;
+        if(i == groups.length - 1){
+          document.getElementById("groupArea").innerHTML = output;
           initBackgroundImage();
         }
       });
@@ -107,7 +102,7 @@ function printProjects(){
   }
 }
 
-function projectIndex(clicked){
+function groupIndex(clicked){
   if(typeof(Storage)!=="undefined")
   {
     let indexJSON = JSON.stringify(clicked);
@@ -119,4 +114,4 @@ function projectIndex(clicked){
   }
 }
 
-printProjects();
+printGroups();
