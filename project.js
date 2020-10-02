@@ -235,8 +235,9 @@ function addTask(){
       tempDesc.push(taskDescription);
       db.collection("groups").doc(doc.id).update({
         tasksdesc: tempDesc
-      });
-
+      })
+      //refreshing page
+      .then(() =>  window.location.reload())
     });
   })
   document.getElementById('j-source').value = ''
