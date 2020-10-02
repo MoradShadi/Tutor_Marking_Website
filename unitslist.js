@@ -70,7 +70,7 @@ function printUnits(){
   let output = "";
 
   for (let i = 0; i < units.length; i++){
-    db.collection("units").where("units", "==", units[i])
+    db.collection("units").where("unitcode", "==", units[i])
     .get()
     .then(function(querySnapshot) {
       querySnapshot.forEach(function (doc) {
@@ -114,4 +114,4 @@ function unittIndex(clicked){
   }
 }
 
-printProjects();
+printUnits();

@@ -111,7 +111,7 @@ function printTask()
         stringOutput += doc.data().tasksdesc[i]
         stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
         stringOutput += "<button type = \"button\" class=\"mdl-button mdl-js-button mdl-button--raised\" onclick=\"deleteTask(" + i + ")\"> Delete </button>"
-        
+
         //displays information once we reach the end of the loop
         if(i == doc.data().tasks.length - 1){
           stringOutput += "</tbody>"
