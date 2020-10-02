@@ -81,7 +81,6 @@
   .mdl-data-table {
     width: 100%
   }
-
   #task-table {
     width: 700px;
   }
@@ -201,6 +200,49 @@
         <div><br><br>
           Enter your task and contribution here: (Work on this)
         </div>
+        <div class="tab-pane" id="routeInfoTab">
+
+    <div id="addContributionsForm">
+        <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title">
+                <h2 style="background-color:black;text-align:center;color:white;width:100%">Add Contribution Form</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                <div style="float:left;color:black">
+                    <form action="#">
+                        <br>
+                        <h3>Task Name:</h3>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                          <input class="mdl-textfield__input" type="text" id="j-taskName" pattern="[A-Z,a-z,0-9, ]*">
+                          <label class="mdl-textfield__label" for="j-source">Task Name</label>
+                          <span class="mdl-textfield__error">Letters, numbers and spaces only</span>                        </div>
+                        <br>
+                        <h3>Member:</h3>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                          <input class="mdl-textfield__input" type="text" id="j-member" pattern="[A-Z,a-z,0-9, ]*">
+                          <label class="mdl-textfield__label" for="j-source">Member</label>
+                          <span class="mdl-textfield__error">Letters, numbers and spaces only</span>                        </div>
+                        <br>
+                        <h3>Hours Contributed:</h3>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                          <input class="mdl-textfield__input" type="text" id="j-hours" pattern="[A-Z,a-z,0-9, ]*">
+                          <label class="mdl-textfield__label" for="j-source">Hours Contributed</label>
+                          <span class="mdl-textfield__error">Letters, numbers and spaces only</span>                        </div>
+                        <br>
+                        <h3>Remarks:</h3>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                          <input class="mdl-textfield__input" type="text" id="j-remarks" pattern="[A-Z,a-z,0-9, ]*">
+                          <label class="mdl-textfield__label" for="j-source">Remarks</label>
+                          <span class="mdl-textfield__error">Letters, numbers and spaces only</span>                        </div>
+                </div>
+            </div>
+            </form>
+            <!-- button to submit -->
+            <button style="margin:auto;width:auto;height:auto;display:block;background:limegreen" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="submit();enrolRoutes()">Submit</button>
+            <br>
+            <div style="float:right;margin-right:200px" id='outputArea'></div>
+        </div>
+    </div>
 
       </div>
     </main>
