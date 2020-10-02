@@ -131,7 +131,7 @@ function printTable(){
 }
 
 /**
-This method loads the that has been recorded in the firestore.
+This method loads the tasks that has been recorded in the firestore.
 The method will receive tasks from the firestore
 and prints them in a table form in the project page
 */
@@ -216,7 +216,7 @@ dialog.querySelector('.close').addEventListener('click', function() {
 });
 dialog.querySelector('.submit').addEventListener('click', function() {
   var snackbarContainer = document.querySelector('#demo-toast-example');
-  document.getElementById("task-table").innerHTML += addTask()
+  addTask();
   var data = {message: 'Task has been added.'};
   snackbarContainer.MaterialSnackbar.showSnackbar(data);
   dialog.close();
@@ -231,7 +231,7 @@ let projects = user.projects.split(", ");
 let currentproject = projects[output];
 displayProjInfo();
 printTable();
-printTask()
+printTask();
 // TODO: add code for entering the contribution into the database by adding a new entry into the
 // firestore "groups" collection under the "contributions" tab (based on the user's group)
 
