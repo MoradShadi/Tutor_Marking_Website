@@ -114,7 +114,7 @@ function printTable(){
         output += "<tr>"
         output += "<td>" + (i+1) + "</td>"
         output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].taskname + "</td>"
-        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].member + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].members + "</td>"
         output += "<td>" + doc.data().contributions[i].hours + "</td>"
         output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].remarks + "</td>"
         output += "</tr>"
