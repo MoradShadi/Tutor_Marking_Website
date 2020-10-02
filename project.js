@@ -244,17 +244,26 @@ function addTask(){
 
 }
 
+/*
+This method is used for recording the input task selected by users
+**/
 function selectTask(selected)
 {
   taskInput = selected[selected.selectedIndex].text
 }
 
+/*
+This method is used for displaying the drop down list of the available tasks
+to the user in the form of contribution
+**/
 function displayTask()
 {
+  //searches the database based on the username to find the group
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
+      //building the selection option
       let tasksDropDowninnerHTML = "<option value='Select' hidden>Select</option>";
       for (let i = 0; i < doc.data().tasks.length; i++){
         tasksDropDowninnerHTML += "<option value=" + i + ">" + doc.data().tasks[i] + "</option>";
