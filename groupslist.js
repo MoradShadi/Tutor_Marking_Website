@@ -1,6 +1,7 @@
 "use strict"
 const USER_INFO = "USER INFO";
 const GROUP_INDEX = "GROUP INDEX";
+const UNIT_INDEX = "UNIT INDEX";
 
 // The web app's Firebase configuration
 var firebaseConfig = {
@@ -58,6 +59,27 @@ function retrieveUserInfo()
 }
 
 /**
+* This method is used to obtain the index of the unit that has
+* been previously clicked by the user (and saved in local storage)
+* in the unitslist page.
+*/
+function retrieveUnitIndex()
+{
+  if(typeof (Storage) !== 'undefined')
+  {
+    if(localStorage.getItem(UNIT_INDEX) != undefined)
+    {
+      let data = JSON.parse(localStorage.getItem(UNIT_INDEX));
+      return data;
+    }
+  }
+  else
+  {
+    alert ('local storage is no supported in current browser')
+  }
+}
+
+/**
 * This method is used to print the list of projects that are assigned to the user
 * by the marker. The projects' information are saved under the projects collection
 * in firestore. (It is assumed that the projects will be created by the marker and will
@@ -65,19 +87,21 @@ function retrieveUserInfo()
 * users collection under the projects field.
 */
 function printGroups(){
+  let index = retrieveUnitIndex();
   let user = retrieveUserInfo();
-  let groups = Object.values(user.projgroup)
+  let groups = Object.values(user.projgroup);
+  let unit = user.units.split(", ")[index];
   let totalGroups = ""
-
-  for (let i = 0; i < groups.length; i++){
-    totalGroups += groups[i]
-  }
   
-  groups = totalGroups.split(", ")
+  for (let i = 0; i < groups.length; i++){
+    totalGroups += groups[i] + ", "
+  }
+
+  groups = totalGroups.substring(0,totalGroups.length-2).split(", ")
   let output = "";
 
   for (let i = 0; i < groups.length; i++){
-    db.collection("groups").where("groupid", "==", groups[i])
+    db.collection("groups").where("groupid", "==", groups[i]).where("unitcode", "==", unit)
     .get()
     .then(function(querySnapshot) {
       querySnapshot.forEach(function (doc) {

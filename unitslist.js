@@ -102,7 +102,7 @@ function printUnits(){
   }
 }
 
-function unittIndex(clicked){
+function unitIndex(clicked){
   if(typeof(Storage)!=="undefined")
   {
     let indexJSON = JSON.stringify(clicked);
