@@ -92,7 +92,7 @@ function printGroups(){
   let groups = Object.values(user.projgroup);
   let unit = user.units.split(", ")[index];
   let totalGroups = ""
-  
+
   for (let i = 0; i < groups.length; i++){
     totalGroups += groups[i] + ", "
   }
@@ -108,7 +108,7 @@ function printGroups(){
         output += "<div class = \"container\">"
         output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
         output += "<div class=\"mdl-card__title\">"
-        output += "<h2 class=\"mdl-card__title-text\">" + "Group " + (i+1) + "</h2>"
+        output += "<h2 class=\"mdl-card__title-text\">" + "Group " + doc.data().groupname + "</h2>"
         output += "</div>"
         output += "<div class=\"mdl-card__supporting-text\">"
         output += "<b>Group ID:</b> " + doc.data().groupid + "<br>"
