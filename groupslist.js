@@ -122,13 +122,14 @@ function printGroups(){
         output += "</div>"
         output += "</div>"
         output += "</div>"
-
-        // Display once we reach the end of the loop.
-        if(i == groups.length - 1){
-          document.getElementById("groupArea").innerHTML = output;
-          initBackgroundImage();
-        }
       });
+
+      // Display once we reach the end of the loop.
+      if(i == groups.length - 1){
+        console.log("asdasd")
+        document.getElementById("groupArea").innerHTML = output;
+        initBackgroundImage();
+      }
     })
   }
 }
