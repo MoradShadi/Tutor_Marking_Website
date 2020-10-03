@@ -230,6 +230,32 @@
                 <br>
                 </div>
               </div>
+
+              <dialog class="mdl-dialog" id = "dialogContribution">
+                <h5 class="mdl-dialog__title">Edit contribution</h5>
+                <div class="mdl-dialog__content">
+                  <br><b>Task Name:</b>
+                  <select class="mdl-textfield__input" id="contributiontaskname" for="task" onchange=""></select>
+
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <div style="font-size:14px"><br><b>Hours Contributed:</b></div>
+                    <input class="mdl-textfield__input" type="text" id="c-hours" pattern="[A-Z,a-z,0-9, ]*">
+                    <!-- <label class="mdl-textfield__label" for="c-hours">Hours contributed</label> -->
+                    <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
+                  </div>
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <div style="font-size:14px"><br><b>Remarks:</b></div>
+                    <input class="mdl-textfield__input" type="text" id="c-remarks" pattern="[A-Z,a-z,0-9, ]*">
+                    <!-- <label class="mdl-textfield__label" for="c-remarks">Remarks</label> -->
+                    <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
+                  </div>
+                </div>
+                <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
+                  <button type="button" class="mdl-button submitcontri" id="contrisubmit">Submit</button>
+                  <button type="button" class="mdl-button closecontri" id="contricancel">Cancel</button>
+                </div>
+              </dialog>
+
             </div>
 
           </div>
