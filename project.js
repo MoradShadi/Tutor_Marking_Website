@@ -1,7 +1,8 @@
 "use strict"
 const USER_INFO = "USER INFO";
 const PROJECT_INDEX = "PROJECT INDEX";
-let taskInput = ""
+let taskInput = "";
+let selectedContribution = "";
 // The web app's Firebase configuration
 var firebaseConfig = {
   apiKey: "AIzaSyBBkFkeWNjzZkDePYrpzruJfaX3xfrC-pM",
@@ -96,7 +97,7 @@ function printTask()
   let stringOutput = ""
   stringOutput += '<table id="task-table" class="mdl-data-table mdl-js-data-table">'
   stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th>'
-  stringOutput += '<th class="mdl-data-table__cell--non-numeric">Task Name</th></tr></thead><tbody>'
+  stringOutput += '<th class="mdl-data-table__cell--non-numeric">Delete Task</th></tr></thead><tbody>'
   //searches the database based on the username to find the group
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
   .get()
@@ -110,7 +111,7 @@ function printTask()
         stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
         stringOutput += doc.data().tasksdesc[i]
         stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
-        stringOutput += "<button type = \"button\" class=\"mdl-button mdl-js-button mdl-button--raised\" onclick=\"deleteTask(" + i + ")\"> Delete </button>"
+        stringOutput += "<button type = \"button\" class=\"mdl-button mdl-js-button mdl-button--raised\" onclick=\"deleteTask(" + i + ")\"> Delete </button></td>"
 
         //displays information once we reach the end of the loop
         if(i == doc.data().tasks.length - 1){
@@ -211,7 +212,7 @@ function selectTask(selected)
 This method is used for displaying the drop down list of the available tasks
 to the user in the form of contribution
 **/
-function displayTask()
+function displayTask(id)
 {
   //searches the database based on the username to find the group
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
@@ -221,9 +222,9 @@ function displayTask()
       //building the selection option
       let tasksDropDowninnerHTML = "<option value='Select' hidden>Select</option>";
       for (let i = 0; i < doc.data().tasks.length; i++){
-        tasksDropDowninnerHTML += "<option value=" + i + ">" + doc.data().tasks[i] + "</option>";
+        tasksDropDowninnerHTML += "<option value='" + doc.data().tasks[i] + "'>" + doc.data().tasks[i] + "</option>";
       }
-      document.getElementById('task').innerHTML = tasksDropDowninnerHTML
+      document.getElementById(id).innerHTML = tasksDropDowninnerHTML
     });
   })
 }
@@ -245,6 +246,7 @@ function printContribution(){
   output += "<th class=\"mdl-data-table__cell--non-numeric\">Member</th>"
   output += "<th>Hours contributed</th>"
   output += "<th class=\"mdl-data-table__cell--non-numeric\">Remarks</th>"
+  output += "<th class=\"mdl-data-table__cell--non-numeric\">Edit Contribution</th>"
   output += "</tr>"
   output += "</thead>"
 
@@ -260,6 +262,7 @@ function printContribution(){
         output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].members + "</td>"
         output += "<td>" + doc.data().contributions[i].hours + "</td>"
         output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].remarks + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric edit-contri\"><button type = \"button\" class=\"mdl-button mdl-js-button mdl-button--raised\" onclick=\"selectContribution(" + i + ")\"> Edit </button></td>"
         output += "</tr>"
 
         // Display once we reach the end of the loop.
@@ -267,8 +270,74 @@ function printContribution(){
           output += "</tbody>"
           output += "</table>"
           document.getElementById("tablecontent").innerHTML = output;
+
+          // This block of code is used to display the dialog for the "EDIT" button
+          var dialog = document.getElementById('dialogContribution');
+          var showModalButton = document.getElementsByClassName("edit-contri");
+          console.log(showModalButton);
+          if (! dialog.showModal) {
+            dialogPolyfill.registerDialog(dialog);
+          }
+          for (let i = 0; i < showModalButton.length; i++){
+            showModalButton[i].addEventListener('click', function() {
+              dialog.showModal();
+            });
+          }
+          dialog.querySelector('#contricancel').addEventListener('click', function() {
+            dialog.close();
+          });
+          dialog.querySelector('#contrisubmit').addEventListener('click', function() {
+            editContribution();
+          });
         }
       }
+    });
+  })
+}
+
+function selectContribution(selected){
+  selectedContribution = selected;
+  displayTask('contributiontaskname');
+
+  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      let tempContribution = doc.data().contributions[selected]
+      console.log(tempContribution)
+      document.getElementById("contributiontaskname").value = tempContribution["taskname"]
+      document.getElementById("c-hours").value = tempContribution["hours"]
+      document.getElementById("c-remarks").value = tempContribution["remarks"]
+    });
+  })
+}
+
+function editContribution(){
+  let newTask = document.getElementById("contributiontaskname").value;
+  let newHours = document.getElementById("c-hours").value;
+  let newRemarks = document.getElementById("c-remarks").value;
+
+  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      let tempContri = [];
+
+      for (let i = 0; i<doc.data().contributions.length; i++){
+        tempContri.push(doc.data().contributions[i]);
+      }
+
+      tempContri[selectedContribution] = {
+        hours: newHours,
+        members: user.username,
+        remarks: newRemarks,
+        taskname: newTask
+      }
+
+      db.collection("groups").doc(doc.id).update({
+        contributions: tempContri
+      })
+      .then(() =>  window.location.reload());
     });
   })
 }
@@ -340,7 +409,7 @@ let currentproject = projects[output];
 displayProjInfo();
 printContribution();
 printTask();
-displayTask();
+displayTask('task');
 // TODO: add code for entering the contribution into the database by adding a new entry into the
 // firestore "groups" collection under the "contributions" tab (based on the user's group)
 
