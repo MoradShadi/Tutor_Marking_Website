@@ -169,6 +169,7 @@ function addTask(){
   //getting information from the dialog box
   let taskName = document.getElementById('j-source').value
   let taskDescription = document.getElementById('j-destination').value
+  let taskComments = document.getElementById('j-dest2').value
   //searching based on username for groups
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
   .get()
@@ -192,12 +193,21 @@ function addTask(){
       db.collection("groups").doc(doc.id).update({
         tasksdesc: tempDesc
       })
+
+      for (let i = 0; i < doc.data().taskcomments.length; i++){
+        tempComm.push(doc.data().taskcomments[i]);
+      }
+      tempComm.push(taskComments);
+      db.collection("groups").doc(doc.id).update({
+        taskcomments: tempComm
+      })
       //refreshing page
       .then(() =>  window.location.reload())
     });
   })
   document.getElementById('j-source').value = ''
   document.getElementById('j-destination').value = ''
+  document.getElementById('j-dest2').value = ''
 }
 
 /*
