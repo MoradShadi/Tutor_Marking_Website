@@ -144,6 +144,7 @@ function deleteTask(index)
       let tempTask = []
       let tempDesc =[]
       let tempComm = []
+      let tempAss = []
       //building the array to push into the database
       for (let i = 0; i < doc.data().tasks.length; i++){
         tempTask.push(doc.data().tasks[i])
@@ -154,10 +155,14 @@ function deleteTask(index)
       for (let i = 0; i < doc.data().taskcomments.length; i++){
         tempComm.push(doc.data().taskcomments[i])
       }
+      for (let i = 0; i < doc.data().assignedmembers.length; i++){
+        tempAss.push(doc.data().assignedmembers[i])
+      }
       //splicing to remove the index which was deleted
       tempTask.splice(index,1)
       tempDesc.splice(index,1)
       tempComm.splice(index,1)
+      tempAss.splice(index,1)
       //updating the database
       db.collection("groups").doc(doc.id).update({
         tasks: tempTask
@@ -167,6 +172,9 @@ function deleteTask(index)
       })
       db.collection("groups").doc(doc.id).update({
         taskcomments: tempComm
+      })
+      db.collection("groups").doc(doc.id).update({
+        assignedmembers: tempAss
       })
       //refreshing page
       .then(() =>  window.location.reload())
