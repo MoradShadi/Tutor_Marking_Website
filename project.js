@@ -249,6 +249,23 @@ function displayTask(id)
   })
 }
 
+function displayMembers(id)
+{
+  //searches the database based on the username to find the group
+  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      //building the selection option
+      let tasksDropDowninnerHTML = "<option value='Select' hidden>Select</option>";
+      for (let i = 1; i < doc.data().members.length; i++){
+        tasksDropDowninnerHTML += "<option value='" + doc.data().members[i] + "'>" + doc.data().members[i] + "</option>";
+      }
+      document.getElementById(id).innerHTML = tasksDropDowninnerHTML
+    });
+  })
+}
+
 /**
 * This method is used to display the table for the contributions that
 * has been inputted by the group into their project. It searches the
@@ -430,6 +447,7 @@ displayProjInfo();
 printContribution();
 printTask();
 displayTask('task');
+displayMembers('members');
 // TODO: add code for entering the contribution into the database by adding a new entry into the
 // firestore "groups" collection under the "contributions" tab (based on the user's group)
 
