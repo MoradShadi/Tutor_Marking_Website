@@ -2,6 +2,7 @@
 const USER_INFO = "USER INFO";
 const PROJECT_INDEX = "PROJECT INDEX";
 let taskInput = "";
+let memberInput = "";
 let selectedContribution = "";
 // The web app's Firebase configuration
 var firebaseConfig = {
@@ -180,6 +181,7 @@ function addTask(){
   let taskName = document.getElementById('j-source').value
   let taskDescription = document.getElementById('j-destination').value
   let taskComments = document.getElementById('j-dest2').value
+  let assigned = memberInput
   //searching based on username for groups
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
   .get()
@@ -188,6 +190,7 @@ function addTask(){
       let tempName = [];
       let tempDesc = [];
       let tempComm = [];
+      let tempAss = [];
       for (let i = 0; i < doc.data().tasks.length; i++){
         tempName.push(doc.data().tasks[i]);
       }
@@ -211,6 +214,14 @@ function addTask(){
       db.collection("groups").doc(doc.id).update({
         taskcomments: tempComm
       })
+
+      for (let i = 0; i < doc.data().assignedmembers.length; i++){
+        tempAss.push(doc.data().assignedmembers[i]);
+      }
+      tempAss.push(assigned);
+      db.collection("groups").doc(doc.id).update({
+        assignedmembers: tempAss
+      })
       //refreshing page
       .then(() =>  window.location.reload())
     });
@@ -226,6 +237,11 @@ This method is used for recording the input task selected by users
 function selectTask(selected)
 {
   taskInput = selected[selected.selectedIndex].text
+}
+
+function selectMember(selected)
+{
+  memberInput = selected[selected.selectedIndex].text
 }
 
 /*
