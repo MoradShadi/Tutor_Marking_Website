@@ -97,7 +97,7 @@ function printTask()
   //building the table
   let stringOutput = ""
   stringOutput += '<table id="task-table" class="mdl-data-table mdl-js-data-table">'
-  stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th> <th class="mdl-data-table__cell--non-numeric">Comments</th>'
+  stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th> <th class="mdl-data-table__cell--non-numeric">Comments</th> <th class="mdl-data-table__cell--non-numeric">Assigned to:</th>'
   stringOutput += '<th class="mdl-data-table__cell--non-numeric">Delete Task</th></tr></thead><tbody>'
   //searches the database based on the username to find the group
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
@@ -113,6 +113,8 @@ function printTask()
         stringOutput += doc.data().tasksdesc[i]
         stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
         stringOutput += doc.data().taskcomments[i]
+        stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
+        stringOutput += doc.data().assignedmembers[i]
         stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
         stringOutput += "<button type = \"button\" class=\"mdl-button mdl-js-button mdl-button--raised\" onclick=\"deleteTask(" + i + ")\"> Delete </button></td>"
 
