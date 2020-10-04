@@ -96,7 +96,7 @@ function printTask()
   //building the table
   let stringOutput = ""
   stringOutput += '<table id="task-table" class="mdl-data-table mdl-js-data-table">'
-  stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th>'
+  stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th> <th class="mdl-data-table__cell--non-numeric">Comments</th>'
   stringOutput += '<th class="mdl-data-table__cell--non-numeric">Delete Task</th></tr></thead><tbody>'
   //searches the database based on the username to find the group
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
@@ -176,13 +176,14 @@ function addTask(){
     querySnapshot.forEach(function (doc) {
       let tempName = [];
       let tempDesc = [];
+      let tempComm = [];
       for (let i = 0; i < doc.data().tasks.length; i++){
         tempName.push(doc.data().tasks[i]);
       }
       tempName.push(taskName);
       db.collection("groups").doc(doc.id).update({
         tasks: tempName
-      });
+      })
 
       for (let i = 0; i < doc.data().tasksdesc.length; i++){
         tempDesc.push(doc.data().tasksdesc[i]);
@@ -197,7 +198,6 @@ function addTask(){
   })
   document.getElementById('j-source').value = ''
   document.getElementById('j-destination').value = ''
-
 }
 
 /*
