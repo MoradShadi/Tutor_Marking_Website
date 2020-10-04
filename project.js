@@ -140,6 +140,7 @@ function deleteTask(index)
     querySnapshot.forEach(function (doc) {
       let tempTask = []
       let tempDesc =[]
+      let tempComm = []
       //building the array to push into the database
       for (let i = 0; i < doc.data().tasks.length; i++){
         tempTask.push(doc.data().tasks[i])
@@ -147,15 +148,22 @@ function deleteTask(index)
       for (let i = 0; i < doc.data().tasksdesc.length; i++){
         tempDesc.push(doc.data().tasksdesc[i])
       }
+      for (let i = 0; i < doc.data().taskcomments.length; i++){
+        tempComm.push(doc.data().taskcomments[i])
+      }
       //splicing to remove the index which was deleted
       tempTask.splice(index,1)
       tempDesc.splice(index,1)
+      tempComm.splice(index,1)
       //updating the database
       db.collection("groups").doc(doc.id).update({
         tasks: tempTask
       })
       db.collection("groups").doc(doc.id).update({
         tasksdesc: tempDesc
+      })
+      db.collection("groups").doc(doc.id).update({
+        taskcomments: tempComm
       })
       //refreshing page
       .then(() =>  window.location.reload())
