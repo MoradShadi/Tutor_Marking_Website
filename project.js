@@ -71,17 +71,27 @@ function displayProjInfo(){
   let output = retrieveProjectIndex();
   // Splits the string into an array with the separation being the comma
   let projects = user.projects.split(", ");
+
+  //building the table
   let ret = "";
+  ret += '<table id="task-table" class="mdl-data-table mdl-js-data-table">'
+  ret += '<thead><tr><th style="width: 15%">Unit name</th><th class="mdl-data-table__cell--non-numeric">Project name</th>  <th class="mdl-data-table__cell--non-numeric">Weightage</th> <th class="mdl-data-table__cell--non-numeric">Group member(s)</th> <th class="mdl-data-table__cell--non-numeric">Progress</th>'
 
   db.collection("projects").where("projectid", "==", currentproject)
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
-      ret += "<b>Unit name:</b> " + doc.data().unitname + "<br>"
-      ret += "<b>Project name:</b> " + doc.data().projname + "<br>"
-      ret += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
-      ret += "<b>Group member:</b> <br>"
-      ret += "<b>Progress:</b> <br>"
+      // ret += "<b>Unit name:</b> " + doc.data().unitname + "<br>"
+      // ret += "<b>Project name:</b> " + doc.data().projname + "<br>"
+      // ret += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
+      // ret += "<b>Group member:</b> <br>"
+      // ret += "<b>Progress:</b> <br>"
+      // document.getElementById("projectinfo").innerHTML = ret;
+      ret += '<tr><td class="mdl-data-table__cell--non-numeric">' + doc.data().unitname + '</td>'
+      ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().projname + '</td>'
+      ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().weightage + '</td>'
+      ret += '<td class="mdl-data-table__cell--non-numeric">' + "test" + '</td>'
+      ret += '<td class="mdl-data-table__cell--non-numeric">' + "test2" + '</td>'
       document.getElementById("projectinfo").innerHTML = ret;
     });
   })

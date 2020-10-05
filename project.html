@@ -48,7 +48,8 @@
     font-family: 'Raleway',sans-serif;
     font-weight: bold;
     letter-spacing: -1px;
-    line-height: 1
+    line-height: 1;
+    text-align: left
   }
   .body-text {
     margin-left: 10px;
@@ -145,13 +146,15 @@
           <div id="temp" class="project-text">Project</div><br>
 
           <div>
-            <img src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/Work_time_re_hdyv.svg" width="500" style="float: left;" />
+            <img src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/Work_time_re_hdyv.svg" width="500" style="float: center;" />
+            <br><br><br>
+            <div id="temp" class ="body-text">Project details</div><br><br>
             <div id="projectinfo"></div>
           </div>
 
           <div class="projecttable">
             <br><br>
-            <div id="temp" class="body-text"><u>Tasks</u></div><br><br>
+            <div id="temp" class="body-text">Tasks</div><br><br>
             <div id="tasktablecontent"></div><br><br>
           </div>
 
@@ -191,7 +194,7 @@
 
             <div class="projecttable">
               <br><br>
-              <div id="temp" class="body-text"><u>Contributions</u></div><br>
+              <div id="temp" class="body-text">Contributions</div><br>
               <div id="tablecontent"></div>
             </div><br><br>
 
@@ -212,19 +215,19 @@
                     <!-- <div class="formtask"> -->
                     <form action="#">
                       <br>
-                      <h4>Task Name:</h4>
+                      <h4><b>Task Name:</b></h4>
                       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
                         <select class="mdl-textfield__input" id="task" for="task" onchange="selectTask(this)"></select>
                       </div>
                       <br>
-                      <h4>Hours Contributed:</h4>
+                      <h4><b>Hours Contributed:</b></h4>
                       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
                         <input class="mdl-textfield__input" type="number" id="j-hours" pattern="[A-Z,a-z,0-9, ]*">
                         <label class="mdl-textfield__label" for="j-source">Hours Contributed</label>
                         <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
                       </div>
                       <br>
-                      <h4>Remarks:</h4>
+                      <h4><b>Remarks:</b></h4>
                       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
                         <input class="mdl-textfield__input" type="text" id="j-remarks" pattern="[A-Z,a-z,0-9, ]*">
                         <label class="mdl-textfield__label" for="j-source">Remarks</label>
