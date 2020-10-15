@@ -90,9 +90,22 @@ function displayProjInfo(){
       ret += '<tr><td class="mdl-data-table__cell--non-numeric">' + doc.data().unitname + '</td>'
       ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().projname + '</td>'
       ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().weightage + '</td>'
-      ret += '<td class="mdl-data-table__cell--non-numeric">' + "test" + '</td>'
-      ret += '<td class="mdl-data-table__cell--non-numeric">' + "test2" + '</td>'
-      document.getElementById("projectinfo").innerHTML = ret;
+      db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          let members = ""
+          for (let i = 0; i < doc.data().members.length; i++){
+            members += doc.data().members[i]
+            if (i != doc.data().members.length - 1){
+              members += ", "
+            }
+          }
+          ret += '<td class="mdl-data-table__cell--non-numeric">' + members + '</td>'
+          ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().contributions.length + " contributions made" + '</td>'
+        })
+      })
+      .then(() =>  document.getElementById("projectinfo").innerHTML = ret)
     });
   })
 }
