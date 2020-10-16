@@ -86,24 +86,40 @@ function printProjects(){
         output += "</div>"
         output += "<div class=\"mdl-card__actions mdl-card--border\">"
         output += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
-        output += "<b>Group member:</b> <br>"
-        output += "<b>Progress:</b> <br>"
-        output += "</div>"
-        output += "<div class=\"mdl-card__actions mdl-card--border\">"
-        output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'project.html\'; projectIndex(this.id);\">"
-        output += "Get Started"
-        output += "</a>"
-        output += "</div>"
-        output += "</div>"
-        output += "</div>"
-
-        // Display once we reach the end of the loop.
-        if(i == projects.length - 1){
-          document.getElementById("projectArea").innerHTML = output;
-          initBackgroundImage();
-        }
       });
     })
+    .then(
+      db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[projects[i]])
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          let members = ""
+          for (let j = 0; j < doc.data().members.length; j++){
+            members += doc.data().members[j]
+            if (j != doc.data().members.length - 1){
+              members += ", "
+            }
+          }
+          console.log(members)
+          output += "<b>Group members: </b>" + members + " <br>"
+          output += "<b>Progress:</b>" + doc.data().contributions.length + " contribution(s) made" + "<br>"
+          output += "</div>"
+          output += "<div class=\"mdl-card__actions mdl-card--border\">"
+          output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'project.html\'; projectIndex(this.id);\">"
+          output += "Get Started"
+          output += "</a>"
+          output += "</div>"
+          output += "</div>"
+          output += "</div>"
+
+          // Display once we reach the end of the loop.
+          if(i == projects.length - 1){
+            document.getElementById("projectArea").innerHTML = output;
+            initBackgroundImage();
+          }
+        })
+      })
+    )
   }
 }
 
