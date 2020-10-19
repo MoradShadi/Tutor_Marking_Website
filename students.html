@@ -42,7 +42,7 @@
     margin-left: 10px;
     margin-top: 10px;
     font-size: 32px;
-    color: white;
+    color: black;
     font-family: 'Raleway',sans-serif;
     font-weight: bold;
     letter-spacing: -1px;
@@ -55,14 +55,30 @@
   }
   .page-content {
     background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0, 0.55);
-    border: 1px solid #f1f1f1;
+    background-color: white;
+    border: 1px solid #000000;
     position: absolute;
     top: 5%;
     z-index: 2;
     width: 80%;
     padding: 20px;
   }
+  .studentimage{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .mdl-tabs__tab{
+    width: 100%;
+  }
+  .mdl-tabs.is-upgraded .mdl-tabs__tab.is-active:after {
+    height: 1.2px;
+    background: black;
+  }
+  .mdl-data-table {
+    width: 100%
+  }
+
   </style>
   <body>
 
@@ -102,7 +118,60 @@
 
         <div class="page-content">
           <div class="students-text"><u><b>Students</b></u></div>
-          <div id="studentsArea"></div>
+
+          <!-- Image -->
+          <div>
+            <img src="https://pbs.twimg.com/media/DqMnM7kWoAAjYjg.jpg" width="500" height="300" class="studentimage"/>
+          </div>
+
+          <br>
+          <!-- Tabs for the student list + Assign students into group project -->
+          <div class = "mdl-tabs mdl-js-tabs">
+               <div class = "mdl-tabs__tab-bar">
+                  <a href = "#tab1-panel" class = "mdl-tabs__tab is-active">Students list</a>
+                  <a href = "#tab2-panel" class = "mdl-tabs__tab">Assign students into a Group project</a>
+               </div>
+
+               <div class = "mdl-tabs__panel is-active" id = "tab1-panel">
+                 <br>
+                  <div id="studentListArea"></div>
+
+                  <table class="mdl-data-table mdl-js-data-table">
+                    <thead>
+                      <tr>
+                        <th>No.</th>
+                        <th class="mdl-data-table__cell--non-numeric">Username</th>
+                        <th class="mdl-data-table__cell--non-numeric">Email</th>
+                        <th class="mdl-data-table__cell--non-numeric">Current projects</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td class="mdl-data-table__cell--non-numeric">Don Aubrey</td>
+                        <td class="mdl-data-table__cell--non-numeric">dondon@don.com</th>
+                        <td class="mdl-data-table__cell--non-numeric">FIT2101</th>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td class="mdl-data-table__cell--non-numeric">Sophia Carson</td>
+                        <td class="mdl-data-table__cell--non-numeric">daadon@don.com</th>
+                        <td class="mdl-data-table__cell--non-numeric">FF</th>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td class="mdl-data-table__cell--non-numeric">Steve Moreno</td>
+                        <td class="mdl-data-table__cell--non-numeric">dondwadon@don.com</th>
+                        <td class="mdl-data-table__cell--non-numeric">Sample</th>
+                      </tr>
+                    </tbody>
+                  </table>
+               </div>
+
+               <div class = "mdl-tabs__panel" id = "tab2-panel">
+                  <div id="createStudentArea"></div>
+               </div>
+            </div>
         </div>
       </main>
     </div>
