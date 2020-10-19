@@ -107,9 +107,13 @@ function login(){
       // Gets the user logging in's information and saves it in local storage
       querySnapshot.forEach(function (doc) {
         storeUserInfo(doc.data());
+        if (doc.data().role == "marker"){
+          window.location.href = 'homemarker.html'
+        }
+        else{
+          window.location.href = 'home.html'
+        }
       });
-      // Navigate to home page
-      window.location.href = 'home.html'
     }
     else {
       var snackbarContainer = document.querySelector('#demo-toast-example');
