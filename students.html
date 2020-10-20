@@ -138,6 +138,44 @@
 
                <div class = "mdl-tabs__panel" id = "tab2-panel">
                   <div id="createStudentArea"></div>
+
+                  <!-- Form for creating/assigning students into groups for a project -->
+                  <div id="addContributionsForm">
+                    <div class="form">
+                      <div class="mdl-card__title">
+                        <h2 style="text-align:center;color:black;width:100%"><b>Add Contributions</b></h2>
+                      </div>
+                      <div class="mdl-card__supporting-text">
+                        <div style="color:black">
+                          <!-- <div class="formtask"> -->
+                          <form action="#">
+                            <br>
+                            <h4><b>Unit Name:</b></h4>
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
+                              <select class="mdl-textfield__input" id="task" for="task" onchange="selectTask(this)"></select>
+                            </div>
+                            <br>
+                            <h4><b>Project Name:</b></h4>
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
+                              <select class="mdl-textfield__input" id="task" for="task" onchange="selectTask(this)"></select>
+                            </div>
+                            <br>
+                            <h4><b>Students:</b></h4>
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
+                              <input class="mdl-textfield__input" type="number" id="j-hours" pattern="[A-Z,a-z,0-9, ]*">
+                              <label class="mdl-textfield__label" for="j-source">Hours Contributed</label>
+                              <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
+                            </div>
+                            <br>
+                          </form>
+                        </div>
+                      </div>
+                    </div><br>
+                    <!-- button to submit -->
+                    <button style="margin:auto;width:200px;height:auto;display:block;" class="mdl-button mdl-js-button mdl-button--raised" onclick="addContributions()">Submit</button>
+                    <br>
+                  </div>
+
                </div>
             </div>
         </div>
