@@ -89,13 +89,39 @@ function groupProjectStudents(){
     querySnapshot.forEach(function (doc) {
       if (!doc.data().projects.includes(projectSelection)){
         output += "<label class=\"mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect\" for=" + doc.data().username + ">"
-        output += "<input type=\"checkbox\" id=" + doc.data().username + "class=\"mdl-checkbox__input\">"
+        output += "<input name=\"students\" type=\"checkbox\" id=" + doc.data().username + " value='" + doc.data().username + "' class=\"mdl-checkbox__input\">"
         output += "<span class=\"mdl-checkbox__label\">" + doc.data().username + "</span></label><br>"
       }
     })
   })
   .then(() => {
     document.getElementById("addContributionsFormStudents").innerHTML = output;
+  })
+}
+
+function submitForm(){
+  let groupID = document.getElementById('groupid').value;
+  let unitSelection = document.getElementById('groupProjectUnit').value;
+  let projectSelection = document.getElementById('groupProjectProject').value;
+  let checkboxes = document.querySelectorAll('input[name="students"]:checked');
+  let students = [];
+  Array.prototype.forEach.call(checkboxes, function(el) {
+      students.push(el.value);
+  });
+
+  db.collection("groups").add({
+    assignedmembers: [],
+    contributions: [],
+    groupid: groupID,
+    members: students,
+    project: projectSelection,
+    taskcomments: [],
+    tasks: [],
+    tasksdesc: [],
+    unitcode: unitSelection
+  })
+  .then(() => {
+    window.location.reload()
   })
 }
 
