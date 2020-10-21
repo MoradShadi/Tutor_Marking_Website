@@ -40,3 +40,63 @@ function displayStudents(){
 }
 
 displayStudents();
+
+function groupProjectUnit(){
+  let output = "";
+  output += "<div style=\"color:black\"><form action=\"#\"><br>"
+  output += "<h4><b>Unit Name:</b></h4><div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\" style=\"width:100%\">"
+  output += "<select class=\"mdl-textfield__input\" id=\"groupProjectUnit\">"
+  output += "<option value=\"Select\" hidden>Select</option>";
+
+  db.collection("units").get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      output += "<option value=" + doc.data().unitcode + ">" + doc.data().unitcode + ": " + doc.data().unitname + "</option>"
+    })
+  })
+  .then(() => {
+    output += "</select></div><br>"
+    output += "<button style=\"margin:auto;width:200px;height:auto;display:block;\" class=\"mdl-button mdl-js-button mdl-button--raised\" onclick=\"groupProjectProject()\">Filter</button>"
+    document.getElementById("addContributionsFormUnit").innerHTML = output;
+  })
+}
+
+function groupProjectProject(){
+  let unitSelection = document.getElementById('groupProjectUnit').value;
+  let output = ""
+  output += "<h4><b>Project Name:</b></h4><div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\" style=\"width:100%\">"
+  output += "<select class=\"mdl-textfield__input\" id=\"groupProjectProject\" onchange=\"groupProjectStudents()\">"
+  output += "<option value=\"Select\" hidden>Select</option>";
+
+  db.collection("projects").where("unitcode", "==", unitSelection).get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      output += "<option value=" + doc.data().projectid + ">" + doc.data().projectid + ": " + doc.data().projname + "</option>"
+    })
+  })
+  .then(() => {
+    output += "</select></div><br>"
+    document.getElementById("addContributionsFormProject").innerHTML = output;
+  })
+}
+
+function groupProjectStudents(){
+  let projectSelection = document.getElementById('groupProjectProject').value;
+  let output = ""
+  output += "<h4><b>Students:</b></h4>"
+  db.collection("users").get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      if (!doc.data().projects.includes(projectSelection)){
+        output += "<label class=\"mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect\" for=" + doc.data().username + ">"
+        output += "<input type=\"checkbox\" id=" + doc.data().username + "class=\"mdl-checkbox__input\">"
+        output += "<span class=\"mdl-checkbox__label\">" + doc.data().username + "</span></label><br>"
+      }
+    })
+  })
+  .then(() => {
+    document.getElementById("addContributionsFormStudents").innerHTML = output;
+  })
+}
+
+groupProjectUnit();
