@@ -65,7 +65,7 @@ function groupProjectProject(){
   let unitSelection = document.getElementById('groupProjectUnit').value;
   let output = ""
   output += "<h4><b>Project Name:</b></h4><div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\" style=\"width:100%\">"
-  output += "<select class=\"mdl-textfield__input\" id=\"groupProjectProject\">"
+  output += "<select class=\"mdl-textfield__input\" id=\"groupProjectProject\" onchange=\"groupProjectStudents()\">"
   output += "<option value=\"Select\" hidden>Select</option>";
 
   db.collection("projects").where("unitcode", "==", unitSelection).get()
@@ -78,13 +78,25 @@ function groupProjectProject(){
     output += "</select></div><br>"
     document.getElementById("addContributionsFormProject").innerHTML = output;
   })
+}
 
-  // output += "<h4><b>Students:</b></h4><div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\" style=\"width:100%\">"
-  // output += "<input class=\"mdl-textfield__input\" type=\"number\" id=\"j-hours\" pattern=\"[A-Z,a-z,0-9, ]*\">"
-  // output += "<label class=\"mdl-textfield__label\" for=\"j-source\">Hours Contributed</label>"
-  // output += "<span class=\"mdl-textfield__error\">Letters, numbers and spaces only</span></div><br></form></div>"
-  // document.getElementById("addContributionsFormProject").innerHTML = output;
+function groupProjectStudents(){
+  let projectSelection = document.getElementById('groupProjectProject').value;
+  let output = ""
+  output += "<h4><b>Students:</b></h4>"
+  db.collection("users").get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      if (!doc.data().projects.includes(projectSelection)){
+        output += "<label class=\"mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect\" for=" + doc.data().username + ">"
+        output += "<input type=\"checkbox\" id=" + doc.data().username + "class=\"mdl-checkbox__input\">"
+        output += "<span class=\"mdl-checkbox__label\">" + doc.data().username + "</span></label><br>"
+      }
+    })
+  })
+  .then(() => {
+    document.getElementById("addContributionsFormStudents").innerHTML = output;
+  })
 }
 
 groupProjectUnit();
-// groupProjectProject();
