@@ -41,22 +41,50 @@ function displayStudents(){
 
 displayStudents();
 
-function groupProjectForm(){
+function groupProjectUnit(){
   let output = "";
   output += "<div style=\"color:black\"><form action=\"#\"><br>"
   output += "<h4><b>Unit Name:</b></h4><div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\" style=\"width:100%\">"
-  output += "<select class=\"mdl-textfield__input\" id=\"task\" for=\"task\" onchange=\"selectTask(this)\">"
+  output += "<select class=\"mdl-textfield__input\" id=\"groupProjectUnit\">"
   output += "<option value=\"Select\" hidden>Select</option>";
-  output += "<option value='test'>Test</option>"
-  output += "</select></div><br>"
-  output += "<button style=\"margin:auto;width:200px;height:auto;display:block;\" class=\"mdl-button mdl-js-button mdl-button--raised\" onclick=\"addContributions()\">Filter</button>"
-  output += "<h4><b>Project Name:</b></h4><div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\" style=\"width:100%\">"
-  output += "<select class=\"mdl-textfield__input\" id=\"task\" for=\"task\" onchange=\"selectTask(this)\"></select></div><br>"
-  output += "<h4><b>Students:</b></h4><div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\" style=\"width:100%\">"
-  output += "<input class=\"mdl-textfield__input\" type=\"number\" id=\"j-hours\" pattern=\"[A-Z,a-z,0-9, ]*\">"
-  output += "<label class=\"mdl-textfield__label\" for=\"j-source\">Hours Contributed</label>"
-  output += "<span class=\"mdl-textfield__error\">Letters, numbers and spaces only</span></div><br></form></div>"
-  document.getElementById("addContributionsForm").innerHTML = output;
+
+  db.collection("units").get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      output += "<option value=" + doc.data().unitcode + ">" + doc.data().unitcode + ": " + doc.data().unitname + "</option>"
+    })
+  })
+  .then(() => {
+    output += "</select></div><br>"
+    output += "<button style=\"margin:auto;width:200px;height:auto;display:block;\" class=\"mdl-button mdl-js-button mdl-button--raised\" onclick=\"groupProjectProject()\">Filter</button>"
+    document.getElementById("addContributionsFormUnit").innerHTML = output;
+  })
 }
 
-groupProjectForm();
+function groupProjectProject(){
+  let unitSelection = document.getElementById('groupProjectUnit').value;
+  let output = ""
+  output += "<h4><b>Project Name:</b></h4><div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\" style=\"width:100%\">"
+  output += "<select class=\"mdl-textfield__input\" id=\"groupProjectProject\">"
+  output += "<option value=\"Select\" hidden>Select</option>";
+
+  db.collection("projects").where("unitcode", "==", unitSelection).get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      output += "<option value=" + doc.data().projectid + ">" + doc.data().projectid + ": " + doc.data().projname + "</option>"
+    })
+  })
+  .then(() => {
+    output += "</select></div><br>"
+    document.getElementById("addContributionsFormProject").innerHTML = output;
+  })
+
+  // output += "<h4><b>Students:</b></h4><div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\" style=\"width:100%\">"
+  // output += "<input class=\"mdl-textfield__input\" type=\"number\" id=\"j-hours\" pattern=\"[A-Z,a-z,0-9, ]*\">"
+  // output += "<label class=\"mdl-textfield__label\" for=\"j-source\">Hours Contributed</label>"
+  // output += "<span class=\"mdl-textfield__error\">Letters, numbers and spaces only</span></div><br></form></div>"
+  // document.getElementById("addContributionsFormProject").innerHTML = output;
+}
+
+groupProjectUnit();
+// groupProjectProject();
