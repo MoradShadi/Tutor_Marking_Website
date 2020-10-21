@@ -32,42 +32,100 @@ function initBackgroundImage(){
   }
 }
 
-function printProjects(){
+function printUnitFilter(){
+  let output = "";
+  output += "<div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\" style=\"width:100%\">"
+  output += "<select class=\"mdl-textfield__input\" id=\"unitFilter\">"
+  output += "<option value=\"Select\" hidden>Select</option>";
+
+  db.collection("units").get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      output += "<option value=" + doc.data().unitcode + ">" + doc.data().unitcode + ": " + doc.data().unitname + "</option>"
+    })
+  })
+  .then(() => {
+    output += "</select></div><br>"
+    document.getElementById('unitFilterArea').innerHTML = output;
+  })
+}
+
+printUnitFilter();
+
+function printProjects(input = 0){
   let output = "";
   let i = 0;
 
-  db.collection("projects")
-  .get()
-  .then(function(querySnapshot) {
-    querySnapshot.forEach(function (doc) {
-      output += "<div class = \"container\">"
-      output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
-      output += "<div class=\"mdl-card__title\">"
-      output += "<h2 class=\"mdl-card__title-text\">" + "Group project " + (i+1) + ": " + doc.data().projname + "</h2>"
-      output += "</div>"
-      output += "<div class=\"mdl-card__supporting-text\">"
-      output += "<b>Project ID:</b> " + doc.data().projectid + "<br><br>"
-      output += "<b>Unit name:</b> " + doc.data().unitname + "<br><br>"
-      output += "<b>Unit description:</b> " + doc.data().unitdesc + "<br><br>"
-      output += "<b>Unit code:</b> " + doc.data().unitcode + "<br>"
-      output += "</div>"
-      output += "<div class=\"mdl-card__actions mdl-card--border\">"
-      output += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
-      output += "</div>"
-      output += "<div class=\"mdl-card__actions mdl-card--border\">"
-      output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'project.html\'; projectIndex(this.id);\">"
-      output += "Get Started"
-      output += "</a>"
-      output += "</div>"
-      output += "</div>"
-      output += "</div>"
-      i += 1;
-    });
-  })
-  .then(() => {
-    document.getElementById("projectListArea").innerHTML = output;
-    initBackgroundImage();
-  })
+  if (input == 0){
+    db.collection("projects")
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        output += "<div class = \"container\">"
+        output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
+        output += "<div class=\"mdl-card__title\">"
+        output += "<h2 class=\"mdl-card__title-text\">" + "Group project " + (i+1) + ": " + doc.data().projname + "</h2>"
+        output += "</div>"
+        output += "<div class=\"mdl-card__supporting-text\">"
+        output += "<b>Project ID:</b> " + doc.data().projectid + "<br><br>"
+        output += "<b>Unit name:</b> " + doc.data().unitname + "<br><br>"
+        output += "<b>Unit description:</b> " + doc.data().unitdesc + "<br><br>"
+        output += "<b>Unit code:</b> " + doc.data().unitcode + "<br>"
+        output += "</div>"
+        output += "<div class=\"mdl-card__actions mdl-card--border\">"
+        output += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
+        output += "</div>"
+        output += "<div class=\"mdl-card__actions mdl-card--border\">"
+        output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'project.html\'; projectIndex(this.id);\">"
+        output += "Get Started"
+        output += "</a>"
+        output += "</div>"
+        output += "</div>"
+        output += "</div>"
+        i += 1;
+      });
+    })
+    .then(() => {
+      document.getElementById("projectListArea").innerHTML = output;
+      initBackgroundImage();
+    })
+  }
+  else{
+    let unitSelection = document.getElementById('unitFilter').value;
+    db.collection("projects").where("unitcode", "==", unitSelection)
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        output += "<div class = \"container\">"
+        output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
+        output += "<div class=\"mdl-card__title\">"
+        output += "<h2 class=\"mdl-card__title-text\">" + "Group project " + (i+1) + ": " + doc.data().projname + "</h2>"
+        output += "</div>"
+        output += "<div class=\"mdl-card__supporting-text\">"
+        output += "<b>Project ID:</b> " + doc.data().projectid + "<br><br>"
+        output += "<b>Unit name:</b> " + doc.data().unitname + "<br><br>"
+        output += "<b>Unit description:</b> " + doc.data().unitdesc + "<br><br>"
+        output += "<b>Unit code:</b> " + doc.data().unitcode + "<br>"
+        output += "</div>"
+        output += "<div class=\"mdl-card__actions mdl-card--border\">"
+        output += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
+        output += "</div>"
+        output += "<div class=\"mdl-card__actions mdl-card--border\">"
+        output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'project.html\'; projectIndex(this.id);\">"
+        output += "Get Started"
+        output += "</a>"
+        output += "</div>"
+        output += "</div>"
+        output += "</div>"
+        i += 1;
+      });
+    })
+    .then(() => {
+      document.getElementById("projectListArea").innerHTML = output;
+      initBackgroundImage();
+    })
+  }
+
 }
 
 printProjects();
