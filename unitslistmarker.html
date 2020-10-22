@@ -131,40 +131,33 @@
 
             <div class = "mdl-tabs__panel" id = "tab2-panel">
               <div class="form">
-                <h2 style="text-align:center;color:black;width:100%"><b>Create a new project</b></h2>
+                <h2 style="text-align:center;color:black;width:100%"><b>Register a new unit</b></h2>
 
                 <!-- Image -->
                 <div>
-                  <img src="https://pbs.twimg.com/media/Dq6yj5QXQAAmLOQ.jpg" width="500" height="300" class="studentimage"/>
+                  <img src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/assets/undraw__evie_meta.png" width="500" height="300" class="studentimage"/>
                 </div>
 
                 <div id="createProjectArea"></div>
-                <p style="color:red">∗ Note: If you cannot find the unit you want, please navigate to the "Units" tab to create it</p>
 
-                <h4><b>Project Name:</b></h4>
+                <h4><b>Unit Name:</b></h4>
                 <div class="mdl-textfield mdl-js-textfield" style="width:100%">
-                  <input class="mdl-textfield__input" type="text" id="projectName">
-                  <label class="mdl-textfield__label" for="projectName">Project Name</label>
+                  <input class="mdl-textfield__input" type="text" id="unitName">
+                  <label class="mdl-textfield__label" for="unitName">Unit Name</label>
                 </div>
 
-                <h4><b>Project ID:</b></h4>
+                <h4><b>Unit Code:</b></h4>
                 <div class="mdl-textfield mdl-js-textfield" style="width:100%">
-                  <input class="mdl-textfield__input" type="text" id="projectId">
-                  <label class="mdl-textfield__label" for="projectId">Project ID</label>
+                  <input class="mdl-textfield__input" type="text" id="unitCode">
+                  <label class="mdl-textfield__label" for="unitCode">Unit Code</label>
                 </div>
 
-                <h4><b>Marker Name:</b></h4>
+                <h4><b>Unit Description:</b></h4>
                 <div class="mdl-textfield mdl-js-textfield" style="width:100%">
-                  <input class="mdl-textfield__input" type="text" id="markerName">
-                  <label class="mdl-textfield__label" for="markerName">Marker Name</label>
+                  <input class="mdl-textfield__input" type="text" id="unitDesc">
+                  <label class="mdl-textfield__label" for="unitDesc">Unit Description</label>
                 </div>
 
-                <h4><b>Weightage:</b></h4>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
-                  <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="weightage">
-                  <label class="mdl-textfield__label" for="weightage">Weightage</label>
-                  <span class="mdl-textfield__error">Input is not a number!</span>
-                </div>
                 <button style="margin:auto;width:200px;height:auto;display:block;" class="mdl-button mdl-js-button mdl-button--raised" onclick="submitForm()">Submit</button>
               </div>
             </div>

@@ -60,4 +60,19 @@ function printUnits(){
   })
 }
 
+function submitForm(){
+  let unitName = document.getElementById('unitName').value;
+  let unitCode = document.getElementById('unitCode').value;
+  let unitDesc = document.getElementById('unitDesc').value;
+
+  db.collection("units").add({
+    unitcode: unitCode,
+    unitdesc: unitDesc,
+    unitname: unitName,
+  })
+  .then(() => {
+    window.location.reload()
+  })
+}
+
 printUnits();
