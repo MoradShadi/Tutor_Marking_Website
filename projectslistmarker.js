@@ -35,7 +35,7 @@ function initBackgroundImage(){
 function printUnitFilter(){
   let output = "";
   output += "<div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\" style=\"width:100%\">"
-  output += "<select class=\"mdl-textfield__input\" id=\"unitFilter\">"
+  output += "<select class=\"mdl-textfield__input\" id=\"unitFilter\" onchange=\"enableFilter()\">"
   output += "<option value=\"Select\" hidden>Select</option>";
 
   db.collection("units").get()
@@ -48,6 +48,10 @@ function printUnitFilter(){
     output += "</select></div><br>"
     document.getElementById('unitFilterArea').innerHTML = output;
   })
+}
+
+function enableFilter(){
+  document.getElementById('filterUnitButton').disabled = false;
 }
 
 printUnitFilter();
