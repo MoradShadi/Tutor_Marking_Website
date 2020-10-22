@@ -10,15 +10,18 @@
   .mdl-layout__header-row{
     background: black;
   }
-  img {
-    width: 100%;
-    max-height: 95vh;
-  }
-  .container {
-    position: relative;
-    color: white;
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
   }
 
+  .centered img {
+    width: 150px;
+    border-radius: 50%;
+  }
   /* Bottom left text */
   .bottom-left {
     position: absolute;
@@ -30,8 +33,42 @@
     text-shadow: 6px 6px 18px #000000;
     font-family: "Arial Black", Gadget, sans-serif;
   }
+
+  .input{
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-bottom: 25px;
+    border: 2px solid #e9eaea;
+    color: #3e3e40;
+    font-size: 14px;
+    outline: none;
+    transform: all 0.5s ease;
+  }
+
+  .input:focus{
+    border: 2px solid #404191;
+  }
+
+  .submit,
+  .btn{
+    width: 100%;
+    background: #404191;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-bottom: 30px;
+  }
   </style>
   <body>
+    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>
+
     <!-- Always shows a header, even in smaller screens. -->
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="mdl-layout__header">
@@ -62,13 +99,21 @@
       </div>
       <main class="mdl-layout__content">
         <div class="page-content">
-          <div class="container">
-            <img src="https://i.pinimg.com/originals/db/40/29/db40298be238e42530eaa9655e425096.jpg">
-            <div id="welcome" class="bottom-left"></div>
-          </div>
+          <div class="centered">
+          <img src="https://avatars3.githubusercontent.com/u/30190529?s=460&u=fd2a93754e61c747ee24d980edf94073b3a0ea10&v=4" alt="Avatar" id="Avatar">
+          <div class = "info" id="info"></div>
+          <br><br><label for="pass" class="passlabel">Change your password:</label><br><br>
+          <input type="text" placeholder="Your old password" class="input" name="oldpass" id="oldpass"><br /><br>
+          <input type="text" placeholder="Your new password" class="input" name="newpass" id="newpass"><br />
+          <button type="submit" name="submit" class="submit" value="Change password" onclick="changePass()" id="submit">Submit changes</button>
+        </div>
+        <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+          <div class="mdl-snackbar__text"></div>
+          <button class="mdl-snackbar__action" type="button"></button>
+        </div>
         </div>
       </main>
     </div>
   </body>
-  <script src="homemarker.js"></script>
+  <script src="profilemarker.js"></script>
   </html>

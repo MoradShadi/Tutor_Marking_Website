@@ -5,7 +5,9 @@
   <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
   <link rel='stylesheet' href='https://code.getmdl.io/1.3.0/material.indigo-pink.min.css'>
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <!-- Wide card with share menu button -->
   <style>
+
   body:before {
     content: "";
     position: absolute;
@@ -38,7 +40,7 @@
     justify-content: center;
     margin-top: 70px;
   }
-  .students-text {
+  .unit-text {
     margin-left: 10px;
     margin-top: 10px;
     font-size: 32px;
@@ -78,10 +80,10 @@
   .mdl-data-table {
     width: 100%
   }
-
   </style>
   <body>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>
 
@@ -116,63 +118,54 @@
       <main class="mdl-layout__content">
 
         <div class="page-content">
-          <div class="students-text"><u><b>Students</b></u></div>
-
-          <!-- Image -->
-          <div>
-            <img src="https://pbs.twimg.com/media/DqMnM7kWoAAjYjg.jpg" width="500" height="300" class="studentimage"/>
-          </div>
-
-          <br>
-          <!-- Tabs for the student list + Assign students into group project -->
+          <div class="unit-text"><b>Units</b></div>
           <div class = "mdl-tabs mdl-js-tabs">
             <div class = "mdl-tabs__tab-bar">
-              <a href = "#tab1-panel" class = "mdl-tabs__tab is-active">Students list</a>
-              <a href = "#tab2-panel" class = "mdl-tabs__tab">Assign students into a Group project</a>
+              <a href = "#tab1-panel" class = "mdl-tabs__tab is-active">Unit list</a>
+              <a href = "#tab2-panel" class = "mdl-tabs__tab">Register a new unit</a>
             </div>
 
             <div class = "mdl-tabs__panel is-active" id = "tab1-panel">
-              <br>
-              <div id="studentListArea"></div>
+              <div id="unitListArea"></div>
             </div>
 
             <div class = "mdl-tabs__panel" id = "tab2-panel">
-              <div id="createStudentArea"></div>
-
-              <!-- Form for creating/assigning students into groups for a project -->
               <div class="form">
-                <div class="mdl-card__title">
-                  <h2 style="text-align:center;color:black;width:100%"><b>Assign students into group projects</b></h2>
+                <h2 style="text-align:center;color:black;width:100%"><b>Register a new unit</b></h2>
+
+                <!-- Image -->
+                <div>
+                  <img src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/assets/undraw__evie_meta.png" width="500" height="300" class="studentimage"/>
                 </div>
 
-                <h4><b>Group ID:</b></h4>
+                <div id="createProjectArea"></div>
+
+                <h4><b>Unit Name:</b></h4>
                 <div class="mdl-textfield mdl-js-textfield" style="width:100%">
-                  <input class="mdl-textfield__input" type="text" id="groupid">
-                  <label class="mdl-textfield__label" for="groupid">Group ID</label>
+                  <input class="mdl-textfield__input" type="text" id="unitName">
+                  <label class="mdl-textfield__label" for="unitName">Unit Name</label>
                 </div>
 
-                <div id="addContributionsFormUnit"></div>
-
-                <div id="addContributionsFormProject">
-                  <h4><b>Project Name:</b></h4>
-                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
-                    <select class="mdl-textfield__input" id="groupProjectProject"></select>
-                  </div><br>
+                <h4><b>Unit Code:</b></h4>
+                <div class="mdl-textfield mdl-js-textfield" style="width:100%">
+                  <input class="mdl-textfield__input" type="text" id="unitCode">
+                  <label class="mdl-textfield__label" for="unitCode">Unit Code</label>
                 </div>
 
-                <div id="addContributionsFormStudents">
-                  <h4><b>Students:</b></h4>
-                  <br>
+                <h4><b>Unit Description:</b></h4>
+                <div class="mdl-textfield mdl-js-textfield" style="width:100%">
+                  <input class="mdl-textfield__input" type="text" id="unitDesc">
+                  <label class="mdl-textfield__label" for="unitDesc">Unit Description</label>
                 </div>
+
+                <button style="margin:auto;width:200px;height:auto;display:block;" class="mdl-button mdl-js-button mdl-button--raised" onclick="submitForm()">Submit</button>
               </div>
-              <button style="margin:auto;width:200px;height:auto;display:block;" class="mdl-button mdl-js-button mdl-button--raised" onclick="submitForm()">Submit</button>
-              </div><br>
-              <br>
             </div>
+
           </div>
         </div>
       </main>
     </div>
   </body>
-  <script src="students.js"></script>
+  <script src="unitslistmarker.js"></script>
   </html>
