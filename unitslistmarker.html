@@ -40,7 +40,7 @@
     justify-content: center;
     margin-top: 70px;
   }
-  .project-text {
+  .unit-text {
     margin-left: 10px;
     margin-top: 10px;
     font-size: 32px;
@@ -118,18 +118,15 @@
       <main class="mdl-layout__content">
 
         <div class="page-content">
-          <div class="project-text"><b>Projects</b></div>
+          <div class="unit-text"><b>Units</b></div>
           <div class = "mdl-tabs mdl-js-tabs">
             <div class = "mdl-tabs__tab-bar">
-              <a href = "#tab1-panel" class = "mdl-tabs__tab is-active">Project list</a>
-              <a href = "#tab2-panel" class = "mdl-tabs__tab">Create a new project</a>
+              <a href = "#tab1-panel" class = "mdl-tabs__tab is-active">Unit list</a>
+              <a href = "#tab2-panel" class = "mdl-tabs__tab">Register a new unit</a>
             </div>
 
             <div class = "mdl-tabs__panel is-active" id = "tab1-panel">
-              <h4><b>Unit Name:</b></h4>
-              <div id="unitFilterArea"></div>
-              <button style="margin:auto;width:200px;height:auto;display:block;" class="mdl-button mdl-js-button mdl-button--raised" onclick="printProjects(1)" id="filterUnitButton" disabled>Filter by unit</button>
-              <div id="projectListArea"></div>
+              <div id="unitListArea"></div>
             </div>
 
             <div class = "mdl-tabs__panel" id = "tab2-panel">
@@ -177,5 +174,5 @@
       </main>
     </div>
   </body>
-  <script src="unitlistmarker.js"></script>
+  <script src="unitslistmarker.js"></script>
   </html>
