@@ -129,3 +129,58 @@ function printProjects(input = 0){
 }
 
 printProjects();
+
+function createProject(){
+  let output = "";
+  output += "<div style=\"color:black\"><form action=\"#\"><br>"
+  output += "<h4><b>Unit Name:</b></h4><div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\" style=\"width:100%\">"
+  output += "<select class=\"mdl-textfield__input\" id=\"createProjectUnit\">"
+  output += "<option value=\"Select\" hidden>Select</option>";
+
+  db.collection("units").get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      output += "<option value=" + doc.data().unitcode + ">" + doc.data().unitcode + ": " + doc.data().unitname + "</option>"
+    })
+  })
+  .then(() => {
+    output += "</select></div><br>"
+    document.getElementById('createProjectArea').innerHTML = output;
+  })
+}
+
+createProject();
+
+function submitForm(){
+  let unitSelection = document.getElementById('createProjectUnit').value;
+  let projName = document.getElementById('projectName').value;
+  let projId = document.getElementById('projectId').value;
+  let markerName = document.getElementById('markerName').value;
+  let weightage = document.getElementById('weightage').value;
+  let unitDesc;
+  let unitName;
+
+  db.collection("units").where("unitcode", "==", unitSelection)
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      unitDesc = doc.data().unitdesc;
+      unitName = doc.data().unitname;
+    })
+  })
+  .then(() => {
+    db.collection("projects").add({
+      marker: markerName,
+      projectid: projId,
+      projname: projName,
+      unitcode: unitSelection,
+      unitdesc: unitDesc,
+      unitname: unitName,
+      weightage: weightage
+    })
+    .then(() => {
+      window.location.reload()
+    })
+  })
+
+}
