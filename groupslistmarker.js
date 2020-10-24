@@ -2,7 +2,7 @@
 const USER_INFO = "USER INFO";
 const GROUP_INDEX = "GROUP INDEX";
 const UNIT_INDEX = "UNIT INDEX";
-
+const PROJECT_INDEX = "PROJECT INDEX"
 // The web app's Firebase configuration
 var firebaseConfig = {
   apiKey: "AIzaSyBBkFkeWNjzZkDePYrpzruJfaX3xfrC-pM",
@@ -63,13 +63,13 @@ function retrieveUserInfo()
 * been previously clicked by the user (and saved in local storage)
 * in the unitslist page.
 */
-function retrieveUnitIndex()
+function retrieveProjectIndex()
 {
   if(typeof (Storage) !== 'undefined')
   {
-    if(localStorage.getItem(UNIT_INDEX) != undefined)
+    if(localStorage.getItem(PROJECT_INDEX) != undefined)
     {
-      let data = JSON.parse(localStorage.getItem(UNIT_INDEX));
+      let data = JSON.parse(localStorage.getItem(PROJECT_INDEX));
       return data;
     }
   }
@@ -87,10 +87,11 @@ function retrieveUnitIndex()
 * users collection under the projects field.
 */
 function printGroups(){
-  let index = retrieveUnitIndex();
+  let index = retrieveProjectIndex();
   let user = retrieveUserInfo();
+  let output = "";
+  let unit = user.projects.split(", ")[index];
   let groups = Object.values(user.projgroup);
-  let unit = user.units.split(", ")[index];
   let totalGroups = ""
 
   for (let i = 0; i < groups.length; i++){
@@ -98,10 +99,10 @@ function printGroups(){
   }
 
   groups = totalGroups.substring(0,totalGroups.length-2).split(", ")
-  let output = "";
+
 
   for (let i = 0; i < groups.length; i++){
-    db.collection("groups").where("groupid", "==", groups[i]).where("unitcode", "==", unit)
+    db.collection("groups").where("groupid", "==", groups[i]).where("project", "==", unit)
     .get()
     .then(function(querySnapshot) {
       querySnapshot.forEach(function (doc) {
@@ -116,7 +117,7 @@ function printGroups(){
         output += "<b>"
         output += "</div>"
         output += "<div class=\"mdl-card__actions mdl-card--border\">"
-        output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'group.html\'; groupIndex(this.id);\">"
+        output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'group.html\'; projectIndex(this.id);\">"
         output += "Get Started"
         output += "</a>"
         output += "</div>"
@@ -134,11 +135,11 @@ function printGroups(){
   }
 }
 
-function groupIndex(clicked){
+function projectIndex(clicked){
   if(typeof(Storage)!=="undefined")
   {
     let indexJSON = JSON.stringify(clicked);
-    localStorage.setItem(GROUP_INDEX, indexJSON);
+    localStorage.setItem(PROJECT_INDEX, indexJSON);
   }
   else
   {
