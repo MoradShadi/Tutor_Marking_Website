@@ -1,3 +1,4 @@
+const PROJECT_INDEX = "PROJECT INDEX";
 // The web app's Firebase configuration
 var firebaseConfig = {
   apiKey: "AIzaSyBBkFkeWNjzZkDePYrpzruJfaX3xfrC-pM",
@@ -187,4 +188,15 @@ function submitForm(){
     })
   })
 
+}
+function projectIndex(clicked){
+  if(typeof(Storage)!=="undefined")
+  {
+    let indexJSON = JSON.stringify(clicked);
+    localStorage.setItem(PROJECT_INDEX, indexJSON);
+  }
+  else
+  {
+    alert("Sorry, your browser does not support web storage...");
+  }
 }
