@@ -109,7 +109,7 @@
           <div class = "mdl-tabs mdl-js-tabs">
             <div class = "mdl-tabs__tab-bar">
               <a href = "#tab1-panel" class = "mdl-tabs__tab is-active">Not Marked</a>
-              <a href = "#tab2-panel" class = "mdl-tabs__tab">Marking In progress</a>
+              <a href = "#tab2-panel" class = "mdl-tabs__tab" onclick="printGroups(1)">Marking In progress</a>
               <a href = "#tab3-panel" class = "mdl-tabs__tab">Marked</a>
             </div>
 
@@ -117,6 +117,7 @@
               <div id="notMarkedProjects"></div>
             </div>
             <div class = "mdl-tabs__panel" id = "tab2-panel">
+
               <div id="inProgressProjects"></div>
             </div>
             <div class = "mdl-tabs__panel" id = "tab3-panel">

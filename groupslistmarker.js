@@ -99,10 +99,45 @@ function printGroups(input = 0){
     totalGroups += groupsearch[i] + ", "
   }
 
-
   groupsearch = totalGroups.substring(0,totalGroups.length-2).split(", ")
+
   if (input == 0){
     let status = "Not Marked"
+    for (let i = 0; i < groupsearch.length; i++){
+      db.collection("groups").where("groupid", "==", groupsearch[i]).where("project", "==", unit).where("markingStatus", "==", status)
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          output += "<div class = \"container\">"
+          output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
+          output += "<div class=\"mdl-card__title\">"
+          output += "<h2 class=\"mdl-card__title-text\">" + "Group " + doc.data().groupname + "</h2>"
+          output += "</div>"
+          output += "<div class=\"mdl-card__supporting-text\">"
+          output += "<b>Group ID:</b> " + doc.data().groupid + "<br>"
+          output += "<b>Group Name:</b> " + doc.data().groupname +"<br>"
+          output += "<b>Marking Status:</b> " + doc.data().markingStatus +"<br><br>"
+          output += "<b>"
+          output += "</div>"
+          output += "<div class=\"mdl-card__actions mdl-card--border\">"
+          output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'group.html\'; projectIndex(this.id);\">"
+          output += "Get Started"
+          output += "</a>"
+          output += "</div>"
+          output += "</div>"
+          output += "</div>"
+        });
+        // Display once we reach the end of the loop.
+        if(i == groupsearch.length - 1){
+          console.log("asdasd")
+          document.getElementById("notMarkedProjects").innerHTML = output;
+          initBackgroundImage();
+        }
+      })
+    }
+  }
+  else if (input == 1) {
+    let status = "In Progress"
     for (let i = 0; i < groupsearch.length; i++){
       db.collection("groups").where("groupid", "==", groupsearch[i]).where("project", "==", unit).where("markingStatus", "==", status)
       .get()
@@ -131,46 +166,12 @@ function printGroups(input = 0){
         // Display once we reach the end of the loop.
         if(i == groupsearch.length - 1){
           console.log("asdasd")
-          document.getElementById("notMarkedProjects").innerHTML = output;
+          document.getElementById("inProgressProjects").innerHTML = output;
           initBackgroundImage();
         }
       })
-    }
-  }
-  
 
-  for (let i = 0; i < groups.length; i++){
-    db.collection("groups").where("groupid", "==", groups[i]).where("project", "==", unit)
-    .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function (doc) {
-        output += "<div class = \"container\">"
-        output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
-        output += "<div class=\"mdl-card__title\">"
-        output += "<h2 class=\"mdl-card__title-text\">" + "Group " + doc.data().groupname + "</h2>"
-        output += "</div>"
-        output += "<div class=\"mdl-card__supporting-text\">"
-        output += "<b>Group ID:</b> " + doc.data().groupid + "<br>"
-        output += "<b>Group Name:</b> " + doc.data().groupname +"<br>"
-        output += "<b>Marking Status:</b> " + doc.data().markingStatus +"<br><br>"
-        output += "<b>"
-        output += "</div>"
-        output += "<div class=\"mdl-card__actions mdl-card--border\">"
-        output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'group.html\'; projectIndex(this.id);\">"
-        output += "Get Started"
-        output += "</a>"
-        output += "</div>"
-        output += "</div>"
-        output += "</div>"
-      });
-
-      // Display once we reach the end of the loop.
-      if(i == groups.length - 1){
-        console.log("asdasd")
-        document.getElementById("groupArea").innerHTML = output;
-        initBackgroundImage();
       }
-    })
   }
 }
 
