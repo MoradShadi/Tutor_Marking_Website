@@ -118,7 +118,8 @@ function submitForm(){
     taskcomments: [],
     tasks: [],
     tasksdesc: [],
-    unitcode: unitSelection
+    unitcode: unitSelection,
+    markingStatus: "Not Marked"
   })
   .then(() => {
     window.location.reload()

@@ -98,6 +98,7 @@ function printGroups(){
     totalGroups += groups[i] + ", "
   }
 
+
   groups = totalGroups.substring(0,totalGroups.length-2).split(", ")
 
 
@@ -113,7 +114,8 @@ function printGroups(){
         output += "</div>"
         output += "<div class=\"mdl-card__supporting-text\">"
         output += "<b>Group ID:</b> " + doc.data().groupid + "<br>"
-        output += "<b>Group Name:</b> " + doc.data().groupname +"<br><br>"
+        output += "<b>Group Name:</b> " + doc.data().groupname +"<br>"
+        output += "<b>Marking Status:</b> " + doc.data().markingStatus +"<br><br>"
         output += "<b>"
         output += "</div>"
         output += "<div class=\"mdl-card__actions mdl-card--border\">"
