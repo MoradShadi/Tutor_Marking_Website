@@ -44,7 +44,7 @@
     margin-left: 10px;
     margin-top: 10px;
     font-size: 32px;
-    color: white;
+    color: Black;
     font-family: 'Georgia',sans-serif;
     font-weight: bold;
     letter-spacing: -1px;
@@ -57,7 +57,7 @@
   }
   .page-content {
     background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0, 0.55);
+    background-color: white;
     border: 1px solid #f1f1f1;
     position: absolute;
     top: 5%;
@@ -65,6 +65,7 @@
     width: 80%;
     padding: 20px;
   }
+
   </style>
 
   <body>
@@ -105,6 +106,12 @@
 
         <div class="page-content">
           <div class="groups-text"><b>Groups</b></div>
+          <div class = "mdl-tabs mdl-js-tabs">
+            <div class = "mdl-tabs__tab-bar">
+              <a href = "#tab1-panel" class = "mdl-tabs__tab is-active">Not Marked</a>
+              <a href = "#tab2-panel" class = "mdl-tabs__tab">Marking In progress</a>
+              <a href = "#tab3-panel" class = "mdl-tabs__tab">Marked</a>
+            </div>
           <div id="groupArea"></div>
         </div>
       </main>

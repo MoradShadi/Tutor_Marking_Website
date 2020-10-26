@@ -1,4 +1,3 @@
-const PROJECT_INDEX = "PROJECT INDEX";
 // The web app's Firebase configuration
 var firebaseConfig = {
   apiKey: "AIzaSyBBkFkeWNjzZkDePYrpzruJfaX3xfrC-pM",
@@ -36,7 +35,7 @@ function initBackgroundImage(){
 function printUnitFilter(){
   let output = "";
   output += "<div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\" style=\"width:100%\">"
-  output += "<select class=\"mdl-textfield__input\" id=\"unitFilter\" onchange=\"enableFilter()\">"
+  output += "<select class=\"mdl-textfield__input\" id=\"unitFilter\" onchange=\"enableUnitFilter()\">"
   output += "<option value=\"Select\" hidden>Select</option>";
 
   db.collection("units").get()
@@ -51,7 +50,7 @@ function printUnitFilter(){
   })
 }
 
-function enableFilter(){
+function enableUnitFilter(){
   document.getElementById('filterUnitButton').disabled = false;
 }
 
@@ -188,15 +187,4 @@ function submitForm(){
     })
   })
 
-}
-function projectIndex(clicked){
-  if(typeof(Storage)!=="undefined")
-  {
-    let indexJSON = JSON.stringify(clicked);
-    localStorage.setItem(PROJECT_INDEX, indexJSON);
-  }
-  else
-  {
-    alert("Sorry, your browser does not support web storage...");
-  }
 }
