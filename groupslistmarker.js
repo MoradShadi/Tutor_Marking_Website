@@ -4,6 +4,7 @@ const GROUP_INDEX = "GROUP INDEX";
 const UNIT_INDEX = "UNIT INDEX";
 const PROJECT_INDEX = "PROJECT INDEX"
 const PROJECT_CODE = "PROJECT CODE"
+const GROUP_ID = "GROUP ID"
 
 // The web app's Firebase configuration
 var firebaseConfig = {
@@ -110,8 +111,6 @@ function printGroups(input = 0){
   let output = "";
   let groupsearch = Object.values(user.projgroup);
   let totalGroups = ""
-  console.log(groupsearch)
-
 
   for (let i = 0; i < groupsearch.length; i++){
     totalGroups += groupsearch[i] + ", "
@@ -138,7 +137,7 @@ function printGroups(input = 0){
           output += "<b>"
           output += "</div>"
           output += "<div class=\"mdl-card__actions mdl-card--border\">"
-          output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'group.html\'; projectIndex(this.id);\">"
+          output += "<a id=\"" + doc.data().groupid + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"groupIndex(this.id); window.location.href=\'group.html\';\">"
           output += "Get Started"
           output += "</a>"
           output += "</div>"
@@ -172,7 +171,7 @@ function printGroups(input = 0){
           output += "<b>"
           output += "</div>"
           output += "<div class=\"mdl-card__actions mdl-card--border\">"
-          output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'group.html\'; projectIndex(this.id);\">"
+          output += "<a id=\"" + doc.data().groupid + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"groupIndex(this.id); window.location.href=\'group.html\';\">"
           output += "Get Started"
           output += "</a>"
           output += "</div>"
@@ -209,7 +208,7 @@ function printGroups(input = 0){
           output += "<b>"
           output += "</div>"
           output += "<div class=\"mdl-card__actions mdl-card--border\">"
-          output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'group.html\'; projectIndex(this.id);\">"
+          output += "<a id=\"" + doc.data().groupid + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"groupIndex(this.id); window.location.href=\'group.html\';\">"
           output += "Get Started"
           output += "</a>"
           output += "</div>"
@@ -229,11 +228,11 @@ function printGroups(input = 0){
   }
 }
 
-function projectIndex(clicked){
+function groupIndex(groupID){
   if(typeof(Storage)!=="undefined")
   {
-    let indexJSON = JSON.stringify(clicked);
-    localStorage.setItem(PROJECT_INDEX, indexJSON);
+    let groupidJSON = JSON.stringify(groupID);
+    localStorage.setItem(GROUP_ID, groupidJSON);
   }
   else
   {
