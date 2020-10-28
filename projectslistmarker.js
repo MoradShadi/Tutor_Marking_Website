@@ -2,8 +2,8 @@
 const USER_INFO = "USER INFO";
 const GROUP_INDEX = "GROUP INDEX";
 const UNIT_INDEX = "UNIT INDEX";
-const PROJECT_CODE = "PROJECT CODE"
-const PROJECT_INDEX = "PROJECT INDEX"
+const PROJECT_CODE = "PROJECT CODE";
+const PROJECT_INDEX = "PROJECT INDEX";
 
 // The web app's Firebase configuration
 var firebaseConfig = {

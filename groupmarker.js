@@ -1,6 +1,11 @@
 "use strict"
 const USER_INFO = "USER INFO";
-const PROJECT_INDEX = "GROUP INDEX";
+const GROUP_INDEX = "GROUP INDEX";
+const UNIT_INDEX = "UNIT INDEX";
+const PROJECT_CODE = "PROJECT CODE";
+const PROJECT_INDEX = "PROJECT INDEX";
+const GROUP_ID = "GROUP ID";
+
 let taskInput = ""
 // The web app's Firebase configuration
 var firebaseConfig = {
@@ -44,14 +49,28 @@ function retrieveUserInfo()
 * been previously clicked by the user (and saved in local storage)
 * in the projectslist page.
 */
-function retrieveProjectIndex()
+function retrieveProjectCode()
 {
   if(typeof (Storage) !== 'undefined')
   {
-    if(localStorage.getItem(GROUP_INDEX) != undefined)
+    if(localStorage.getItem(PROJECT_CODE) != undefined)
     {
-      let data = JSON.parse(localStorage.getItem(GROUP_INDEX));
-      return data;
+      return localStorage.getItem(PROJECT_CODE);
+    }
+  }
+  else
+  {
+    alert ('local storage is no supported in current browser')
+  }
+}
+
+function retrieveGroupID()
+{
+  if(typeof (Storage) !== 'undefined')
+  {
+    if(localStorage.getItem(GROUP_ID) != undefined)
+    {
+      return localStorage.getItem(GROUP_ID);
     }
   }
   else
@@ -65,13 +84,10 @@ function retrieveProjectIndex()
 * page. It searches the firestore database for the project with the same id
 * and retrieves the information from there.
 */
-function displayGroupInfo(){
-  let output = retrieveGroupIndex();
-  // Splits the string into an array with the separation being the comma
-  let projects = user.projects.split(", ");
+function displayProjInfo(){
   let ret = "";
 
-  db.collection("projects").where("projectid", "==", currentproject)
+  db.collection("projects").where("projectid", "==", projCode)
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
@@ -106,7 +122,7 @@ function printTable(){
   output += "</thead>"
 
   // Searches the database based on the username to find the group
-  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", groupID)
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
@@ -143,7 +159,7 @@ function printTask()
   stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th>'
   stringOutput += '<th class="mdl-data-table__cell--non-numeric">Task Name</th></tr></thead><tbody>'
   //searches the database based on the username to find the group
-  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", groupID)
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
@@ -170,81 +186,6 @@ function printTask()
 
 }
 
-/**
-function for deleting each row in the table of tasks
-*/
-function deleteTask(index)
-{
-  //searches the database based on the username to find the group
-  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
-  .get()
-  .then(function(querySnapshot) {
-
-    querySnapshot.forEach(function (doc) {
-      let tempTask = []
-      let tempDesc =[]
-      //building the array to push into the database
-      for (let i = 0; i < doc.data().tasks.length; i++){
-        tempTask.push(doc.data().tasks[i])
-      }
-      for (let i = 0; i < doc.data().tasksdesc.length; i++){
-        tempDesc.push(doc.data().tasksdesc[i])
-      }
-      //splicing to remove the index which was deleted
-      tempTask.splice(index,1)
-      tempDesc.splice(index,1)
-      //updating the database
-      db.collection("groups").doc(doc.id).update({
-        tasks: tempTask
-      })
-      db.collection("groups").doc(doc.id).update({
-        tasksdesc: tempDesc
-      })
-      //refreshing page
-      .then(() =>  window.location.reload())
-    });
-  })
-}
-/*
-This method is called when a new tasks is added. This method will
-store the newly added tasks into the firestore when the submit
-button is clicked.
-**/
-function addTask(){
-  //getting information from the dialog box
-  let taskName = document.getElementById('j-source').value
-  let taskDescription = document.getElementById('j-destination').value
-  //searching based on username for groups
-  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
-  .get()
-  .then(function(querySnapshot) {
-    querySnapshot.forEach(function (doc) {
-      let tempName = [];
-      let tempDesc = [];
-      for (let i = 0; i < doc.data().tasks.length; i++){
-        tempName.push(doc.data().tasks[i]);
-      }
-      tempName.push(taskName);
-      db.collection("groups").doc(doc.id).update({
-        tasks: tempName
-      });
-
-      for (let i = 0; i < doc.data().tasksdesc.length; i++){
-        tempDesc.push(doc.data().tasksdesc[i]);
-      }
-      tempDesc.push(taskDescription);
-      db.collection("groups").doc(doc.id).update({
-        tasksdesc: tempDesc
-      })
-      //refreshing page
-      .then(() =>  window.location.reload())
-    });
-  })
-  document.getElementById('j-source').value = ''
-  document.getElementById('j-destination').value = ''
-
-}
-
 /*
 This method is used for recording the input task selected by users
 **/
@@ -260,7 +201,7 @@ to the user in the form of contribution
 function displayTask()
 {
   //searches the database based on the username to find the group
-  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", groupID)
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
@@ -284,7 +225,7 @@ function addContributions()
   let hoursTaken = document.getElementById('j-hours').value;
   let remarks = document.getElementById('j-remarks').value;
   //searches the database based on the username to find the group
-  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
+  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", groupID)
   .get()
   .then(function(querySnapshot) {
 
@@ -333,11 +274,13 @@ dialog.querySelector('.submit').addEventListener('click', function() {
 
 // Function calls
 let user = retrieveUserInfo();
-let output = retrieveProjectIndex();
+let projCode = retrieveProjectCode();
+let groupID = retrieveGroupID();
+// let output = retrieveProjectIndex();
 // Splits the string into an array with the separation being the comma
 let projects = user.projects.split(", ");
 // currentproject is the id of the current project
-let currentproject = projects[output];
+// let currentproject = projects[output];
 displayProjInfo();
 printTable();
 printTask();
