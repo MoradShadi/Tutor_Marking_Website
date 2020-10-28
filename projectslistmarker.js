@@ -1,3 +1,10 @@
+"use strict"
+const USER_INFO = "USER INFO";
+const GROUP_INDEX = "GROUP INDEX";
+const UNIT_INDEX = "UNIT INDEX";
+const UNIT_CCODE = "UNIT CCODE";
+const PROJECT_INDEX = "PROJECT INDEX"
+
 // The web app's Firebase configuration
 var firebaseConfig = {
   apiKey: "AIzaSyBBkFkeWNjzZkDePYrpzruJfaX3xfrC-pM",
@@ -80,7 +87,7 @@ function printProjects(input = 0){
         output += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
         output += "</div>"
         output += "<div class=\"mdl-card__actions mdl-card--border\">"
-        output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'groupslistmarker.html\'; projectIndex(this.id);\">"
+        output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"projectIndex(this.id, doc.data().unitcode); window.location.href=\'groupslistmarker.html\';\">"
         output += "Get Started"
         output += "</a>"
         output += "</div>"
@@ -115,7 +122,7 @@ function printProjects(input = 0){
         output += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
         output += "</div>"
         output += "<div class=\"mdl-card__actions mdl-card--border\">"
-        output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'groupslistmarker.html\'; projectIndex(this.id);\">"
+        output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"projectIndex(this.id); window.location.href=\'groupslistmarker.html\';\">"
         output += "Get Started"
         output += "</a>"
         output += "</div>"
@@ -129,7 +136,18 @@ function printProjects(input = 0){
       initBackgroundImage();
     })
   }
+}
 
+function projectIndex(clicked){
+  if(typeof(Storage)!=="undefined")
+  {
+    let indexJSON = JSON.stringify(clicked);
+    localStorage.setItem(PROJECT_INDEX, indexJSON);
+  }
+  else
+  {
+    alert("Sorry, your browser does not support web storage...");
+  }
 }
 
 printProjects();
