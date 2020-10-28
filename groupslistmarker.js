@@ -3,6 +3,8 @@ const USER_INFO = "USER INFO";
 const GROUP_INDEX = "GROUP INDEX";
 const UNIT_INDEX = "UNIT INDEX";
 const PROJECT_INDEX = "PROJECT INDEX"
+const PROJECT_CODE = "PROJECT CODE"
+
 // The web app's Firebase configuration
 var firebaseConfig = {
   apiKey: "AIzaSyBBkFkeWNjzZkDePYrpzruJfaX3xfrC-pM",
@@ -79,6 +81,21 @@ function retrieveProjectIndex()
   }
 }
 
+function retrieveProjectCode()
+{
+  if(typeof (Storage) !== 'undefined')
+  {
+    if(localStorage.getItem(PROJECT_CODE) != undefined)
+    {
+      return localStorage.getItem(PROJECT_CODE)
+    }
+  }
+  else
+  {
+    alert ('local storage is no supported in current browser')
+  }
+}
+
 /**
 * This method is used to print the list of projects that are assigned to the user
 * by the marker. The projects' information are saved under the projects collection
@@ -89,10 +106,11 @@ function retrieveProjectIndex()
 function printGroups(input = 0){
   let index = retrieveProjectIndex();
   let user = retrieveUserInfo();
+  let projCode = retrieveProjectCode();
   let output = "";
-  let unit = user.projects.split(", ")[index];
   let groupsearch = Object.values(user.projgroup);
   let totalGroups = ""
+  console.log(groupsearch)
 
 
   for (let i = 0; i < groupsearch.length; i++){
@@ -104,7 +122,7 @@ function printGroups(input = 0){
   if (input == 0){
     let status = "Not Marked"
     for (let i = 0; i < groupsearch.length; i++){
-      db.collection("groups").where("groupid", "==", groupsearch[i]).where("project", "==", unit).where("markingStatus", "==", status)
+      db.collection("groups").where("groupid", "==", groupsearch[i]).where("project", "==", projCode).where("markingStatus", "==", status)
       .get()
       .then(function(querySnapshot) {
         querySnapshot.forEach(function (doc) {
@@ -129,7 +147,6 @@ function printGroups(input = 0){
         });
         // Display once we reach the end of the loop.
         if(i == groupsearch.length - 1){
-          console.log("asdasd")
           document.getElementById("notMarkedProjects").innerHTML = output;
           initBackgroundImage();
         }
@@ -139,7 +156,7 @@ function printGroups(input = 0){
   else if (input == 1) {
     let status = "In Progress"
     for (let i = 0; i < groupsearch.length; i++){
-      db.collection("groups").where("groupid", "==", groupsearch[i]).where("project", "==", unit).where("markingStatus", "==", status)
+      db.collection("groups").where("groupid", "==", groupsearch[i]).where("project", "==", projCode).where("markingStatus", "==", status)
       .get()
       .then(function(querySnapshot) {
         querySnapshot.forEach(function (doc) {
@@ -176,7 +193,7 @@ function printGroups(input = 0){
   else{
     let status = "Marked"
     for (let i = 0; i < groupsearch.length; i++){
-      db.collection("groups").where("groupid", "==", groupsearch[i]).where("project", "==", unit).where("markingStatus", "==", status)
+      db.collection("groups").where("groupid", "==", groupsearch[i]).where("project", "==", projCode).where("markingStatus", "==", status)
       .get()
       .then(function(querySnapshot) {
         querySnapshot.forEach(function (doc) {

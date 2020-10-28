@@ -2,7 +2,7 @@
 const USER_INFO = "USER INFO";
 const GROUP_INDEX = "GROUP INDEX";
 const UNIT_INDEX = "UNIT INDEX";
-const UNIT_CODE = "UNIT CODE";
+const PROJECT_CODE = "PROJECT CODE"
 const PROJECT_INDEX = "PROJECT INDEX"
 
 // The web app's Firebase configuration
@@ -87,7 +87,7 @@ function printProjects(input = 0){
         output += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
         output += "</div>"
         output += "<div class=\"mdl-card__actions mdl-card--border\">"
-        output += "<a id=\"" + i + "\" data-unit = \"" + doc.data().unitcode + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"projectIndex(this.id, this.dataset.unit); window.location.href=\'groupslistmarker.html\';\">"
+        output += "<a id=\"" + i + "\" data-proj = \"" + doc.data().projectid + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"projectIndex(this.id, this.dataset.proj); window.location.href=\'groupslistmarker.html\';\">"
         output += "Get Started"
         output += "</a>"
         output += "</div>"
@@ -122,7 +122,7 @@ function printProjects(input = 0){
         output += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
         output += "</div>"
         output += "<div class=\"mdl-card__actions mdl-card--border\">"
-        output += "<a id=\"" + i + "\" data-unit = \"" + doc.data().unitcode + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"projectIndex(this.id, this.dataset.unit); window.location.href=\'groupslistmarker.html\';\">"
+        output += "<a id=\"" + i + "\" data-proj = \"" + doc.data().projectid + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"projectIndex(this.id, this.dataset.proj); window.location.href=\'groupslistmarker.html\';\">"
         output += "Get Started"
         output += "</a>"
         output += "</div>"
@@ -138,13 +138,13 @@ function printProjects(input = 0){
   }
 }
 
-function projectIndex(clicked, unitCode){
+function projectIndex(clicked, projCode){
   if(typeof(Storage)!=="undefined")
   {
     let indexJSON = JSON.stringify(clicked);
     localStorage.setItem(PROJECT_INDEX, indexJSON);
-    let unitJSON = JSON.stringify(unitCode);
-    localStorage.setItem(UNIT_INDEX, unitCode);
+    let unitJSON = JSON.stringify(projCode);
+    localStorage.setItem(PROJECT_CODE, projCode);
   }
   else
   {
