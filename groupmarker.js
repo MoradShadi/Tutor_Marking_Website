@@ -85,17 +85,36 @@ function retrieveGroupID()
 * and retrieves the information from there.
 */
 function displayProjInfo(){
+  //building the table
   let ret = "";
+  ret += '<table id="task-table" class="mdl-data-table mdl-js-data-table">'
+  ret += '<thead><tr><th style="width: 15%">Unit name</th><th class="mdl-data-table__cell--non-numeric">Project name</th>  <th class="mdl-data-table__cell--non-numeric">Weightage</th> <th class="mdl-data-table__cell--non-numeric">Group member(s)</th> <th class="mdl-data-table__cell--non-numeric">Progress</th>'
 
   db.collection("projects").where("projectid", "==", projCode)
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
-      ret += "<b>Unit name:</b> " + doc.data().unitname + "<br>"
-      ret += "<b>Project name:</b> " + doc.data().projname + "<br>"
-      ret += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
-      ret += "<b>Progress:</b> <br>"
-      document.getElementById("groupDetails").innerHTML = ret;
+      console.log("yay")
+      ret += '<tr><td class="mdl-data-table__cell--non-numeric">' + doc.data().unitname + '</td>'
+      ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().projname + '</td>'
+      ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().weightage + '</td>'
+      db.collection("groups").where("groupid", "==", groupID).where("project", "==", projCode)
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          console.log("no")
+          let members = ""
+          for (let i = 0; i < doc.data().members.length; i++){
+            members += doc.data().members[i]
+            if (i != doc.data().members.length - 1){
+              members += ", "
+            }
+          }
+          ret += '<td class="mdl-data-table__cell--non-numeric">' + members + '</td>'
+          ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().contributions.length + " contributions made" + '</td>'
+        })
+      })
+      .then(() =>  document.getElementById("groupDetails").innerHTML = ret)
     });
   })
 }
@@ -289,9 +308,9 @@ let groupID = retrieveGroupID();
 groupID = groupID.substring(1,groupID.length-1)
 
 displayProjInfo();
-printTable();
-printTask();
-displayTask();
+// printTable();
+// printTask();
+// displayTask();
 // TODO: add code for entering the contribution into the database by adding a new entry into the
 // firestore "groups" collection under the "contributions" tab (based on the user's group)
 
