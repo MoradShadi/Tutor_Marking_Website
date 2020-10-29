@@ -95,7 +95,7 @@ function displayProjInfo(){
       ret += "<b>Project name:</b> " + doc.data().projname + "<br>"
       ret += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
       ret += "<b>Progress:</b> <br>"
-      document.getElementById("projectinfo").innerHTML = ret;
+      document.getElementById("groupDetails").innerHTML = ret;
     });
   })
 }
@@ -119,15 +119,13 @@ function printTable(){
   output += "<th class=\"mdl-data-table__cell--non-numeric\">Remarks</th>"
   output += "</tr>"
   output += "</thead>"
-  console.log(groupID)
-  console.log(projCode)
+
   // .where("members", "array-contains", user.username)
   // Searches the database based on the username to find the group
   db.collection("groups").where("groupid", "==", groupID).where("project", "==", projCode)
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
-      console.log(doc.data().contributions)
       for (let i = 0; i < doc.data().contributions.length; i++ ){
         output += "<tr>"
         output += "<td>" + (i+1) + "</td>"
@@ -141,12 +139,59 @@ function printTable(){
         if(i == doc.data().contributions.length - 1){
           output += "</tbody>"
           output += "</table>"
-          document.getElementById("tablecontent").innerHTML = output;
+          document.getElementById("contributions").innerHTML = output;
         }
       }
     });
   })
-  console.log("end")
+}
+
+function printTable(){
+  let member_list = []
+  db.collection("groups").where("groupid", "==", groupID).where("project", "==", projCode)
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      for (let i = 0; i < doc.data().members.length; i++ ){
+        member_list.push(doc.data().members[i])
+      }
+    });
+  })
+  let output = "";
+  output += "<tbody>"
+  output += "<table class=\"mdl-data-table mdl-js-data-table\">"
+  output += "<thead>"
+  output += "<tr>"
+  output += "<th>No.</th>"
+  output += "<th class=\"mdl-data-table__cell--non-numeric\">Name</th>"
+  output += "<th class=\"mdl-data-table__cell--non-numeric\">Email</th>"
+  output += "</tr>"
+  output += "</thead>"
+
+  // .where("members", "array-contains", user.username)
+  // Searches the database based on the username to find the group
+  db.collection("groups").where("groupid", "==", groupID).where("project", "==", projCode)
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      for (let i = 0; i < doc.data().user; i++ ){
+        output += "<tr>"
+        output += "<td>" + (i+1) + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].taskname + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].members + "</td>"
+        output += "<td>" + doc.data().contributions[i].hours + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].remarks + "</td>"
+        output += "</tr>"
+
+        // Display once we reach the end of the loop.
+        if(i == doc.data().contributions.length - 1){
+          output += "</tbody>"
+          output += "</table>"
+          document.getElementById("contributions").innerHTML = output;
+        }
+      }
+    });
+  })
 }
 
 /**
@@ -160,9 +205,9 @@ function printTask()
   let stringOutput = ""
   stringOutput += '<table id="task-table" class="mdl-data-table mdl-js-data-table">'
   stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th>'
-  stringOutput += '<th class="mdl-data-table__cell--non-numeric">Task Name</th></tr></thead><tbody>'
+
   //searches the database based on the username to find the group
-  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", groupID)
+  db.collection("groups").where("groupid", "==", groupID).where("project", "==", projCode)
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
@@ -173,20 +218,16 @@ function printTask()
         stringOutput += doc.data().tasks[i]
         stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
         stringOutput += doc.data().tasksdesc[i]
-        stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
-        stringOutput += "<button type = \"button\" class=\"mdl-button mdl-js-button mdl-button--raised\" onclick=\"deleteTask(" + i + ")\"> Delete </button>"
-        // stringOutput += '<button type="button" class="mdl-button mdl-js-button mdl-button--raised" onclick = "deleteTask(" + i + ")">Delete</button>'
 
         //displays information once we reach the end of the loop
         if(i == doc.data().tasks.length - 1){
           stringOutput += "</tbody>"
           stringOutput += "</table>"
-          document.getElementById("tasktablecontent").innerHTML += stringOutput;
+          document.getElementById("tasks").innerHTML  = stringOutput;
         }
       }
     });
   })
-
 }
 
 /*
@@ -218,68 +259,32 @@ function displayTask()
   })
 }
 
-/*
-this method takes in the fields of values typed/selected by the user and updates it
-in the database.
-**/
-function addContributions()
-{
-  let taskName = taskInput
-  let hoursTaken = document.getElementById('j-hours').value;
-  let remarks = document.getElementById('j-remarks').value;
-  //searches the database based on the username to find the group
-  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", groupID)
-  .get()
-  .then(function(querySnapshot) {
 
-    querySnapshot.forEach(function (doc) {
-      let tempContri = []
-      //looping to build the array which holds the values of contributions
-      for (let i = 0; i < doc.data().contributions.length; i++){
-        tempContri.push(doc.data().contributions[i])
-      }
-      let value = {
-        hours: hoursTaken,
-        members: user.username,
-        remarks: remarks,
-        taskname: taskName
-      }
-      tempContri.push(value)
-      //updating the contributions field with the tempcontri array
-      db.collection("groups").doc(doc.id).update({
-        contributions: tempContri
-      })
-      //refreshing page
-      .then(() =>  window.location.reload())
-    });
-  })
-}
 
-// This block of code is used for the "ADD TASK" button
-var dialog = document.getElementById('dialogTask');
-var showModalButton = document.querySelector('.add-task');
-if (! dialog.showModal) {
-  dialogPolyfill.registerDialog(dialog);
-}
-showModalButton.addEventListener('click', function() {
-  dialog.showModal();
-});
-dialog.querySelector('.close').addEventListener('click', function() {
-  dialog.close();
-});
-dialog.querySelector('.submit').addEventListener('click', function() {
-  var snackbarContainer = document.querySelector('#demo-toast-example');
-  addTask();
-  var data = {message: 'Task has been added.'};
-  snackbarContainer.MaterialSnackbar.showSnackbar(data);
-  dialog.close();
-});
+// // This block of code is used for the "ADD TASK" button
+// var dialog = document.getElementById('dialogTask');
+// var showModalButton = document.querySelector('.add-task');
+// if (! dialog.showModal) {
+//   dialogPolyfill.registerDialog(dialog);
+// }
+// showModalButton.addEventListener('click', function() {
+//   dialog.showModal();
+// });
+// dialog.querySelector('.close').addEventListener('click', function() {
+//   dialog.close();
+// });
+// dialog.querySelector('.submit').addEventListener('click', function() {
+//   var snackbarContainer = document.querySelector('#demo-toast-example');
+//   addTask();
+//   var data = {message: 'Task has been added.'};
+//   snackbarContainer.MaterialSnackbar.showSnackbar(data);
+//   dialog.close();
+// });
 
 // Function calls
 let user = retrieveUserInfo();
 let projCode = retrieveProjectCode();
 projCode = String(projCode)
-console.log(typeof(projCode))
 let groupID = retrieveGroupID();
 groupID = groupID.substring(1,groupID.length-1)
 
