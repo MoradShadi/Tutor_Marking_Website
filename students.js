@@ -152,38 +152,6 @@ function submitForm(){
         }
       })
     })
-    .then(() => {
-      // window.location.reload()
-    })
-    // for (let i = 0; i < students.length; i++){
-    //   db.collection("users").where("username", "==", students[i]).get()
-    //   .then(function(querySnapshot) {
-    //     querySnapshot.forEach(function (doc) {
-    //       newProj = doc.data().projects;
-    //       if (newProj.length == 0){
-    //         newProj += projectSelection
-    //       }
-    //       else{
-    //         newProj += ", " + projectSelection
-    //       }
-    //       db.collection("users").doc(doc.id).update({
-    //         projects: newProj
-    //       })
-    //
-    //       newGroups = doc.data().projgroup
-    //       newGroups[projectSelection] = groupID;
-    //       db.collection("users").doc(doc.id).update({
-    //         projgroup: newGroups
-    //       })
-    //     })
-    //   })
-    //   if(i == students.length - 1){
-    //     window.location.reload()
-    //   }
-    //   // .then(() => {
-    //   //   window.location.reload()
-    //   // })
-    // }
   })
 }
 
