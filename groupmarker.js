@@ -5,8 +5,8 @@ const UNIT_INDEX = "UNIT INDEX";
 const PROJECT_CODE = "PROJECT CODE";
 const PROJECT_INDEX = "PROJECT INDEX";
 const GROUP_ID = "GROUP ID";
+let memberInput = ""
 
-let taskInput = ""
 // The web app's Firebase configuration
 var firebaseConfig = {
   apiKey: "AIzaSyBBkFkeWNjzZkDePYrpzruJfaX3xfrC-pM",
@@ -88,7 +88,7 @@ function displayProjInfo(){
   //building the table
   let ret = "";
   ret += '<table id="task-table" class="mdl-data-table mdl-js-data-table">'
-  ret += '<thead><tr><th style="width: 15%">Unit name</th><th class="mdl-data-table__cell--non-numeric">Project name</th>  <th class="mdl-data-table__cell--non-numeric">Weightage</th> <th class="mdl-data-table__cell--non-numeric">Group member(s)</th> <th class="mdl-data-table__cell--non-numeric">Progress</th>'
+  ret += '<thead><tr><th style="width: 15%">Unit name</th><th class="mdl-data-table__cell--non-numeric">Project name</th>  <th class="mdl-data-table__cell--non-numeric">Weightage</th> <th class="mdl-data-table__cell--non-numeric">Group ID</th> <th class="mdl-data-table__cell--non-numeric">Group member(s)</th> <th class="mdl-data-table__cell--non-numeric">Progress</th> <th class="mdl-data-table__cell--non-numeric">Marking Status</th>'
 
   db.collection("projects").where("projectid", "==", projCode)
   .get()
@@ -102,7 +102,6 @@ function displayProjInfo(){
       .get()
       .then(function(querySnapshot) {
         querySnapshot.forEach(function (doc) {
-          console.log("no")
           let members = ""
           for (let i = 0; i < doc.data().members.length; i++){
             members += doc.data().members[i]
@@ -110,8 +109,10 @@ function displayProjInfo(){
               members += ", "
             }
           }
+          ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().groupid + '</td>'
           ret += '<td class="mdl-data-table__cell--non-numeric">' + members + '</td>'
           ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().contributions.length + " contributions made" + '</td>'
+          ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().markingStatus + '</td>'
         })
       })
       .then(() =>  document.getElementById("groupDetails").innerHTML = ret)
@@ -119,6 +120,85 @@ function displayProjInfo(){
   })
 }
 
+function printMembers(){
+  let output = "";
+  output += "<tbody>"
+  output += '<table id="task-table" class="mdl-data-table mdl-js-data-table">'
+  output += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Username</th> <th class="mdl-data-table__cell--non-numeric">Email</th>  <th class="mdl-data-table__cell--non-numeric">Mark</th> <th class="mdl-data-table__cell--non-numeric">Feedback</th>'
+
+  // Searches the database based on the username to find the group
+  db.collection("groups").where("groupid", "==", groupID).where("project", "==", projCode)
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      let members = ""
+      for (let i = 0; i < doc.data().members.length; i++){
+        members += doc.data().members[i]
+        if (i != doc.data().members.length - 1){
+          members += ", "
+        }
+      }
+      let memberList = members.split(", ")
+      let memberEmailList = []
+
+      for (let i = 0; i < memberList.length; i++){
+        db.collection("users").where("username", "==", memberList[i])
+        .get()
+        .then(function(querySnapshot) {
+          querySnapshot.forEach(function (doc) {
+
+           let marks = ""
+           let units = doc.data().projgroupmarks
+           let remarks = doc.data().projgroupremarks
+
+           for (let unit in units){
+             if (unit == projCode){
+               marks = units[unit]
+             }
+           }
+
+           for (let unit in remarks){
+             if (unit == projCode){
+               remarks = remarks[unit]
+             }
+           }
+
+            output += "<tr>"
+            output += "<td>" + (i+1) + "</td>"
+            output += "<td class=\"mdl-data-table__cell--non-numeric\">" + memberList[i] + "</td>"
+            output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().email + "</td>"
+            output += "<td class=\"mdl-data-table__cell--non-numeric\">" + marks + "</td>"
+            output += "<td class=\"mdl-data-table__cell--non-numeric\">" + remarks + "</td>"
+            output += "</tr>"
+
+            // Display once we reach the end of the loop.
+            if(i == memberList.length - 1){
+              output += "</tbody>"
+              output += "</table>"
+              document.getElementById("teamMembers").innerHTML = output;
+            }
+          })
+        })
+      }
+
+      // for (let i = 0; i < memberList.length; i++ ){
+      //   output += "<tr>"
+      //   output += "<td>" + (i+1) + "</td>"
+      //   output += "<td class=\"mdl-data-table__cell--non-numeric\">" + memberList[i] + "</td>"
+      //   output += "<td class=\"mdl-data-table__cell--non-numeric\">" + memberEmailList[i] + "</td>"
+      //   output += "<td class=\"mdl-data-table__cell--non-numeric\"> Placeholder 1 </td>"
+      //   output += "<td class=\"mdl-data-table__cell--non-numeric\"> Placeholder 2 </td>"
+      //   output += "</tr>"
+
+        // // Display once we reach the end of the loop.
+        // if(i == memberList.length - 1){
+        //   output += "</tbody>"
+        //   output += "</table>"
+        //   document.getElementById("teamMembers").innerHTML = output;
+        // }
+    });
+  })
+}
 /**
 * This method is used to display the table for the contributions that
 * has been inputted by the group into their project. It searches the
@@ -139,61 +219,12 @@ function printTable(){
   output += "</tr>"
   output += "</thead>"
 
-  // .where("members", "array-contains", user.username)
   // Searches the database based on the username to find the group
   db.collection("groups").where("groupid", "==", groupID).where("project", "==", projCode)
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
       for (let i = 0; i < doc.data().contributions.length; i++ ){
-        output += "<tr>"
-        output += "<td>" + (i+1) + "</td>"
-        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].taskname + "</td>"
-        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].members + "</td>"
-        output += "<td>" + doc.data().contributions[i].hours + "</td>"
-        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].remarks + "</td>"
-        output += "</tr>"
-
-        // Display once we reach the end of the loop.
-        if(i == doc.data().contributions.length - 1){
-          output += "</tbody>"
-          output += "</table>"
-          document.getElementById("contributions").innerHTML = output;
-        }
-      }
-    });
-  })
-}
-
-function printTable(){
-  let member_list = []
-  db.collection("groups").where("groupid", "==", groupID).where("project", "==", projCode)
-  .get()
-  .then(function(querySnapshot) {
-    querySnapshot.forEach(function (doc) {
-      for (let i = 0; i < doc.data().members.length; i++ ){
-        member_list.push(doc.data().members[i])
-      }
-    });
-  })
-  let output = "";
-  output += "<tbody>"
-  output += "<table class=\"mdl-data-table mdl-js-data-table\">"
-  output += "<thead>"
-  output += "<tr>"
-  output += "<th>No.</th>"
-  output += "<th class=\"mdl-data-table__cell--non-numeric\">Name</th>"
-  output += "<th class=\"mdl-data-table__cell--non-numeric\">Email</th>"
-  output += "</tr>"
-  output += "</thead>"
-
-  // .where("members", "array-contains", user.username)
-  // Searches the database based on the username to find the group
-  db.collection("groups").where("groupid", "==", groupID).where("project", "==", projCode)
-  .get()
-  .then(function(querySnapshot) {
-    querySnapshot.forEach(function (doc) {
-      for (let i = 0; i < doc.data().user; i++ ){
         output += "<tr>"
         output += "<td>" + (i+1) + "</td>"
         output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().contributions[i].taskname + "</td>"
@@ -223,10 +254,10 @@ function printTask()
   //building the table
   let stringOutput = ""
   stringOutput += '<table id="task-table" class="mdl-data-table mdl-js-data-table">'
-  stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th>'
+  stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th> <th class="mdl-data-table__cell--non-numeric">Comments</th> <th class="mdl-data-table__cell--non-numeric">Estimated hours to Complete</th> <th class="mdl-data-table__cell--non-numeric">Assigned to:</th>'
 
   //searches the database based on the username to find the group
-  db.collection("groups").where("groupid", "==", groupID).where("project", "==", projCode)
+  db.collection("groups").where("project","==",projCode).where("groupid", "==", groupID)
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
@@ -237,16 +268,24 @@ function printTask()
         stringOutput += doc.data().tasks[i]
         stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
         stringOutput += doc.data().tasksdesc[i]
+        stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
+        stringOutput += doc.data().taskcomments[i]
+        stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
+        stringOutput += doc.data().taskestimate[i]
+        stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
+        stringOutput += doc.data().assignedmembers[i]
+        stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
 
         //displays information once we reach the end of the loop
         if(i == doc.data().tasks.length - 1){
           stringOutput += "</tbody>"
           stringOutput += "</table>"
-          document.getElementById("tasks").innerHTML  = stringOutput;
+          document.getElementById("tasks").innerHTML += stringOutput;
         }
       }
     });
   })
+
 }
 
 /*
@@ -278,7 +317,36 @@ function displayTask()
   })
 }
 
-
+/*
+This method is used for recording the input task selected by users
+**/
+// function selectMember(selected)
+// {
+//   memberInput = selected[selected.selectedIndex].text
+// }
+//
+// function addMarks(){
+//   let student = memberInput;
+//   let marks = document.getElementById('j-marks').value;
+//   let remarks = document.getElementById('j-remarks').value;
+//
+//   db.collection("groups").where("project", "==", projCode).where("groupid", "==", groupID)
+//   .get()
+//   .then(function(querySnapshot) {
+//     querySnapshot.forEach(function (doc) {
+//
+//       let object = {
+//         mark: marks,
+//         member: memberInput,
+//         remark: remarks
+//       }
+//       db.collection("groups").doc(doc.id).m
+//
+//       //refreshing page
+//       .then(() =>  window.location.reload())
+//     });
+//   })
+// }
 
 // // This block of code is used for the "ADD TASK" button
 // var dialog = document.getElementById('dialogTask');
@@ -308,9 +376,12 @@ let groupID = retrieveGroupID();
 groupID = groupID.substring(1,groupID.length-1)
 
 displayProjInfo();
-// printTable();
-// printTask();
-// displayTask();
+console.log("1")
+printTable();
+printTask();
+printMembers();
+displayTask();
+
 // TODO: add code for entering the contribution into the database by adding a new entry into the
 // firestore "groups" collection under the "contributions" tab (based on the user's group)
 

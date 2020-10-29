@@ -147,15 +147,19 @@
           <div class="groups-text"><b>Group</b></div>
           <div class = "mdl-tabs mdl-js-tabs">
             <div class = "mdl-tabs__tab-bar">
-              <a href = "#tab1-panel" class = "mdl-tabs__tab is-active">Group Detail</a>
-              <a href = "#tab2-panel" class = "mdl-tabs__tab" onclick="printGroup(1)">Contributions & Tasks</a>
-              <a href = "#tab3-panel" class = "mdl-tabs__tab" onclick="printGroup(2)">Marking</a>
+              <a href = "#tab1-panel" class = "mdl-tabs__tab is-active">Group Details</a>
+              <a href = "#tab2-panel" class = "mdl-tabs__tab" >Contributions & Tasks</a>
+              <a href = "#tab3-panel" class = "mdl-tabs__tab" >Marking</a>
             </div>
+
+
 
             <div class = "mdl-tabs__panel is-active" id = "tab1-panel">
               <img src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/Work_time_re_hdyv.svg" width="500" style="float: left;" /><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
               <h3><b> Group details </b></h3>
-              <div id="groupDetails"></div><br><br><br><br><br><br><br><br><br><br>
+              <div id="groupDetails"></div><br>
+              <h3><b> Team members </b></h3>
+              <div id ="teamMembers"></div><br><br><br><br><br><br><br><br>
             </div>
             <div class = "mdl-tabs__panel" id = "tab2-panel">
               <h3><b> Contributions </b></h3>
@@ -164,72 +168,41 @@
               <div id="tasks"></div>
             </div>
             <div class = "mdl-tabs__panel" id = "tab3-panel">
-              <div id="marking"></div>
+              <div class="mdl-card__supporting-text">
+                <div style="color:black">
+                  <!-- <div class="formtask"> -->
+                  <form action="#">
+                    <br>
+                    <h4><b>Student:</b></h4>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
+                      <select class="mdl-textfield__input" id="studentName" for="studentName" onchange="selectStudent(this)"></select>
+                    </div>
+                    <br>
+                    <h4><b>Marks:</b></h4>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
+                      <input class="mdl-textfield__input" type="number" id="j-marks" pattern="[0-9]*">
+                      <label class="mdl-textfield__label" for="j-marks">Marks</label>
+                      <span class="mdl-textfield__error">Numbers only</span>
+                    </div>
+                    <br>
+                    <h4><b>Remarks:</b></h4>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
+                      <input class="mdl-textfield__input" type="text" id="j-remarks" pattern="[A-Z,a-z,0-9, ]*">
+                      <label class="mdl-textfield__label" for="j-remarks">Remarks</label>
+                      <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div><br>
+              <br>
+              </div>
+            </div>
             </div>
           <div id="groupArea"></div>
 
-
-
-
-
-          <!-- <div id="temp" class="project-text">Group</div><br>
-
-          <div>
-            <div id="projectinfo"></div>
-          </div>
-
-          <div class="projecttable">
-            <br><br>
-            <div id="temp" class="body-text"><u>Team members</u></div><br><br>
-            <div id="tasktablecontent"></div><br><br>
-          </div>
-
-            <button type="button" class="mdl-button mdl-js-button mdl-button--raised add-task">Add task</button>
-            <dialog class="mdl-dialog" id = "dialogTask">
-              <h5 class="mdl-dialog__title">Adding a new mem</h5>
-              <div class="mdl-dialog__content">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="text" id="j-source" pattern="[A-Z,a-z,0-9, ]*">
-                  <label class="mdl-textfield__label" for="j-source">ID</label>
-                  <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
-                </div>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="text" id="j-source" pattern="[A-Z,a-z,0-9, ]*">
-                  <label class="mdl-textfield__label" for="j-source">Name</label>
-                  <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
-                </div>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="text" id="j-destination" pattern="[A-Z,a-z,0-9, ]*">
-                  <label class="mdl-textfield__label" for="j-destination">Email</label>
-                  <span class="mdl-textfield__error">Letters, numbers and spaces only</span>
-                </div>
-              </div>
-              <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
-                <button type="button" class="mdl-button submit">Submit</button>
-                <button type="button" class="mdl-button close">Cancel</button>
-              </div>
-            </dialog>
-
-            <div class="dialogTask">
-              <div id="taskDialogID"></div>
-            </div>
-
-            <div class="projecttable">
-              <br><br>
-              <div id="temp" class="body-text"><u>Contributions</u></div><br>
-              <div id="tablecontent"></div>
-            </div><br><br> -->
-
           </div>
         </main>
-      </div>
-      <div id="member-toast-example" class="mdl-js-snackbar mdl-snackbar">
-        <div class="mdl-snackbar__text"></div>
-        <button class="mdl-snackbar__action" type="button"></button>
-      </div>
-      <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
-        <div class="mdl-snackbar__text"></div>
-        <button class="mdl-snackbar__action" type="button"></button>
       </div>
     </body>
     <script src="groupmarker.js"></script>
