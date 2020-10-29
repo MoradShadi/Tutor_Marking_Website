@@ -25,12 +25,13 @@ function displayStudents(){
   db.collection("users").get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
-      output += "<tr><td>"+ num + "</td>"
-      output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data()['username'] + "</td>"
-      output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data()['email'] + "</th>"
-      output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data()['projects'] + "</th></tr>"
-      num += 1
-
+      if (doc.data()['username'] != "admin"){
+        output += "<tr><td>"+ num + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data()['username'] + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data()['email'] + "</th>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data()['projects'] + "</th></tr>"
+        num += 1
+      }
     })
   })
   .then(() => {
@@ -87,7 +88,7 @@ function groupProjectStudents(){
   db.collection("users").get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
-      if (!doc.data().projects.includes(projectSelection)){
+      if (!doc.data().projects.includes(projectSelection) && doc.data().username != "admin"){
         output += "<label class=\"mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect\" for=" + doc.data().username + ">"
         output += "<input name=\"students\" type=\"checkbox\" id=" + doc.data().username + " value='" + doc.data().username + "' class=\"mdl-checkbox__input\">"
         output += "<span class=\"mdl-checkbox__label\">" + doc.data().username + "</span></label><br>"
