@@ -120,7 +120,7 @@ function printTask()
   //building the table
   let stringOutput = ""
   stringOutput += '<table id="task-table" class="mdl-data-table mdl-js-data-table">'
-  stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th> <th class="mdl-data-table__cell--non-numeric">Comments</th> <th class="mdl-data-table__cell--non-numeric">Assigned to:</th>'
+  stringOutput += '<thead><tr><th style="width: 15%">No.</th><th class="mdl-data-table__cell--non-numeric">Task Name</th>  <th class="mdl-data-table__cell--non-numeric">Description</th> <th class="mdl-data-table__cell--non-numeric">Comments</th> <th class="mdl-data-table__cell--non-numeric">Estimated hours to Complete</th> <th class="mdl-data-table__cell--non-numeric">Assigned to:</th>'
   stringOutput += '<th class="mdl-data-table__cell--non-numeric">Delete Task</th></tr></thead><tbody>'
   //searches the database based on the username to find the group
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
@@ -136,6 +136,8 @@ function printTask()
         stringOutput += doc.data().tasksdesc[i]
         stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
         stringOutput += doc.data().taskcomments[i]
+        stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
+        stringOutput += doc.data().taskestimate[i]
         stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
         stringOutput += doc.data().assignedmembers[i]
         stringOutput += '</td><td class="mdl-data-table__cell--non-numeric">'
@@ -214,6 +216,7 @@ function addTask(){
   let taskName = document.getElementById('j-source').value
   let taskDescription = document.getElementById('j-destination').value
   let taskComments = document.getElementById('j-dest2').value
+  let taskEstimate = document.getElementById('j-dest3').value
   let assigned = memberInput
   //searching based on username for groups
   db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
@@ -224,6 +227,7 @@ function addTask(){
       let tempDesc = [];
       let tempComm = [];
       let tempAss = [];
+      let tempEst = [];
       for (let i = 0; i < doc.data().tasks.length; i++){
         tempName.push(doc.data().tasks[i]);
       }
@@ -254,6 +258,14 @@ function addTask(){
       tempAss.push(assigned);
       db.collection("groups").doc(doc.id).update({
         assignedmembers: tempAss
+      })
+
+      for (let i = 0; i < doc.data().taskestimate.length; i++){
+        tempEst.push(doc.data().taskestimate[i]);
+      }
+      tempEst.push(taskEstimate);
+      db.collection("groups").doc(doc.id).update({
+        taskestimate: tempEst
       })
       //refreshing page
       .then(() =>  window.location.reload())
