@@ -94,7 +94,6 @@ function displayProjInfo(){
       ret += "<b>Unit name:</b> " + doc.data().unitname + "<br>"
       ret += "<b>Project name:</b> " + doc.data().projname + "<br>"
       ret += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
-      ret += "<b>Group member:</b> <br>"
       ret += "<b>Progress:</b> <br>"
       document.getElementById("projectinfo").innerHTML = ret;
     });
@@ -276,11 +275,7 @@ dialog.querySelector('.submit').addEventListener('click', function() {
 let user = retrieveUserInfo();
 let projCode = retrieveProjectCode();
 let groupID = retrieveGroupID();
-// let output = retrieveProjectIndex();
-// Splits the string into an array with the separation being the comma
-let projects = user.projects.split(", ");
-// currentproject is the id of the current project
-// let currentproject = projects[output];
+
 displayProjInfo();
 printTable();
 printTask();
