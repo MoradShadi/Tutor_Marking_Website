@@ -81,15 +81,9 @@ function displayProjInfo(){
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
-      // ret += "<b>Unit name:</b> " + doc.data().unitname + "<br>"
-      // ret += "<b>Project name:</b> " + doc.data().projname + "<br>"
-      // ret += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
-      // ret += "<b>Group member:</b> <br>"
-      // ret += "<b>Progress:</b> <br>"
-      // document.getElementById("projectinfo").innerHTML = ret;
       ret += '<tr><td class="mdl-data-table__cell--non-numeric">' + doc.data().unitname + '</td>'
       ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().projname + '</td>'
-      ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().weightage + '</td>'
+      ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().weightage + '%</td>'
       db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
       .get()
       .then(function(querySnapshot) {
