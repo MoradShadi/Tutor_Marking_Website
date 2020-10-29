@@ -150,6 +150,7 @@
               <a href = "#tab1-panel" class = "mdl-tabs__tab is-active">Group Details</a>
               <a href = "#tab2-panel" class = "mdl-tabs__tab" >Contributions & Tasks</a>
               <a href = "#tab3-panel" class = "mdl-tabs__tab" >Marking</a>
+              <a href = "#tab4-panel" class = "mdl-tabs__tab" >Add/Delete a Student from Group</a>
             </div>
 
 
@@ -173,6 +174,10 @@
                   <!-- <div class="formtask"> -->
                   <form action="#">
                     <br>
+                    <!-- Image -->
+                    <div>
+                      <img src="https://thumbs.dreamstime.com/b/online-schedule-cartoon-business-people-organizing-work-marking-events-smartphone-calendar-application-vector-isolated-197288504.jpg" style="float: center;" width="500" height="300" class="studentimage"/>
+                    </div>
                     <h4><b>Student:</b></h4>
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
                       <select class="mdl-textfield__input" id="studentName" for="studentName" onchange="selectMember(this)"></select>
@@ -196,7 +201,34 @@
               <button style="margin:auto;width:200px;height:auto;display:block;" class="mdl-button mdl-js-button mdl-button--raised" onclick="addMarks()">Submit</button>
               </form>
 
-            </div><br>
+            </div>
+            <div class = "mdl-tabs__panel" id = "tab4-panel">
+              <div class="mdl-card__supporting-text">
+                <div style="color:black">
+                  <!-- <div class="formtask"> -->
+                  <form action="#">
+                    <br>
+                    <h4><b>Add a student to the group:</b></h4><br>
+                    <h4><b>Student username:</b></h4>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
+                      <select class="mdl-textfield__input" id="userAdd" for="userAdd" onchange="selectUserAdd(this)"></select>
+                    </div>
+                    <br>
+                  <button style="margin:auto;width:200px;height:auto;display:block;" class="mdl-button mdl-js-button mdl-button--raised" onclick="addStudent()">Add Student</button>
+                    <h4><b>Delete a student from the group:</b></h4><br>
+                    <h4><b>Student username:</b></h4>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
+                      <select class="mdl-textfield__input" id="userDelete" for="userDelete" onchange="selectUserDelete(this)"></select>
+                    </div>
+                    <br>
+
+                  </div>
+                  <button style="margin:auto;width:200px;height:auto;display:block;" class="mdl-button mdl-js-button mdl-button--raised" onclick="deleteStudent()">Delete Student</button>
+                </div>
+              </form>
+
+            </div>
+            <br>
               <br>
               </div>
             </div>

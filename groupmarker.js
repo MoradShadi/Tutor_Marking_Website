@@ -79,6 +79,22 @@ function retrieveGroupID()
   }
 }
 
+function retrieveUnitCode()
+{
+  if(typeof (Storage) !== 'undefined')
+  {
+    if(localStorage.getItem(UNIT_CODE) != undefined)
+    {
+      return localStorage.getItem(UNIT_CODE);
+    }
+  }
+  else
+  {
+    alert ('local storage is no supported in current browser')
+  }
+}
+
+
 /**
 * This method is used to display the project info at the top of the
 * page. It searches the firestore database for the project with the same id
@@ -180,22 +196,6 @@ function printMembers(){
           })
         })
       }
-
-      // for (let i = 0; i < memberList.length; i++ ){
-      //   output += "<tr>"
-      //   output += "<td>" + (i+1) + "</td>"
-      //   output += "<td class=\"mdl-data-table__cell--non-numeric\">" + memberList[i] + "</td>"
-      //   output += "<td class=\"mdl-data-table__cell--non-numeric\">" + memberEmailList[i] + "</td>"
-      //   output += "<td class=\"mdl-data-table__cell--non-numeric\"> Placeholder 1 </td>"
-      //   output += "<td class=\"mdl-data-table__cell--non-numeric\"> Placeholder 2 </td>"
-      //   output += "</tr>"
-
-        // // Display once we reach the end of the loop.
-        // if(i == memberList.length - 1){
-        //   output += "</tbody>"
-        //   output += "</table>"
-        //   document.getElementById("teamMembers").innerHTML = output;
-        // }
     });
   })
 }
@@ -291,18 +291,25 @@ function printTask()
 /*
 This method is used for recording the input task selected by users
 **/
-function selectTask(selected)
+function selectMember(selected)
 {
-  taskInput = selected[selected.selectedIndex].text
+  memberInput = selected[selected.selectedIndex].text
 }
-
 
 /*
 This method is used for recording the input task selected by users
 **/
-function selectMember(selected)
+function selectUserAdd(selected)
 {
-  memberInput = selected[selected.selectedIndex].text
+  addUserInput = selected[selected.selectedIndex].text
+}
+
+/*
+This method is used for recording the input task selected by users
+**/
+function selectUserDelete(selected)
+{
+  deleteUserInput = selected[selected.selectedIndex].text
 }
 
 function displayMember(){
@@ -328,6 +335,30 @@ function displayMember(){
     });
   })
 }
+
+// function displayAddMember(){
+//   //building the selection option
+//   db.collection("users").where("unit","==", unitCode)
+//   .get()
+//   .then(function(querySnapshot) {
+//     querySnapshot.forEach(function (doc) {
+//
+//       let noGroups = []
+//       userGroups = doc.data().projgroup
+//
+//       if (!projCode in userGroups){
+//         noGroups.push(member)
+//       }
+//
+//
+//       let ret = "<option value='Select' hidden>Select</option>";
+//       for (let i = 0; i < memberList.length; i++){
+//         ret += "<option value='" + memberList[i] + "'>" + memberList[i] + "</option>";
+//       }
+//       document.getElementById('studentName').innerHTML = ret
+//     });
+//   })
+// }
 
 function addMarks(){
   let student = memberInput;
@@ -377,25 +408,6 @@ function addMarks(){
   })
 }
 
-// // This block of code is used for the "ADD TASK" button
-// var dialog = document.getElementById('dialogTask');
-// var showModalButton = document.querySelector('.add-task');
-// if (! dialog.showModal) {
-//   dialogPolyfill.registerDialog(dialog);
-// }
-// showModalButton.addEventListener('click', function() {
-//   dialog.showModal();
-// });
-// dialog.querySelector('.close').addEventListener('click', function() {
-//   dialog.close();
-// });
-// dialog.querySelector('.submit').addEventListener('click', function() {
-//   var snackbarContainer = document.querySelector('#demo-toast-example');
-//   addTask();
-//   var data = {message: 'Task has been added.'};
-//   snackbarContainer.MaterialSnackbar.showSnackbar(data);
-//   dialog.close();
-// });
 
 // Function calls
 let user = retrieveUserInfo();
@@ -403,6 +415,7 @@ let projCode = retrieveProjectCode();
 projCode = String(projCode)
 let groupID = retrieveGroupID();
 groupID = groupID.substring(1,groupID.length-1)
+let unitCode = retrieveUnitCode();
 
 displayProjInfo();
 console.log("1")
