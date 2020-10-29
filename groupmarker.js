@@ -5,6 +5,7 @@ const UNIT_INDEX = "UNIT INDEX";
 const PROJECT_CODE = "PROJECT CODE";
 const PROJECT_INDEX = "PROJECT INDEX";
 const GROUP_ID = "GROUP ID";
+const UNIT_CODE = "UNIT CODE";
 let memberInput = ""
 
 // The web app's Firebase configuration
@@ -336,29 +337,57 @@ function displayMember(){
   })
 }
 
-// function displayAddMember(){
-//   //building the selection option
-//   db.collection("users").where("unit","==", unitCode)
-//   .get()
-//   .then(function(querySnapshot) {
-//     querySnapshot.forEach(function (doc) {
-//
-//       let noGroups = []
-//       userGroups = doc.data().projgroup
-//
-//       if (!projCode in userGroups){
-//         noGroups.push(member)
-//       }
-//
-//
-//       let ret = "<option value='Select' hidden>Select</option>";
-//       for (let i = 0; i < memberList.length; i++){
-//         ret += "<option value='" + memberList[i] + "'>" + memberList[i] + "</option>";
-//       }
-//       document.getElementById('studentName').innerHTML = ret
-//     });
-//   })
-// }
+function displayAddMember(){
+  let noGroups = []
+  //building the selection option
+  db.collection("users")
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      let units = doc.data().units
+      let unitlist = units.split(", ")
+
+      if (unitlist.includes(unitCode)){
+        let userGroups = doc.data().projgroup
+        if (!userGroups.hasOwnProperty(projCode)){
+          noGroups.push(doc.data().username)
+        }
+      }
+
+      let ret = "<option value='Select' hidden>Select</option>";
+      for (let i = 0; i < noGroups.length; i++){
+        ret += "<option value='" + noGroups[i] + "'>" + noGroups[i] + "</option>";
+      }
+      document.getElementById('userAdd').innerHTML = ret
+    });
+  })
+}
+
+function displayDeleteMember(){
+  //building the selection option
+  db.collection("groups").where("project","==",projCode).where("groupid", "==", groupID)
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      //building the selection option
+      let members = ""
+      for (let i = 0; i < doc.data().members.length; i++){
+        members += doc.data().members[i]
+        if (i != doc.data().members.length - 1){
+          members += ", "
+        }
+      }
+      let memberList = members.split(", ")
+
+      let ret = "<option value='Select' hidden>Select</option>";
+      for (let i = 0; i < memberList.length; i++){
+        ret += "<option value='" + memberList[i] + "'>" + memberList[i] + "</option>";
+      }
+      document.getElementById('userDelete').innerHTML = ret
+    });
+  })
+}
+
 
 function addMarks(){
   let student = memberInput;
@@ -418,11 +447,12 @@ groupID = groupID.substring(1,groupID.length-1)
 let unitCode = retrieveUnitCode();
 
 displayProjInfo();
-console.log("1")
 printTable();
 printTask();
 printMembers();
 displayMember();
+displayAddMember();
+displayDeleteMember();
 
 // TODO: add code for entering the contribution into the database by adding a new entry into the
 // firestore "groups" collection under the "contributions" tab (based on the user's group)
