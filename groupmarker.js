@@ -296,57 +296,86 @@ function selectTask(selected)
   taskInput = selected[selected.selectedIndex].text
 }
 
-/*
-This method is used for displaying the drop down list of the available tasks
-to the user in the form of contribution
-**/
-function displayTask()
-{
-  //searches the database based on the username to find the group
-  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", groupID)
-  .get()
-  .then(function(querySnapshot) {
-    querySnapshot.forEach(function (doc) {
-      //building the selection option
-      let tasksDropDowninnerHTML = "<option value='Select' hidden>Select</option>";
-      for (let i = 0; i < doc.data().tasks.length; i++){
-        tasksDropDowninnerHTML += "<option value=" + i + ">" + doc.data().tasks[i] + "</option>";
-      }
-      document.getElementById('task').innerHTML = tasksDropDowninnerHTML
-    });
-  })
-}
 
 /*
 This method is used for recording the input task selected by users
 **/
-// function selectMember(selected)
-// {
-//   memberInput = selected[selected.selectedIndex].text
-// }
-//
-// function addMarks(){
-//   let student = memberInput;
-//   let marks = document.getElementById('j-marks').value;
-//   let remarks = document.getElementById('j-remarks').value;
-//
-//   db.collection("groups").where("project", "==", projCode).where("groupid", "==", groupID)
-//   .get()
-//   .then(function(querySnapshot) {
-//     querySnapshot.forEach(function (doc) {
-//
-//       let object = {
-//         mark: marks,
-//         member: memberInput,
-//         remark: remarks
-//       }
-//       db.collection("groups").doc(doc.id).m
-//
-//       //refreshing page
-//       .then(() =>  window.location.reload())
-//     });
-//   })
-// }
+function selectMember(selected)
+{
+  memberInput = selected[selected.selectedIndex].text
+}
+
+function displayMember(){
+  db.collection("groups").where("project","==",projCode).where("groupid", "==", groupID)
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      //building the selection option
+      let members = ""
+      for (let i = 0; i < doc.data().members.length; i++){
+        members += doc.data().members[i]
+        if (i != doc.data().members.length - 1){
+          members += ", "
+        }
+      }
+      let memberList = members.split(", ")
+
+      let ret = "<option value='Select' hidden>Select</option>";
+      for (let i = 0; i < memberList.length; i++){
+        ret += "<option value='" + memberList[i] + "'>" + memberList[i] + "</option>";
+      }
+      document.getElementById('studentName').innerHTML = ret
+    });
+  })
+}
+
+function addMarks(){
+  let student = memberInput;
+  let mark = String(document.getElementById('j-marks').value);
+  let remark = String(document.getElementById('j-remarks').value);
+
+  db.collection("groups").where("project", "==", projCode).where("groupid", "==", groupID)
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+
+      db.collection("users").where("username", "==", student)
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+
+          let newRemarkObj = {}
+          let newMarkObj = {}
+
+          let marks = doc.data().projgroupmarks
+          for (let unit in marks){
+            if (unit != projCode){
+              newMarkObj[unit] = marks[unit]
+            }
+          }
+          newMarkObj[projCode] = mark
+
+          let remarks = doc.data().projgroupremarks
+          for (let unit in remarks){
+            if (unit != projCode){
+              newRemarkObj[unit] = remarks[unit]
+            }
+          }
+          newRemarkObj[projCode] = remark
+
+
+          db.collection("users").doc(doc.id).update({
+            projgroupmarks: newMarkObj,
+            projgroupremarks: newRemarkObj
+          })
+        });
+      })
+
+      // //refreshing page
+      // .then(() =>  window.location.reload())
+    });
+  })
+}
 
 // // This block of code is used for the "ADD TASK" button
 // var dialog = document.getElementById('dialogTask');
@@ -380,7 +409,7 @@ console.log("1")
 printTable();
 printTask();
 printMembers();
-displayTask();
+displayMember();
 
 // TODO: add code for entering the contribution into the database by adding a new entry into the
 // firestore "groups" collection under the "contributions" tab (based on the user's group)

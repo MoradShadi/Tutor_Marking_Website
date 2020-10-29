@@ -175,7 +175,7 @@
                     <br>
                     <h4><b>Student:</b></h4>
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
-                      <select class="mdl-textfield__input" id="studentName" for="studentName" onchange="selectStudent(this)"></select>
+                      <select class="mdl-textfield__input" id="studentName" for="studentName" onchange="selectMember(this)"></select>
                     </div>
                     <br>
                     <h4><b>Marks:</b></h4>
@@ -193,14 +193,22 @@
                     </div>
                   </div>
                 </div>
+              <button style="margin:auto;width:200px;height:auto;display:block;" class="mdl-button mdl-js-button mdl-button--raised" onclick="addMarks()">Submit</button>
               </form>
+
             </div><br>
               <br>
               </div>
             </div>
             </div>
-          <div id="groupArea"></div>
-
+          <div id="member-toast-example" class="mdl-js-snackbar mdl-snackbar">
+            <div class="mdl-snackbar__text"></div>
+            <button class="mdl-snackbar__action" type="button"></button>
+          </div>
+          <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+            <div class="mdl-snackbar__text"></div>
+            <button class="mdl-snackbar__action" type="button"></button>
+          </div>
           </div>
         </main>
       </div>
