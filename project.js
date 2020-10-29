@@ -307,7 +307,7 @@ function displayMembers(id)
     querySnapshot.forEach(function (doc) {
       //building the selection option
       let tasksDropDowninnerHTML = "<option value='Select' hidden>Select</option>";
-      for (let i = 1; i < doc.data().members.length; i++){
+      for (let i = 0; i < doc.data().members.length; i++){
         tasksDropDowninnerHTML += "<option value='" + doc.data().members[i] + "'>" + doc.data().members[i] + "</option>";
       }
       document.getElementById(id).innerHTML = tasksDropDowninnerHTML
