@@ -25,12 +25,13 @@ function displayStudents(){
   db.collection("users").get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
-      output += "<tr><td>"+ num + "</td>"
-      output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data()['username'] + "</td>"
-      output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data()['email'] + "</th>"
-      output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data()['projects'] + "</th></tr>"
-      num += 1
-
+      if (doc.data()['username'] != "admin"){
+        output += "<tr><td>"+ num + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data()['username'] + "</td>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data()['email'] + "</th>"
+        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data()['projects'] + "</th></tr>"
+        num += 1
+      }
     })
   })
   .then(() => {
@@ -56,7 +57,7 @@ function groupProjectUnit(){
   })
   .then(() => {
     output += "</select></div><br>"
-    output += "<button style=\"margin:auto;width:200px;height:auto;display:block;\" class=\"mdl-button mdl-js-button mdl-button--raised\" onclick=\"groupProjectProject()\">Filter</button>"
+    output += "<button style=\"margin:auto;width:200px;height:auto;display:block;\" class=\"mdl-button mdl-js-button mdl-button--raised\" type=\"button\" onclick=\"groupProjectProject()\">Filter</button>"
     document.getElementById("addContributionsFormUnit").innerHTML = output;
   })
 }
@@ -87,7 +88,7 @@ function groupProjectStudents(){
   db.collection("users").get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
-      if (!doc.data().projects.includes(projectSelection)){
+      if (!doc.data().projects.includes(projectSelection) && doc.data().username != "admin"){
         output += "<label class=\"mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect\" for=" + doc.data().username + ">"
         output += "<input name=\"students\" type=\"checkbox\" id=" + doc.data().username + " value='" + doc.data().username + "' class=\"mdl-checkbox__input\">"
         output += "<span class=\"mdl-checkbox__label\">" + doc.data().username + "</span></label><br>"
@@ -122,7 +123,36 @@ function submitForm(){
     markingStatus: "Not Marked"
   })
   .then(() => {
-    window.location.reload()
+    i = 0;
+    db.collection("users").get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        if (students.includes(doc.data().username)){
+          console.log(doc.data())
+          newProj = doc.data().projects;
+          if (newProj.length == 0){
+            newProj += projectSelection
+          }
+          else{
+            newProj += ", " + projectSelection
+          }
+          db.collection("users").doc(doc.id).update({
+            projects: newProj
+          })
+          newGroups = doc.data().projgroup
+          newGroups[projectSelection] = groupID;
+          db.collection("users").doc(doc.id).update({
+            projgroup: newGroups
+          })
+          .then(()=>{
+            i += 1;
+            if (i == students.length){
+              window.location.reload()
+            }
+          })
+        }
+      })
+    })
   })
 }
 
