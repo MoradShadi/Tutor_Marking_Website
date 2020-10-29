@@ -119,12 +119,15 @@ function printTable(){
   output += "<th class=\"mdl-data-table__cell--non-numeric\">Remarks</th>"
   output += "</tr>"
   output += "</thead>"
-
+  console.log(groupID)
+  console.log(projCode)
+  // .where("members", "array-contains", user.username)
   // Searches the database based on the username to find the group
-  db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", groupID)
+  db.collection("groups").where("groupid", "==", groupID).where("project", "==", projCode)
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
+      console.log(doc.data().contributions)
       for (let i = 0; i < doc.data().contributions.length; i++ ){
         output += "<tr>"
         output += "<td>" + (i+1) + "</td>"
@@ -143,6 +146,7 @@ function printTable(){
       }
     });
   })
+  console.log("end")
 }
 
 /**
@@ -274,7 +278,10 @@ dialog.querySelector('.submit').addEventListener('click', function() {
 // Function calls
 let user = retrieveUserInfo();
 let projCode = retrieveProjectCode();
+projCode = String(projCode)
+console.log(typeof(projCode))
 let groupID = retrieveGroupID();
+groupID = groupID.substring(1,groupID.length-1)
 
 displayProjInfo();
 printTable();
