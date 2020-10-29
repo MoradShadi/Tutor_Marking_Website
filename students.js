@@ -56,7 +56,7 @@ function groupProjectUnit(){
   })
   .then(() => {
     output += "</select></div><br>"
-    output += "<button style=\"margin:auto;width:200px;height:auto;display:block;\" class=\"mdl-button mdl-js-button mdl-button--raised\" onclick=\"groupProjectProject()\">Filter</button>"
+    output += "<button style=\"margin:auto;width:200px;height:auto;display:block;\" class=\"mdl-button mdl-js-button mdl-button--raised\" type=\"button\" onclick=\"groupProjectProject()\">Filter</button>"
     document.getElementById("addContributionsFormUnit").innerHTML = output;
   })
 }
@@ -122,7 +122,68 @@ function submitForm(){
     markingStatus: "Not Marked"
   })
   .then(() => {
-    window.location.reload()
+    i = 0;
+    db.collection("users").get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        if (students.includes(doc.data().username)){
+          console.log(doc.data())
+          newProj = doc.data().projects;
+          if (newProj.length == 0){
+            newProj += projectSelection
+          }
+          else{
+            newProj += ", " + projectSelection
+          }
+          db.collection("users").doc(doc.id).update({
+            projects: newProj
+          })
+          newGroups = doc.data().projgroup
+          newGroups[projectSelection] = groupID;
+          db.collection("users").doc(doc.id).update({
+            projgroup: newGroups
+          })
+          .then(()=>{
+            i += 1;
+            if (i == students.length){
+              window.location.reload()
+            }
+          })
+        }
+      })
+    })
+    .then(() => {
+      // window.location.reload()
+    })
+    // for (let i = 0; i < students.length; i++){
+    //   db.collection("users").where("username", "==", students[i]).get()
+    //   .then(function(querySnapshot) {
+    //     querySnapshot.forEach(function (doc) {
+    //       newProj = doc.data().projects;
+    //       if (newProj.length == 0){
+    //         newProj += projectSelection
+    //       }
+    //       else{
+    //         newProj += ", " + projectSelection
+    //       }
+    //       db.collection("users").doc(doc.id).update({
+    //         projects: newProj
+    //       })
+    //
+    //       newGroups = doc.data().projgroup
+    //       newGroups[projectSelection] = groupID;
+    //       db.collection("users").doc(doc.id).update({
+    //         projgroup: newGroups
+    //       })
+    //     })
+    //   })
+    //   if(i == students.length - 1){
+    //     window.location.reload()
+    //   }
+    //   // .then(() => {
+    //   //   window.location.reload()
+    //   // })
+    // }
   })
 }
 
