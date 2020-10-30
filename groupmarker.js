@@ -510,8 +510,93 @@ function addStudent(){
         });
       })
 
-      // //refreshing page
-      // .then(() =>  window.location.reload())
+      //refreshing page
+      .then(() =>  window.location.reload())
+    });
+  })
+}
+
+function deleteStudent(){
+  let student = deleteUserInput;
+
+  db.collection("groups").where("project", "==", projCode).where("groupid", "==", groupID)
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+
+      let newMembers = []
+
+      for (let i = 0; i < doc.data().members.length ; i++){
+        if (doc.data().members[i] != student){
+          newMembers.push(doc.data().members[i])
+        }
+      }
+
+      db.collection("groups").doc(doc.id).update({
+        members: newMembers
+      })
+
+      db.collection("users").where("username", "==", student)
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+
+          let newProjGroup = {}
+          let newMarkObj = {}
+          let newRemarkObj = {}
+          let projectString = doc.data().projects
+          let newProjectString = ""
+          let newProjectStringList = []
+          let projectStringSplit = projectString.split (", ")
+
+          for (let i = 0; i < projectStringSplit.length; i ++){
+            if (projectStringSplit[i] != projCode){
+              if (i == 0){
+                newProjectString += projectStringSplit[i]
+              }
+              else{
+                newProjectString += ", " + projectStringSplit[i]
+              }
+            }
+          }
+
+          let marks = doc.data().projgroupmarks
+          for (let unit in marks){
+            if (unit != projCode){
+              newMarkObj[unit] = marks[unit]
+            }
+          }
+
+          let groups = doc.data().projgroup
+          for (let group in groups){
+            if (group != projCode){
+              newProjGroup[group] = groups[group]
+            }
+          }
+
+          let remarks = doc.data().projgroupremarks
+          for (let unit in remarks){
+            if (unit != projCode){
+              newRemarkObj[unit] = remarks[unit]
+            }
+          }
+
+          console.log(newMarkObj)
+          console.log(newRemarkObj)
+          console.log(newProjGroup)
+          console.log(newProjectString)
+
+          db.collection("users").doc(doc.id).update({
+            projgroupmarks: newMarkObj,
+            projgroupremarks: newRemarkObj,
+            projgroup: newProjGroup,
+            projects: newProjectString
+          })
+        });
+      })
+
+      //refreshing page
+      .then(() =>  window.location.reload())
     });
   })
 }
