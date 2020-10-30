@@ -121,7 +121,7 @@ function printTable(){
         output += "<tr>"
         output += "<td>" + (i+1) + "</td>"
         output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().projgroup[projectlist[i]] + "</td>"
-        output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().projgroupmarks[projectlist[i]] + "</td>"
+        output += "<td>" + doc.data().projgroupmarks[projectlist[i]] + "</td>"
         output += "<td class=\"mdl-data-table__cell--non-numeric\">" + doc.data().projgroupremarks[[projectlist[i]]] + "</td>"
         output += "</tr>"
 

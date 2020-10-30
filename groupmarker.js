@@ -168,7 +168,8 @@ function printMembers(){
 
            let marks = ""
            let units = doc.data().projgroupmarks
-           let remarks = doc.data().projgroupremarks
+           let remarks = ""
+           let remarksdb = doc.data().projgroupremarks
 
            for (let unit in units){
              if (unit == projCode){
@@ -176,9 +177,9 @@ function printMembers(){
              }
            }
 
-           for (let unit in remarks){
+           for (let unit in remarksdb){
              if (unit == projCode){
-               remarks = remarks[unit]
+               remarks = remarksdb[unit]
              }
            }
 
@@ -425,16 +426,14 @@ function addMarks(){
           }
           newRemarkObj[projCode] = remark
 
-
           db.collection("users").doc(doc.id).update({
             projgroupmarks: newMarkObj,
             projgroupremarks: newRemarkObj
           })
+          //refreshing page
+          .then(() =>  window.location.reload())
         });
       })
-
-      //refreshing page
-      .then(() =>  window.location.reload())
     });
   })
 }
@@ -507,11 +506,10 @@ function addStudent(){
             projgroup: newProjGroup,
             projects: projectString
           })
+          //refreshing page
+          .then(() =>  window.location.reload())
         });
       })
-
-      //refreshing page
-      .then(() =>  window.location.reload())
     });
   })
 }
@@ -551,7 +549,7 @@ function deleteStudent(){
 
           for (let i = 0; i < projectStringSplit.length; i ++){
             if (projectStringSplit[i] != projCode){
-              if (i == 0){
+              if (newProjectString == ""){
                 newProjectString += projectStringSplit[i]
               }
               else{
@@ -592,11 +590,10 @@ function deleteStudent(){
             projgroup: newProjGroup,
             projects: newProjectString
           })
+          //refreshing page
+          .then(() =>  window.location.reload())
         });
       })
-
-      //refreshing page
-      .then(() =>  window.location.reload())
     });
   })
 }
@@ -608,6 +605,8 @@ projCode = String(projCode)
 let groupID = retrieveGroupID();
 groupID = groupID.substring(1,groupID.length-1)
 let unitCode = retrieveUnitCode();
+console.log(groupID)
+console.log(unitCode)
 
 displayProjInfo();
 printTable();

@@ -119,6 +119,7 @@ function printGroups(input = 0){
   groupsearch = totalGroups.substring(0,totalGroups.length-2).split(", ")
 
   if (input == 0){
+    let index = 1
     let status = "Not Marked"
     for (let i = 0; i < groupsearch.length; i++){
       db.collection("groups").where("groupid", "==", groupsearch[i]).where("project", "==", projCode).where("markingStatus", "==", status)
@@ -128,11 +129,10 @@ function printGroups(input = 0){
           output += "<div class = \"container\">"
           output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
           output += "<div class=\"mdl-card__title\">"
-          output += "<h2 class=\"mdl-card__title-text\">" + "Group " + doc.data().groupname + "</h2>"
+          output += "<h2 class=\"mdl-card__title-text\">" + "Group " + index + "</h2>"
           output += "</div>"
           output += "<div class=\"mdl-card__supporting-text\">"
           output += "<b>Group ID:</b> " + doc.data().groupid + "<br>"
-          output += "<b>Group Name:</b> " + doc.data().groupname +"<br>"
           output += "<b>Marking Status:</b> " + doc.data().markingStatus +"<br><br>"
           output += "<b>"
           output += "</div>"
@@ -143,6 +143,7 @@ function printGroups(input = 0){
           output += "</div>"
           output += "</div>"
           output += "</div>"
+          index += 1
         });
         // Display once we reach the end of the loop.
         if(i == groupsearch.length - 1){
