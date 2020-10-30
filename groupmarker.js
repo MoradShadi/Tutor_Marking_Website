@@ -7,6 +7,8 @@ const PROJECT_INDEX = "PROJECT INDEX";
 const GROUP_ID = "GROUP ID";
 const UNIT_CODE = "UNIT CODE";
 let memberInput = ""
+let addUserInput = ""
+let deleteUserInput = ""
 
 // The web app's Firebase configuration
 var firebaseConfig = {
@@ -431,12 +433,88 @@ function addMarks(){
         });
       })
 
+      //refreshing page
+      .then(() =>  window.location.reload())
+    });
+  })
+}
+
+function addStudent(){
+  let student = addUserInput;
+
+  db.collection("groups").where("project", "==", projCode).where("groupid", "==", groupID)
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+
+      let newMembers = []
+
+      for (let i = 0; i < doc.data().members.length ; i++){
+        newMembers.push(doc.data().members[i])
+      }
+
+      newMembers.push(student)
+      db.collection("groups").doc(doc.id).update({
+        members: newMembers
+      })
+
+      db.collection("users").where("username", "==", student)
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+
+          let newProjGroup = {}
+          let newMarkObj = {}
+          let newRemarkObj = {}
+          let projectString = doc.data().projects
+
+          if (projectString == ""){
+            projectString += projCode
+          }
+          else{
+            projectString += ", " + projCode
+          }
+
+          let marks = doc.data().projgroupmarks
+          for (let unit in marks){
+            if (unit != projCode){
+              newMarkObj[unit] = marks[unit]
+            }
+          }
+          newMarkObj[projCode] = ""
+
+          let groups = doc.data().projgroup
+          for (let group in groups){
+            if (group != projCode){
+              newProjGroup[group] = groups[group]
+            }
+          }
+          newProjGroup[projCode] = groupID
+
+          let remarks = doc.data().projgroupremarks
+          for (let unit in remarks){
+            if (unit != projCode){
+              newRemarkObj[unit] = remarks[unit]
+            }
+          }
+          newRemarkObj[projCode] = ""
+
+          console.log(projectString)
+
+          db.collection("users").doc(doc.id).update({
+            projgroupmarks: newMarkObj,
+            projgroupremarks: newRemarkObj,
+            projgroup: newProjGroup,
+            projects: projectString
+          })
+        });
+      })
+
       // //refreshing page
       // .then(() =>  window.location.reload())
     });
   })
 }
-
 
 // Function calls
 let user = retrieveUserInfo();
