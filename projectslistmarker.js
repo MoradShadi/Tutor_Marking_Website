@@ -88,7 +88,7 @@ function printProjects(input = 0){
         output += "<b>Weightage:</b> " + doc.data().weightage + "%<br>"
         output += "</div>"
         output += "<div class=\"mdl-card__actions mdl-card--border\">"
-        output += "<a id=\"" + i + "\" data-proj = \"" + doc.data().projectid + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"projectIndex(this.id, this.dataset.proj); window.location.href=\'groupslistmarker.html\';\">"
+        output += "<a id=\"" + i + "\" data-unit = \"" + doc.data().unitcode + "\" data-proj = \"" + doc.data().projectid + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"projectIndex(this.id, this.dataset.proj, this.dataset.unit); window.location.href=\'groupslistmarker.html\';\">"
         output += "Get Started"
         output += "</a>"
         output += "</div>"
