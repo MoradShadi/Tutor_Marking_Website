@@ -85,7 +85,7 @@ function printProjects(){
         output += "<b>Unit code:</b> " + doc.data().unitcode + "<br>"
         output += "</div>"
         output += "<div class=\"mdl-card__actions mdl-card--border\">"
-        output += "<b>Weightage:</b> " + doc.data().weightage + "<br>"
+        output += "<b>Weightage:</b> " + doc.data().weightage + "%<br>"
         output += "</div>"
         output += "<div class=\"mdl-card__actions mdl-card--border\">"
         output += "<a id=\"" + i + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"window.location.href=\'project.html\'; projectIndex(this.id);\">"

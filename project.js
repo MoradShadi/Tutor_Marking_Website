@@ -83,7 +83,7 @@ function displayProjInfo(){
     querySnapshot.forEach(function (doc) {
       ret += '<tr><td class="mdl-data-table__cell--non-numeric">' + doc.data().unitname + '</td>'
       ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().projname + '</td>'
-      ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().weightage + '</td>'
+      ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().weightage + '%</td>'
       db.collection("groups").where("members", "array-contains", user.username).where("groupid", "==", user.projgroup[currentproject])
       .get()
       .then(function(querySnapshot) {
