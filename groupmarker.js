@@ -114,6 +114,7 @@ function displayProjInfo(){
   .then(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
       console.log("yay")
+      console.log(projCode)
       ret += '<tr><td class="mdl-data-table__cell--non-numeric">' + doc.data().unitname + '</td>'
       ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().projname + '</td>'
       ret += '<td class="mdl-data-table__cell--non-numeric">' + doc.data().weightage + '</td>'
@@ -609,7 +610,7 @@ function checkMarkingStatus(){
     querySnapshot.forEach(function (doc) {
       if (doc.data().projgroup[projCode] == groupID){
         maxPossibleMarks += 1;
-        if (doc.data().projgroupmarks[projCode] != ""){
+        if (doc.data().projgroupmarks.hasOwnProperty(projCode) && doc.data().projgroupmarks[projCode] != ""){
           marks += 1;
         }
       }
