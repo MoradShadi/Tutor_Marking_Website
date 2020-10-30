@@ -109,123 +109,102 @@ function printGroups(input = 0){
   let user = retrieveUserInfo();
   let projCode = retrieveProjectCode();
   let output = "";
-  let groupsearch = Object.values(user.projgroup);
-  let totalGroups = ""
-
-  for (let i = 0; i < groupsearch.length; i++){
-    totalGroups += groupsearch[i] + ", "
-  }
-
-  groupsearch = totalGroups.substring(0,totalGroups.length-2).split(", ")
 
   if (input == 0){
-    let index = 1
+    let index = 1;
     let status = "Not Marked"
-    for (let i = 0; i < groupsearch.length; i++){
-      db.collection("groups").where("groupid", "==", groupsearch[i]).where("project", "==", projCode).where("markingStatus", "==", status)
-      .get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          output += "<div class = \"container\">"
-          output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
-          output += "<div class=\"mdl-card__title\">"
-          output += "<h2 class=\"mdl-card__title-text\">" + "Group " + index + "</h2>"
-          output += "</div>"
-          output += "<div class=\"mdl-card__supporting-text\">"
-          output += "<b>Group ID:</b> " + doc.data().groupid + "<br>"
-          output += "<b>Marking Status:</b> " + doc.data().markingStatus +"<br><br>"
-          output += "<b>"
-          output += "</div>"
-          output += "<div class=\"mdl-card__actions mdl-card--border\">"
-          output += "<a id=\"" + doc.data().groupid + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"groupIndex(this.id); window.location.href=\'groupmarker.html\';\">"
-          output += "Get Started"
-          output += "</a>"
-          output += "</div>"
-          output += "</div>"
-          output += "</div>"
-          index += 1
-        });
-        // Display once we reach the end of the loop.
-        if(i == groupsearch.length - 1){
-          document.getElementById("notMarkedProjects").innerHTML = output;
-          initBackgroundImage();
-        }
-      })
-    }
+    db.collection("groups").where("project", "==", projCode).where("markingStatus", "==", status)
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        output += "<div class = \"container\">"
+        output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
+        output += "<div class=\"mdl-card__title\">"
+        output += "<h2 class=\"mdl-card__title-text\">" + "Group " + index + "</h2>"
+        output += "</div>"
+        output += "<div class=\"mdl-card__supporting-text\">"
+        output += "<b>Group ID:</b> " + doc.data().groupid + "<br>"
+        output += "<b>Group Members:</b> " + doc.data().members.toString() + "<br>"
+        output += "<b>Marking Status:</b> " + doc.data().markingStatus +"<br>"
+        output += "</div>"
+        output += "<div class=\"mdl-card__actions mdl-card--border\">"
+        output += "<a id=\"" + doc.data().groupid + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"groupIndex(this.id); window.location.href=\'groupmarker.html\';\">"
+        output += "Get Started"
+        output += "</a>"
+        output += "</div>"
+        output += "</div>"
+        output += "</div>"
+        index += 1
+      });
+    })
+    .then(() => {
+      document.getElementById("notMarkedProjects").innerHTML = output;
+      initBackgroundImage();
+    })
   }
   else if (input == 1) {
+    let index = 1;
     let status = "In Progress"
-    for (let i = 0; i < groupsearch.length; i++){
-      db.collection("groups").where("groupid", "==", groupsearch[i]).where("project", "==", projCode).where("markingStatus", "==", status)
-      .get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          output += "<div class = \"container\">"
-          output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
-          output += "<div class=\"mdl-card__title\">"
-          output += "<h2 class=\"mdl-card__title-text\">" + "Group " + doc.data().groupname + "</h2>"
-          output += "</div>"
-          output += "<div class=\"mdl-card__supporting-text\">"
-          output += "<b>Group ID:</b> " + doc.data().groupid + "<br>"
-          output += "<b>Group Name:</b> " + doc.data().groupname +"<br>"
-          output += "<b>Marking Status:</b> " + doc.data().markingStatus +"<br><br>"
-          output += "<b>"
-          output += "</div>"
-          output += "<div class=\"mdl-card__actions mdl-card--border\">"
-          output += "<a id=\"" + doc.data().groupid + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"groupIndex(this.id); window.location.href=\'groupmarker.html\';\">"
-          output += "Get Started"
-          output += "</a>"
-          output += "</div>"
-          output += "</div>"
-          output += "</div>"
-        });
-
-        // Display once we reach the end of the loop.
-        if(i == groupsearch.length - 1){
-          console.log("asdasd")
-          document.getElementById("inProgressProjects").innerHTML = output;
-          initBackgroundImage();
-        }
-      })
-
-      }
+    db.collection("groups").where("project", "==", projCode).where("markingStatus", "==", status)
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        output += "<div class = \"container\">"
+        output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
+        output += "<div class=\"mdl-card__title\">"
+        output += "<h2 class=\"mdl-card__title-text\">" + "Group " + index + "</h2>"
+        output += "</div>"
+        output += "<div class=\"mdl-card__supporting-text\">"
+        output += "<b>Group ID:</b> " + doc.data().groupid + "<br>"
+        output += "<b>Group Members:</b> " + doc.data().members.toString() + "<br>"
+        output += "<b>Marking Status:</b> " + doc.data().markingStatus +"<br>"
+        output += "</div>"
+        output += "<div class=\"mdl-card__actions mdl-card--border\">"
+        output += "<a id=\"" + doc.data().groupid + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"groupIndex(this.id); window.location.href=\'groupmarker.html\';\">"
+        output += "Get Started"
+        output += "</a>"
+        output += "</div>"
+        output += "</div>"
+        output += "</div>"
+        index += 1
+      });
+    })
+    .then(() => {
+      document.getElementById("inProgressProjects").innerHTML = output;
+      initBackgroundImage();
+    })
   }
   else{
+    let index = 1;
     let status = "Marked"
-    for (let i = 0; i < groupsearch.length; i++){
-      db.collection("groups").where("groupid", "==", groupsearch[i]).where("project", "==", projCode).where("markingStatus", "==", status)
-      .get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          output += "<div class = \"container\">"
-          output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
-          output += "<div class=\"mdl-card__title\">"
-          output += "<h2 class=\"mdl-card__title-text\">" + "Group " + doc.data().groupname + "</h2>"
-          output += "</div>"
-          output += "<div class=\"mdl-card__supporting-text\">"
-          output += "<b>Group ID:</b> " + doc.data().groupid + "<br>"
-          output += "<b>Group Name:</b> " + doc.data().groupname +"<br>"
-          output += "<b>Marking Status:</b> " + doc.data().markingStatus +"<br><br>"
-          output += "<b>"
-          output += "</div>"
-          output += "<div class=\"mdl-card__actions mdl-card--border\">"
-          output += "<a id=\"" + doc.data().groupid + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"groupIndex(this.id); window.location.href=\'groupmarker.html\';\">"
-          output += "Get Started"
-          output += "</a>"
-          output += "</div>"
-          output += "</div>"
-          output += "</div>"
-        });
-
-        // Display once we reach the end of the loop.
-        if(i == groupsearch.length - 1){
-          console.log("asdasd")
-          document.getElementById("markedProjects").innerHTML = output;
-          initBackgroundImage();
-        }
-      })
-
-      }
+    db.collection("groups").where("project", "==", projCode).where("markingStatus", "==", status)
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        output += "<div class = \"container\">"
+        output += "<div class=\"demo-card-wide mdl-card mdl-shadow--2dp\">"
+        output += "<div class=\"mdl-card__title\">"
+        output += "<h2 class=\"mdl-card__title-text\">" + "Group " + index + "</h2>"
+        output += "</div>"
+        output += "<div class=\"mdl-card__supporting-text\">"
+        output += "<b>Group ID:</b> " + doc.data().groupid + "<br>"
+        output += "<b>Group Members:</b> " + doc.data().members.toString() + "<br>"
+        output += "<b>Marking Status:</b> " + doc.data().markingStatus +"<br>"
+        output += "</div>"
+        output += "<div class=\"mdl-card__actions mdl-card--border\">"
+        output += "<a id=\"" + doc.data().groupid + "\" class=\"mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect\" onclick = \"groupIndex(this.id); window.location.href=\'groupmarker.html\';\">"
+        output += "Get Started"
+        output += "</a>"
+        output += "</div>"
+        output += "</div>"
+        output += "</div>"
+        index += 1
+      });
+    })
+    .then(() => {
+      document.getElementById("markedProjects").innerHTML = output;
+      initBackgroundImage();
+    })
   }
 }
 
